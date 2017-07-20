@@ -101,9 +101,15 @@ ENV/
 .mypy_cache/
 
 csv/*
-results/*
+results/csv/*
 results/plots/*
 
 !csv/.gitkeep
 !results/.gitkeep
+!results/csv/.gitkeep
 !results/plots/.gitkeep
+
+bin/
+lib64
+pyvenv.cfg
+
