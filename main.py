@@ -37,5 +37,5 @@ for file in csv.readCSVDirectory("csv/"):
 print("saving statistics to file")
 # saves statistics into csv file
 categories = pd.DataFrame(categories, index=names, columns=columns)
-categories.to_csv('../results/categories-statistics.csv', index=True, header=True, sep=",")
+categories.to_csv('../results/csv/categories-statistics.csv', index=True, header=True, sep=",")
 print("FINISHED")
