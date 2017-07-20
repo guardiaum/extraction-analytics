@@ -99,3 +99,11 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+csv/*
+results/*
+results/plots/*
+
+!csv/.gitkeep
+!results/.gitkeep
+!results/plots/.gitkeep
