@@ -6,6 +6,7 @@ import pandas as pd
 names = []
 categories = []
 columns = ["Count Articles", "Count Infoboxes", "Count Properties","Avg. Properties"]
+path_to_plots = '../results/plots/'
 
 # iterates over csv files and calculates infobox statistics
 for file in csv.readCSVDirectory("csv/"):
@@ -25,7 +26,7 @@ for file in csv.readCSVDirectory("csv/"):
 	topProperties = stat.topPropertiesByFrequency(category, 30, infoboxes)
 	# plot top properties
 	print("plotting scatter...")
-	v.plotScatter(categoryName, topProperties)
+	v.plotScatter(categoryName, topProperties, path_to_plots)
 	print("------------------------------------------")
 	print("Category: %s" % file);
 	print("Articles count: %s" % articles)

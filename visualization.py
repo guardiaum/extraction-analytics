@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def plotScatter(categoryName, topProps):
+def plotScatter(categoryName, topProps, path):
 	x_ticks = np.arange(1, topProps.shape[0] + 1, 1);
 	y = topProps['Count']
 	plt.xticks(x_ticks, topProps.index.values, rotation='vertical')
@@ -12,7 +12,7 @@ def plotScatter(categoryName, topProps):
 	plt.title("Infobox properties frequency for %s" % categoryName)
 	plt.ylabel("Frequency")
 	plt.xlabel("Properties")
-	plt.savefig('../results/plots/'+categoryName+'.png', bbox_inches='tight')
+	plt.savefig(path+categoryName+'.png', bbox_inches='tight')
 	plt.gcf().clear()
 	plt.cla()
 	plt.clf()
