@@ -16,6 +16,7 @@ def averageInfoboxProperties(category):
 	# subset matrix ignoring header and first column (article_name)
 	articles = category[1:, 1:]
 	# subset by infoboxes (non-empty rows)
+	# remove lines were all columns for properties are empty
 	has_infobox = articles[~np.all(articles==" ", axis=1)]
 	# count existing properties for each infobox
 	countProperties = (has_infobox!=" ").sum(axis=1)
@@ -26,9 +27,8 @@ def averageInfoboxProperties(category):
 
 #returns a sorted dataframe of infobox properties
 def sortedProperties(category):
-	articles = category[:, 1:]
-	properties_name = articles[0,:]
-	countProperties = (articles!=" ").sum(axis=0) - 1
+	properties_name = category[0,:]
+	countProperties = (category!=" ").sum(axis=0) - 1
 	countProperties = pd.DataFrame(countProperties, columns=['Count'], index=properties_name)
 	sortedProperties = countProperties.sort_values(by="Count", axis=0, ascending=False)
 	return sortedProperties
