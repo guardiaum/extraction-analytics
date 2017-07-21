@@ -27,8 +27,9 @@ def averageInfoboxProperties(category):
 
 #returns a sorted dataframe of infobox properties
 def sortedProperties(category):
-	properties_name = category[0,:]
-	countProperties = (category!=" ").sum(axis=0) - 1
+	articles = category[:, 1:]
+	properties_name = articles[0,:]
+	countProperties = (articles!=" ").sum(axis=0) - 1
 	countProperties = pd.DataFrame(countProperties, columns=['Count'], index=properties_name)
 	sortedProperties = countProperties.sort_values(by="Count", axis=0, ascending=False)
 	return sortedProperties
