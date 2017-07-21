@@ -23,7 +23,9 @@ def averageInfoboxProperties(category):
 	average = np.around(np.mean(countProperties), decimals=2)
 	std = np.around(np.std(countProperties), decimals=2)
 	median = np.around(np.median(countProperties), decimals=2)
-	return average, std, median
+	variance = np.around(np.var(countProperties), decimals=2)
+	covariance = np.around(np.cov(countProperties), decimals=2)
+	return average, std, median, variance, covariance
 
 #returns a sorted dataframe of infobox properties
 def sortedProperties(category):
