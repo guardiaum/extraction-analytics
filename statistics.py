@@ -15,9 +15,14 @@ def countElements(category):
 def averageInfoboxProperties(category):
 	# subset matrix ignoring header and first column (article_name)
 	articles = category[1:, 1:]
+	# subset by infoboxes (non-empty rows)
+	has_infobox = articles[~np.all(articles==" ", axis=1)]
 	# count existing properties for each infobox
-	countProperties = (articles!=" ").sum(axis=1)
-	return np.around(np.mean(countProperties), decimals=2)
+	countProperties = (has_infobox!=" ").sum(axis=1)
+	average = np.around(np.mean(countProperties), decimals=2)
+	std = np.around(np.std(countProperties), decimals=2)
+	median = np.around(np.median(countProperties), decimals=2)
+	return average, std, median
 
 #returns a sorted dataframe of infobox properties
 def sortedProperties(category):

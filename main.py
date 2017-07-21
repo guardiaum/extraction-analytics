@@ -5,11 +5,11 @@ import pandas as pd
 
 names = []
 categories = []
-columns = ["Count Articles", "Count Infoboxes", "Count Properties","Avg. Properties"]
+columns = ["Count Articles", "Count Infoboxes", "Count Properties","Avg. Props", "std props", "median props"]
 path_to_plots = '../results/plots/'
 
 # iterates over csv files and calculates infobox statistics
-for file in csv.readCSVDirectory("csv/"):
+for file in csv.readCSVDirectory("datasets/"):
 	category = csv.readCSVFile(file)
 	categoryName = file.split(".")[0]
 	names.append(categoryName)
@@ -19,8 +19,8 @@ for file in csv.readCSVDirectory("csv/"):
 	articles, infoboxes, props = stat.countElements(category)
 	# get properties average
 	print("getting average infobox props...")
-	average = stat.averageInfoboxProperties(category)
-	categories.append([articles, infoboxes, props, average])
+	average, std, median = stat.averageInfoboxProperties(category)
+	categories.append([articles, infoboxes, props, average, std, median])
 	# get top 30 properties
 	print("getting top 30 properties...")
 	topProperties = stat.topPropertiesByFrequency(category, 30, infoboxes)

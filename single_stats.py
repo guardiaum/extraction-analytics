@@ -4,11 +4,11 @@ import visualization as v
 import pandas as pd
 
 categories = []
-columns = ["Count Articles", "Count Infoboxes", "Count Properties","Avg. Properties"]
+columns = ["Count Articles", "Count Infoboxes", "Count Properties","Avg. Properties", "std props", "median props"]
 
 # iterates over csv files and calculates infobox statistics
 categoryName = "Protein_domains"
-category = csv.readCSVFile("csv/"+categoryName+".csv")
+category = csv.readCSVFile("datasets/"+categoryName+".csv")
 
 print("=================== %s ====================" % categoryName)
 
@@ -18,9 +18,9 @@ articles, infoboxes, props = stat.countElements(category)
 
 # get properties average
 print("getting average infobox props...")
-average = stat.averageInfoboxProperties(category)
+average, std, median = stat.averageInfoboxProperties(category)
 
-categories.append([articles, infoboxes, props, average])
+categories.append([articles, infoboxes, props, average, std, median])
 
 # get top 30 properties
 print("getting top 30 properties...")
