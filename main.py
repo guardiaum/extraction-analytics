@@ -23,7 +23,7 @@ for file in csv.readCSVDirectory("datasets/"):
 	categories.append([articles, infoboxes, props, average, std, median, variance, covariance])
 	# get top 30 properties
 	print("getting top 30 properties...")
-	topProperties = stat.topPropertiesByFrequency(category, 30, infoboxes)
+	topProperties = stat.topPropertiesByProportion(category, 30, infoboxes)
 	# plot top properties
 	print("plotting scatter...")
 	v.plotScatter(categoryName, topProperties, path_to_plots)

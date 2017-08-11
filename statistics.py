@@ -41,7 +41,8 @@ def topProperties(category, topN):
 	sort = sortedProperties(category)
 	return sort.head(topN)
 
-def topPropertiesByFrequency(category, topN, infoboxCount):
+#return a dataframe with the proportion of top N properties for category
+def topPropertiesByProportion(category, topN, infoboxCount):
 	sort = sortedProperties(category)
 	sort = sort / infoboxCount
 	return sort.head(topN)
