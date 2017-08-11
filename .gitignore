@@ -103,11 +103,17 @@ ENV/
 datasets/*
 results/csv/*
 results/plots/*
+results/plots/geo/*
+results/plots/datetime/*
 
 !datasets/.gitkeep
 !results/.gitkeep
 !results/csv/.gitkeep
 !results/plots/.gitkeep
+!results/plots/geo
+!results/plots/datetime
+!results/plots/geo/.gitkeep
+!results/plots/datetime/.gitkeep
 
 bin/
 lib64
