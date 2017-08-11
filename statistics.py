@@ -1,6 +1,10 @@
 import numpy as np
 import pandas as pd
 
+'''
+	FOR GENERAL STATISTICS FROM PROPERTIES FROM INFOBOX EXTRACTIONS
+'''
+
 # counts articles, infoboxes and properties
 def countElements(category):
 	# subset matrix ignoring header and first column (article_name)

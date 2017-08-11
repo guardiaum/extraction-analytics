@@ -4,6 +4,10 @@ import properties as prop
 import visualization as v
 import pandas as pd
 
+'''
+	FOR GENERAL EXECUTION OF ALL DATASETS UNDER THE datasets directory
+'''
+
 names = []
 categories = []
 columns = ["Count Articles", "Count Infoboxes", "Count Infob. w/ Geoinfo", "Count infob. w/ Datetime","Count Total Properties", "Count Geo Props.", "Count datetime props", "Avg. Properties", "std props", "median props", "var props", "cov props"]

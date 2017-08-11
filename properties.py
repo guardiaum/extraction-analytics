@@ -1,6 +1,10 @@
 import numpy as np
 import pandas as pd
 
+'''
+	FOR GEOGRAPHIC AND DATE/TIME STATISTICS FROM PROPERTIES FROM INFOBOX EXTRACTIONS
+'''
+
 geoPropertiesNames = np.array(['locationMap', 'locationMapSize', 'latD', 'latM', 'latS', 'latNs', 'longD', 'longM', 'longS', 'longEw','coordinatesType', 'coordinatesDisplay', 'coordinatesFormat', 'coordinatesRegion', 'country', 'city', 'area', 'coordinatesRef', 'latitude', 'longitude', 'latDeg', 'latMin', 'latMax', 'lonDeg', 'latSec', 'latDir', 'lonMin', 'lonSec','lonDir', 'latd', 'latm', 'lats', 'latns', 'longd', 'longm', 'longs', 'longew', 'location', 'region', 'lat', 'long', 'latDegrees', 'latMinutes', 'latSeconds', 'latDirection', 'longDegrees', 'longMinutes', 'longSeconds', 'longDirection', 'coordDisplay', 'coordParameters', 'birthPlace'])
 
 dateTimePropertiesNames = np.array(['years', 'year', 'date', 'birthDate', 'electionDate', 'timestamp', 'time', 'duration' ])
