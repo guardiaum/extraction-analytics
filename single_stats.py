@@ -3,6 +3,7 @@ import statistics as stat
 import properties as prop
 import visualization as v
 import pandas as pd
+import hac
 
 '''
 	FOR SINGLE EXECUTION
@@ -18,6 +19,8 @@ category = csv.readCSVFile("datasets/"+categoryName+".csv")
 
 print("=================== %s ====================" % categoryName)
 
+hac.singlelink(category)
+'''
 # count elements
 print("counting elements...")
 articles, infoboxes, props = stat.countElements(category)
@@ -67,5 +70,5 @@ print("saving statistics to file")
 categories = pd.DataFrame(categories, index={categoryName}, columns=columns)
 path = 'results/csv/%s.csv' % categoryName
 categories.to_csv(path, index=True, header=True, sep=",")
-
+'''
 print("FINISHED")
