@@ -70,7 +70,7 @@ def findMaxSimilarity(clusters):
 		
 	return clusters
 
-def singlelink(category):
+def agglomerateAllProperties(category):
 	trun = datetime.now()
 	print("Start clustering %s" %  trun)
 	clusters = preprocessDataset(category)
@@ -79,3 +79,4 @@ def singlelink(category):
 	processtime = tend - trun
 	print( "Cluster >>> %s" % mergeMatrix )
 	print("Time spent: %s" % processtime)
+	return mergeMatrix

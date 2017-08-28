@@ -32,14 +32,14 @@ for file in csv.readCSVDirectory("datasets/"):
 	articlesWithGeoProps = prop.getGeoProps(category)
 	if(articlesWithGeoProps.size!=0):
 		countArticlesWithGeoProps, countGeoProps = prop.count(articlesWithGeoProps, articles, infoboxes, props)
-		topGeoProps = prop.topPropertiesByProportion(articlesWithGeoProps, 20, infoboxes)
-		v.plotScatter(categoryName, topGeoProps, path_to_geoplots, "Geo properties frequency for " + categoryName)
+		geoProps = prop.getSortedProperties(articlesWithGeoProps, infoboxes)
+		v.plotBar(categoryName, geoProps, path_to_geoplots, "Geo properties frequency for " + categoryName)
 	# temporal properties
 	articlesWithDateTimeProps = prop.getDateTimeProps(category)
 	if(articlesWithDateTimeProps.size!=0):
 		countArticlesWithDateTimeProps, countDateTimeProps = prop.count(articlesWithDateTimeProps, articles, infoboxes, props)
-		topDateTimeProps = prop.topPropertiesByProportion(articlesWithDateTimeProps, 20, infoboxes)
-		v.plotScatter(categoryName, topDateTimeProps, path_to_datetimeplots, "DateTime properties frequency for " + categoryName)
+		dateTimeProps = prop.getSortedProperties(articlesWithDateTimeProps, infoboxes)
+		v.plotBar(categoryName, dateTimeProps, path_to_datetimeplots, "DateTime properties frequency for " + categoryName)
 	# get properties average
 	print("getting average infobox props...")
 	average, std, median, variance, covariance = stat.averageInfoboxProperties(category)

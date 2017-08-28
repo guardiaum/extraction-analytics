@@ -5,9 +5,9 @@ import pandas as pd
 	FOR GEOGRAPHIC AND DATE/TIME STATISTICS FROM PROPERTIES FROM INFOBOX EXTRACTIONS
 '''
 
-geoPropertiesNames = np.array(['locationMap', 'locationMapSize', 'latD', 'latM', 'latS', 'latNs', 'longD', 'longM', 'longS', 'longEw','coordinatesType', 'coordinatesDisplay', 'coordinatesFormat', 'coordinatesRegion', 'country', 'city', 'area', 'coordinatesRef', 'latitude', 'longitude', 'latDeg', 'latMin', 'latMax', 'lonDeg', 'latSec', 'latDir', 'lonMin', 'lonSec','lonDir', 'latd', 'latm', 'lats', 'latns', 'longd', 'longm', 'longs', 'longew', 'location', 'region', 'lat', 'long', 'latDegrees', 'latMinutes', 'latSeconds', 'latDirection', 'longDegrees', 'longMinutes', 'longSeconds', 'longDirection', 'coordDisplay', 'coordParameters', 'birthPlace'])
+geoPropertiesNames = np.array(['locationMap', 'locationMapSize', 'latD', 'latM', 'latS', 'latNs', 'longD', 'longM', 'longS', 'longEw','coordinatesType', 'coordinatesDisplay', 'coordinatesFormat', 'coordinatesRegion', 'country', 'city', 'area', 'coordinatesRef', 'latitude', 'longitude', 'latDeg', 'latMin', 'latMax', 'lonDeg', 'latSec', 'latDir', 'lonMin', 'lonSec','lonDir', 'latd', 'latm', 'lats', 'latns', 'longd', 'longm', 'longs', 'longew', 'location', 'region', 'lat', 'long', 'latDegrees', 'latMinutes', 'latSeconds', 'latDirection', 'longDegrees', 'longMinutes', 'longSeconds', 'longDirection', 'coordDisplay', 'coordParameters', 'birthPlace', 'location_city', 'location_country' , 'address', 'geo_type', 'geo_temp_requirement', 'geo_well_count', 'geo_well_depth', 'geo_water_output', 'geo_cogenerationarea_total_sq_mi', 'area_land_sq_mi', 'area_water_sq_mi', 'area percentage', 'altitude_m', 'altitude_ref'  ])
 
-dateTimePropertiesNames = np.array(['years', 'year', 'date', 'birthDate', 'electionDate', 'timestamp', 'time', 'duration' ])
+dateTimePropertiesNames = np.array(['years', 'year', 'date', 'birthDate', 'electionDate', 'timestamp', 'time', 'duration', 'start_date', 'stop_date', 'opened_date', 'inauguration_date', 'date_end', 'date_start', 'term_start', 'term_end', 'election_date', 'birth_date', 'death_date', 'years_active', 'firstdate', 'finaldate', 'dateStart', 'dateEnd', 'deathDate', 'startDate', 'stopDate', 'termStart', 'termEnd', 'governorStart','governorEnd', 'educationStart', 'educationEnd', 'laborEnd', 'laborStart', 'publicServiceEnd', 'publicServiceStart', 'electionDate', 'start', 'end', 'startyear', 'endyear', 'discovery', 'startofproduction', 'peakofproduction', 'productionYearOil', 'expectedabandonment', 'peakYear', 'startDevelopment' ])
 
 # get geo properties from category header
 def getHeaderGeoProps(category):	
@@ -65,3 +65,9 @@ def topPropertiesByProportion(articlesWithProps, topN, infoboxCount):
 	sorting = getSort(articlesWithProps)
 	sort = sorting / infoboxCount
 	return sort.head(topN)
+
+# returns a dataframe with the proportion of top N properties for category
+def getSortedProperties(articlesWithProps, infoboxCount):
+	sorting = getSort(articlesWithProps)
+	sort = sorting / infoboxCount
+	return sort

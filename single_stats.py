@@ -3,7 +3,8 @@ import statistics as stat
 import properties as prop
 import visualization as v
 import pandas as pd
-import hac
+import hac_single_linkagematrix as single
+import hac_complete_linkagematrix as complete
 
 '''
 	FOR SINGLE EXECUTION
@@ -19,8 +20,6 @@ category = csv.readCSVFile("datasets/"+categoryName+".csv")
 
 print("=================== %s ====================" % categoryName)
 
-hac.singlelink(category)
-'''
 # count elements
 print("counting elements...")
 articles, infoboxes, props = stat.countElements(category)
@@ -29,16 +28,16 @@ articles, infoboxes, props = stat.countElements(category)
 articlesWithGeoProps = prop.getGeoProps(category)
 
 countArticlesWithGeoProps, countGeoProps = prop.count(articlesWithGeoProps, articles, infoboxes, props)
-topGeoProps = prop.topPropertiesByProportion(articlesWithGeoProps, 20, infoboxes)
+geoProps = prop.getSortedProperties(articlesWithGeoProps, infoboxes)
 
-v.plotScatter(categoryName, topGeoProps, 'results/plots/geo/', "Geo properties frequency for " + categoryName)
+v.plotBar(categoryName, geoProps, 'results/plots/geo/', "Geo properties frequency for " + categoryName)
 
 # temporal properties
 articlesWithDateTimeProps = prop.getDateTimeProps(category)
 countArticlesWithDateTimeProps, countDateTimeProps = prop.count(articlesWithDateTimeProps, articles, infoboxes, props)
-topDateTimeProps = prop.topPropertiesByProportion(articlesWithDateTimeProps, 20, infoboxes)
+dateTimeProps = prop.getSortedProperties(articlesWithDateTimeProps, infoboxes)
 
-v.plotScatter(categoryName, topDateTimeProps, 'results/plots/datetime/', "DateTime properties frequency for " + categoryName)
+v.plotBar(categoryName, dateTimeProps, 'results/plots/datetime/', "DateTime properties frequency for " + categoryName)
 
 # get properties average
 print("getting average infobox props...")
@@ -70,5 +69,6 @@ print("saving statistics to file")
 categories = pd.DataFrame(categories, index={categoryName}, columns=columns)
 path = 'results/csv/%s.csv' % categoryName
 categories.to_csv(path, index=True, header=True, sep=",")
-'''
+
+clusters, linkagematrix = single.agglomerateAllProperties(category)
 print("FINISHED")

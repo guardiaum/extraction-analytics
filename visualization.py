@@ -16,3 +16,18 @@ def plotScatter(categoryName, topProps, path, title):
 	plt.cla()
 	plt.clf()
 	plt.close()
+	
+def plotBar(categoryName, props, path, title):
+	x = range(len(props))
+	labels = props.index.values
+	width = 1/1.8
+	plt.bar(x, props['Count'], width, color="gray")
+	plt.xticks(x, labels, rotation='vertical')
+	plt.title(title)
+	plt.ylabel("Proportion")
+	plt.xlabel("Properties")
+	plt.savefig(path+categoryName+'.png', bbox_inches='tight')
+	plt.gcf().clear()
+	plt.cla()
+	plt.clf()
+	plt.close()
