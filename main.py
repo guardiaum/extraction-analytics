@@ -1,7 +1,7 @@
-import my_csv as csv
-import statistics as stat
-import properties as prop
-import visualization as v
+import util.my_csv as csv
+import statistics.common as stat
+import statistics.geo_temp as prop
+import plotting.visualization as v
 import pandas as pd
 
 '''

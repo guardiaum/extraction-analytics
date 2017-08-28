@@ -1,10 +1,10 @@
-import my_csv as csv
-import statistics as stat
-import properties as prop
-import visualization as v
+import util.my_csv as csv
+import statistics.common as stat
+import statistics.geo_temp as prop
+import plotting.visualization as v
 import pandas as pd
-import hac_single_linkagematrix as single
-import hac_complete_linkagematrix as complete
+import clustering.hac_single_linkagematrix as single
+import clustering.hac_complete_linkagematrix as complete
 
 '''
 	FOR SINGLE EXECUTION
@@ -71,4 +71,5 @@ path = 'results/csv/%s.csv' % categoryName
 categories.to_csv(path, index=True, header=True, sep=",")
 
 clusters, linkagematrix = single.agglomerateAllProperties(category)
+print("linkage matrix >> %s" %linkagematrix)
 print("FINISHED")
