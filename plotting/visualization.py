@@ -21,8 +21,8 @@ def plotScatter(categoryName, topProps, path, title):
 def plotBar(categoryName, props, path, title):
 	x = range(len(props))
 	labels = props.index.values
-	#width = 1/1.8
-	plt.bar(x, props['Count'], color="gray")
+	width = 1/1.5
+	plt.bar(x, props['Count'], width, color="gray")
 	plt.xticks(x, labels, rotation='vertical')
 	plt.title(title)
 	plt.ylabel("Proportion")
