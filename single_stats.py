@@ -28,7 +28,7 @@ articlesWithGeoProps = prop.getGeoProps(category)
 countArticlesWithGeoProps, countGeoProps = prop.count(articlesWithGeoProps, articles, infoboxes, props)
 geoProps = prop.getSortedProperties(articlesWithGeoProps, infoboxes)
 
-v.plotBar(categoryName, geoProps, 'results/plots/geo/', "Geo proportion for " + categoryName)
+v.plotBar(categoryName, geoProps, 'results/plots/geo/', "Geographic propert. proportion for " + categoryName)
 
 # temporal properties
 articlesWithDateTimeProps = prop.getDateTimeProps(category)

@@ -19,14 +19,19 @@ def plotScatter(categoryName, topProps, path, title):
 	plt.close()
 	
 def plotBar(categoryName, props, path, title):
-	x = range(len(props))
+	y = range(len(props))
 	labels = props.index.values
-	width = 1/1.5
-	plt.bar(x, props['Count'], width, color="gray")
-	plt.xticks(x, labels, rotation='vertical')
+	fig, ax = plt.subplots()
+	plt.barh(y, props['Count'], 0.5, color="gray", align='center', edgecolor="black", alpha=0.6)
+	plt.yticks(y, labels)
+	plt.tick_params(axis='both', which='major', labelsize=8)
+	plt.tick_params(axis='both', which='minor', labelsize=6)
+	ax.spines['right'].set_visible(False)
+	ax.spines['top'].set_visible(False)
+	ax.spines['left'].set_visible(False)
 	plt.title(title)
-	plt.ylabel("Proportion")
-	plt.xlabel("Properties")
+	plt.xlabel("Proportion")
+	plt.ylabel("Properties")
 	plt.savefig(path+categoryName+'.png', bbox_inches='tight')
 	plt.gcf().clear()
 	plt.cla()
