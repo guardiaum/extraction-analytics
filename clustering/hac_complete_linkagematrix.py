@@ -1,4 +1,4 @@
-from cluster import Cluster
+from clustering.cluster import Cluster
 from sklearn import metrics
 from datetime import datetime
 from scipy.cluster import hierarchy

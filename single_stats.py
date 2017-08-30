@@ -3,8 +3,6 @@ import statistics.common as stat
 import statistics.geo_temp as prop
 import plotting.visualization as v
 import pandas as pd
-import clustering.hac_single_linkagematrix as single
-import clustering.hac_complete_linkagematrix as complete
 
 '''
 	FOR SINGLE EXECUTION
@@ -15,7 +13,7 @@ categories = []
 columns = ["Count Articles", "Count Infoboxes", "Count Infob. w/ Geoinfo", "Count infob. w/ Datetime","Count Total Properties", "Count Geo Props.", "Count datetime props", "Avg. Properties", "std props", "median props", "var props", "cov props"]
 
 # iterates over csv files and calculates infobox statistics
-categoryName = "Geothermal_power_stations"
+categoryName = "Natural_gas_fields"
 category = csv.readCSVFile("datasets/"+categoryName+".csv")
 
 print("=================== %s ====================" % categoryName)

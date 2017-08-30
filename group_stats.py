@@ -3,8 +3,6 @@ import statistics.common as stat
 import statistics.geo_temp as prop
 import plotting.visualization as v
 import pandas as pd
-import clustering.hac_single_linkagematrix as single
-import clustering.hac_complete_linkagematrix as complete
 
 '''
 	FOR GROUP OF CATEGORIES EXECUTION
