@@ -100,12 +100,14 @@ ENV/
 # mypy
 .mypy_cache/
 
+logs/*
 datasets/*
 results/csv/*
 results/plots/*
 results/plots/geo/*
 results/plots/datetime/*
 
+!logs/.gitkeep
 !datasets/.gitkeep
 !results/.gitkeep
 !results/csv/.gitkeep

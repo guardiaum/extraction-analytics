@@ -142,11 +142,11 @@ def agglomerateAllProperties(category):
 	clusters, matrix = mergeMatrix( clusters, matrix )
 	tend = datetime.now()
 	processtime = tend - trun
-	'''
+	
 	#print( "Cluster >>> %s" % clusters ) 
 	print( "Matrix >>> %s" % matrix )
-	print( "Size Matrix >>> %s" % len(matrix) )
-	'''
+	#print( "Size Matrix >>> %s" % len(matrix) )
+	
 	print("Finished clustering > Time spent: %s" % processtime)
 	return clusters, matrix
 	

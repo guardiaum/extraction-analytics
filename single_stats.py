@@ -30,14 +30,14 @@ articlesWithGeoProps = prop.getGeoProps(category)
 countArticlesWithGeoProps, countGeoProps = prop.count(articlesWithGeoProps, articles, infoboxes, props)
 geoProps = prop.getSortedProperties(articlesWithGeoProps, infoboxes)
 
-v.plotBar(categoryName, geoProps, 'results/plots/geo/', "Geo properties frequency for " + categoryName)
+v.plotBar(categoryName, geoProps, 'results/plots/geo/', "Geo proportion for " + categoryName)
 
 # temporal properties
 articlesWithDateTimeProps = prop.getDateTimeProps(category)
 countArticlesWithDateTimeProps, countDateTimeProps = prop.count(articlesWithDateTimeProps, articles, infoboxes, props)
 dateTimeProps = prop.getSortedProperties(articlesWithDateTimeProps, infoboxes)
 
-v.plotBar(categoryName, dateTimeProps, 'results/plots/datetime/', "DateTime properties frequency for " + categoryName)
+v.plotBar(categoryName, dateTimeProps, 'results/plots/datetime/', "DateTime proportion for " + categoryName)
 
 # get properties average
 print("getting average infobox props...")
@@ -51,7 +51,7 @@ topProperties = stat.topPropertiesByProportion(category, 30, infoboxes)
 
 # plot top properties
 print("plotting scatter...")
-v.plotScatter(categoryName, topProperties, 'results/plots/', "Infobox properties frequency for " + categoryName)
+v.plotScatter(categoryName, topProperties, 'results/plots/', "Properties proportion for " + categoryName)
 print("------------------------------------------")
 print("Category: %s" % categoryName)
 print("Articles count: %s" % articles)
@@ -70,6 +70,4 @@ categories = pd.DataFrame(categories, index={categoryName}, columns=columns)
 path = 'results/csv/%s.csv' % categoryName
 categories.to_csv(path, index=True, header=True, sep=",")
 
-clusters, linkagematrix = single.agglomerateAllProperties(category)
-print("linkage matrix >> %s" %linkagematrix)
 print("FINISHED")
