@@ -38,7 +38,7 @@ def plotBar(categoryName, props, path, title):
 	plt.clf()
 	plt.close()
 	
-def plotThree(similarities, filename):
+def plotThree(similarities, filename, subtitle):
 	# Create traces
 	data = []
 	fig, ax = plt.subplots()
@@ -48,8 +48,8 @@ def plotThree(similarities, filename):
 		similarity_vector = np.array(similarity[1])
 		onlySimilarity = similarity_vector[:,2]
 		similarityRegulated, count = np.unique(onlySimilarity, return_counts=True)
-		similarityRegulated = similarityRegulated[1:]
-		count = count[1:]
+		#similarityRegulated = similarityRegulated[1:]
+		#count = count[1:]
 		soma = (np.sum(count, axis=0))
 		#print("Regulated: %s" % similarityRegulated)
 		#print("Count: %s" % count)
@@ -60,10 +60,11 @@ def plotThree(similarities, filename):
 		plt.plot(similarityRegulated, y_axis, markers[markerIndex], label=similarity[0], markersize=3)
 		
 	ax.legend()
-	plt.title("Infoboxes schema diversity for categories")
+	fig.suptitle("Infoboxes schema diversity", fontsize=12)
+	plt.title(subtitle)
 	plt.ylabel("Clusters Proportion")
 	plt.xlabel("Clusters Similarities")
-	#plt.gca().invert_xaxis()
+	plt.gca().invert_xaxis()
 	filename = 'results/plots/cluster/%s.png' % filename
 	plt.savefig(filename, bbox_inches='tight')
 	plt.gcf().clear()
@@ -77,10 +78,10 @@ def plotSimilarity(linkagematrix, categoryname):
 	fig, ax = plt.subplots()
 	markers = ['-o', '--v', '-.^', ':s', '->', ':d', '-.h']
 	
-	onlySimilarity = linkagematrix[:,2]
+	onlySimilarity = linkagematrix[:, 2]
 	similarityRegulated, count = np.unique(np.sort(onlySimilarity), return_counts=True)
-	similarityRegulated = similarityRegulated[1:]
-	count = count[1:]
+	#similarityRegulated = similarityRegulated[1:]
+	#count = count[1:]
 	soma = (np.sum(count, axis=0))
 	#print("Regulated: %s" % similarityRegulated)
 	#print("Count: %s" % count)
@@ -89,10 +90,10 @@ def plotSimilarity(linkagematrix, categoryname):
 	plt.plot(similarityRegulated, y_axis, markers[markerIndex], label=categoryname, markersize=4)
 	
 	ax.legend()
-	plt.title("Infoboxes schema diversity for category %s" % categoryname)
+	plt.title("Infoboxes schema diversity of %s" % categoryname)
 	plt.ylabel("Clusters Proportion")
 	plt.xlabel("Clusters Similarities")
-	#plt.gca().invert_xaxis()
+	plt.gca().invert_xaxis()
 	filename = 'results/plots/cluster/%s-Cluster.png' % categoryname
 	plt.savefig(filename, bbox_inches='tight')
 	plt.gcf().clear()

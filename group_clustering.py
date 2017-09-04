@@ -21,17 +21,18 @@ columns = ["Count Articles", "Count Infoboxes", "Count Infob. w/ Geoinfo", "Coun
 
 # iterates over csv files, clustering the categories and plotting the result
 categoriesName = ["Geothermal_power_stations", "Natural_gas_fields", "Protein_domains"]
-filename = 'AVERAGE-geo-gas-protein_clustering_plot'
+filename = 'COMPLETE-geo-gas-protein_clustering_plot'
+subtitle = 'complete geo gas protein'
 
 for categoryName in categoriesName:
 	category = csv.readCSVFile("datasets/"+categoryName+".csv")
 	print("Start clustering: %s ====================" % categoryName)
 	category = complete.preprocessDataset(category)
-	linkagematrix = linkage(category, method='average', metric='jaccard')
+	linkagematrix = linkage(category, method='complete', metric='jaccard')
 	categoriesLinkage.append([categoryName, linkagematrix])
 	v.plotSimilarity(linkagematrix, categoryName)
 print("Plotting...")
 
-v.plotThree(categoriesLinkage, filename);
+v.plotThree(categoriesLinkage, filename, subtitle);
 
 print("FINISHED")
