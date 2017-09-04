@@ -115,6 +115,7 @@ results/plots/cluster/*
 !results/plots/.gitkeep
 !results/plots/geo
 !results/plots/datetime
+!results/plots/cluster
 !results/plots/cluster/.gitkeep
 !results/plots/geo/.gitkeep
 !results/plots/datetime/.gitkeep
