@@ -18,16 +18,17 @@ def preprocessDataset(category):
 		for y in range(0, cols):
 			if(articles[x, y]!=" "):
 				articles[x, y] = header[y]
-				
+	'''			
 	aux = articles.tolist()
 	clusters = []
 	for c in aux:
 		cluster = Cluster(c, active=True)
 		clusters.append(cluster)
-		
+	'''
+	articles = np.where(articles==" ", False, True)
 	#for c in clusters:
 	#	print(c.active)
-	return clusters
+	return articles #clusters
 	
 # filter dataset by top properties
 # replace property values by equivalent property name on each row
