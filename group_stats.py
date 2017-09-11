@@ -21,9 +21,11 @@ categoriesResult = []
 # Iterates over csv files and calculates infobox statistics
 for categoryName in categoriesName:
 	category = csv.readCSVFile("datasets/"+categoryName)
-	
-	names.append(categoryName.replace(".csv",""))
+	categoryName = categoryName.replace(".csv","")
+	names.append(categoryName)
 	print("=================== %s ====================" % categoryName)
+	# Big Infobox
+	bigInfobox_name, bigInfobox_properties = stat.getBiggerInfobox(category)
 	
 	# count elements
 	print("counting elements...")
@@ -59,7 +61,8 @@ for categoryName in categoriesName:
 	
 	# plot top properties
 	print("plotting scatter...")
-	v.plotScatter(categoryName, topProperties, 'results/plots/', "Properties proportion for " + categoryName)
+	v.plotScatter(categoryName, topProperties, 'results/plots/scatter/', "Properties proportion for " + categoryName)
+	
 	print("------------------------------------------")
 	print("Category: %s" % categoryName)
 	print("Articles count: %s" % articles)

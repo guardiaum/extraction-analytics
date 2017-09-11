@@ -39,7 +39,7 @@ def plotBar(categoryName, props, path, title):
 	plt.clf()
 	plt.close()
 
-def plotDendrogram(linkagematrix, categoryname):
+def plotDendrogram(filepath, linkagematrix, categoryname):
 	plt.figure(figsize=(25, 10))
 	plt.title('Hierarchical Clustering Dendrogram')
 	plt.xlabel('sample index')
@@ -49,7 +49,7 @@ def plotDendrogram(linkagematrix, categoryname):
 	    leaf_rotation=90.,  # rotates the x axis labels
 	    leaf_font_size=8.,  # font size for the x axis labels
 	)
-	filename = 'results/plots/cluster/DENDROGRAM-%s.png' % categoryname
+	filename = filepath + 'DENDROGRAM-' + categoryname + '.png'
 	plt.savefig(filename, bbox_inches='tight')
 	plt.gcf().clear()
 	plt.cla()
@@ -89,6 +89,32 @@ def plotInfoboxesDistribution(categoryName, infoboxesDist, filepath, title):
 	
 	# save plot
 	plt.savefig(filename, bbox_inches='tight')
+	plt.gcf().clear()
+	plt.cla()
+	plt.clf()
+	plt.close()
+	
+def plotBoxplot(categoriesSimilarities, filepath, title, subtitle):
+	categoriesName = []
+	data_to_plot = []
+	for index, category in enumerate(categoriesSimilarities):
+		x = index + 1
+		data_to_plot.append(category[1])
+		categoriesName.append(category[0])	
+	
+	fig = plt.figure(1, figsize=(9, 6))
+	# Create an axes instance
+	ax = fig.add_subplot(111)
+	# Create the boxplot
+	bp = ax.boxplot(data_to_plot)
+	
+	ax.set_xticklabels(categoriesName)
+	
+	plt.suptitle(title, fontsize=12)
+	plt.title(subtitle, fontsize=10)
+	
+	# save plot
+	plt.savefig(filepath, bbox_inches='tight')
 	plt.gcf().clear()
 	plt.cla()
 	plt.clf()

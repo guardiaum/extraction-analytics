@@ -21,11 +21,12 @@ for categoryName in categoriesName:
 	
 	category = complete.preprocessDataset(category) # Preprocess datasets for plotting
 	linkagematrix = linkage(category, method='complete', metric='jaccard') # calculates linkage matrix
-	v.plotDendrogram(linkagematrix, categoryName) # plot dendrogram for single category
-	categoriesLinkage.append([categoryName, linkagematrix])
+	v.plotDendrogram('results/plots/cluster/', linkagematrix, categoryName) # plot dendrogram for single category
+	categoriesLinkage.append([categoryName, linkagematrix[:, 2]])
 
 print("Plotting...")
 
-#v.plotGroup(categoriesLinkage, filename, subtitle);
+# plot boxplot similarities
+v.plotBoxplot(categoriesLinkage, 'results/plots/boxplots/'+outputFileName+'.png', title, subtitle);
 
 print("FINISHED")

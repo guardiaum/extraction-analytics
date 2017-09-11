@@ -107,18 +107,27 @@ results/plots/*
 results/plots/geo/*
 results/plots/datetime/*
 results/plots/cluster/*
+results/plots/scatter/*
+results/plots/boxplots/*
+results/plots/distr/*
 
 !logs/.gitkeep
 !datasets/.gitkeep
 !results/.gitkeep
 !results/csv/.gitkeep
 !results/plots/.gitkeep
-!results/plots/geo
-!results/plots/datetime
 !results/plots/cluster
 !results/plots/cluster/.gitkeep
+!results/plots/geo
 !results/plots/geo/.gitkeep
+!results/plots/datetime
 !results/plots/datetime/.gitkeep
+!results/plots/scatter/
+!results/plots/scatter/.gitkeep
+!results/plots/boxplots/
+!results/plots/boxplots/.gitkeep
+!results/plots/distr/
+!results/plots/distr/.gitkeep
 
 bin/
 lib64
