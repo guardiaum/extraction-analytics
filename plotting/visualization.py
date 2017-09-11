@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
 from scipy.cluster.hierarchy import dendrogram, fcluster, to_tree
 
@@ -59,3 +60,36 @@ def plotTree(linkagematrix, categoryname):
 	rootnode, nodelist = to_tree(linkagematrix, rd=True)
 	print("NodeList: %s" % len(nodelist))
 	return rootnode, nodelist
+	
+def plotInfoboxesDistribution(categoryName, infoboxesDist, filepath, title):
+	fig, ax = plt.subplots()
+	
+	filename = filepath + '/infobox-distribution-' + categoryName + '.png'
+	#num_bins = (infoboxesDist.shape[0])
+	properties_count = infoboxesDist.Count
+	
+	#calculates mean and standard deviation of distribution
+	mu = np.around(np.mean(properties_count), decimals=2)
+	sigma = np.around(np.std(properties_count), decimals=2)
+	
+	# the histogram of the data
+	n, bins, patches = ax.hist(properties_count, normed=1, alpha=0.7)
+	
+	# add a 'best fit' line
+	y = mlab.normpdf(bins, mu, sigma)
+	ax.plot(bins, y, '--')
+	
+	# set axes and title
+	ax.set_xlabel("Properties")
+	ax.set_ylabel("Infobox density")
+	
+	plt.suptitle(title, fontsize=12)
+	subtitle = r'Histogram of {0}: $\mu={1}$, $\sigma={2}$'.format(categoryName, mu,  sigma)
+	plt.title(subtitle, fontsize=9)
+	
+	# save plot
+	plt.savefig(filename, bbox_inches='tight')
+	plt.gcf().clear()
+	plt.cla()
+	plt.clf()
+	plt.close()

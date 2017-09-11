@@ -23,8 +23,12 @@ categoryName = categoryName.replace(".csv","")
 category = csv.readCSVFile("datasets/"+categoryName+".csv")
 
 print("=================== %s ====================" % categoryName)
-stat.getBiggerInfobox(category)
+infoboxesDistribution = stat.getInfoboxesDistribution(category)
+v.plotInfoboxesDistribution(categoryName, infoboxesDistribution, 'results/plots/distr/', "Properties distribution per category")
 '''
+# Big Infobox
+bigInfobox_name, bigInfobox_properties = stat.getBiggerInfobox(category)
+
 # count elements
 print("counting elements...")
 articles, infoboxes, props = stat.countElements(category)

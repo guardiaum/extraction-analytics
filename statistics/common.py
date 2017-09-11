@@ -33,9 +33,13 @@ def averageInfoboxProperties(category):
 
 #returns a sorted dataframe of infobox properties
 def sortedProperties(category):
+	# subsets articles without articles name column
 	articles = category[:, 1:]
-	properties_name = articles[0,:]
-	countProperties = (articles!=" ").sum(axis=0) - 1
+	# gets properties name from header
+	properties_name = articles[0, :]
+	# count property across each row (infobox)
+	countProperties = (articles!=" ").sum(axis = 0) - 1
+	# creates dataframe with properties distribution
 	countProperties = pd.DataFrame(countProperties, columns=['Count'], index=properties_name)
 	sortedProperties = countProperties.sort_values(by="Count", axis=0, ascending=False)
 	return sortedProperties
@@ -50,11 +54,12 @@ def topPropertiesByProportion(category, topN, infoboxCount):
 	sort = sortedProperties(category)
 	sort = sort / infoboxCount
 	return sort.head(topN)
-	
+
+# returns article name and infobox properties from the biggest infobox in the categry
 def getBiggerInfobox(category):
 	# header without article_name
 	header = category[0, 1:]
-	# subset matrix ignoring header and first column (article_name)
+	# subset matrix ignoring header
 	articles = category[1:, :]
 	# count existing properties for each infobox
 	countProperties = (articles!=' ').sum(axis=1)
@@ -66,3 +71,17 @@ def getBiggerInfobox(category):
 	#print(article_name)
 	#print(infobox_properties)
 	return article_name, infobox_properties
+
+# returns a dattaframe with infobox distribution
+def getInfoboxesDistribution(category):
+	# subset matrix ignoring header and first column with articles name
+	articles = category[1:, 1:]
+	# subset just articles name
+	articles_name = category[1:, 0]
+	# count existing properties for each infobox
+	countProperties = (articles!=' ').sum(axis=1)
+	# distribution dataframe
+	infoboxesDistribution = pd.DataFrame(countProperties, columns=['Count'], index=articles_name)
+	infoboxesDistribution = infoboxesDistribution[infoboxesDistribution.Count!=0]
+	#print(infoboxesDistribution)
+	return infoboxesDistribution
