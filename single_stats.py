@@ -3,21 +3,28 @@ import statistics.common as stat
 import statistics.geo_temp as prop
 import plotting.visualization as v
 import pandas as pd
+import util.input as inp
 
 '''
 	FOR SINGLE EXECUTION
 	It is required to inform categoryName
 '''
 
-categories = []
+# CSV columns for statistics result file
 columns = ["Count Articles", "Count Infoboxes", "Count Infob. w/ Geoinfo", "Count infob. w/ Datetime","Count Total Properties", "Count Geo Props.", "Count datetime props", "Avg. Properties", "std props", "median props", "var props", "cov props"]
 
+# Lines from result file CSV
+categories = []
+
 # iterates over csv files and calculates infobox statistics
-categoryName = "Natural_gas_fields"
+categoryName = inp.readFile() # Read datasets name
+categoryName = categoryName.replace(".csv","")
+
 category = csv.readCSVFile("datasets/"+categoryName+".csv")
 
 print("=================== %s ====================" % categoryName)
-
+stat.getBiggerInfobox(category)
+'''
 # count elements
 print("counting elements...")
 articles, infoboxes, props = stat.countElements(category)
@@ -67,5 +74,5 @@ print("saving statistics to file")
 categories = pd.DataFrame(categories, index={categoryName}, columns=columns)
 path = 'results/csv/%s.csv' % categoryName
 categories.to_csv(path, index=True, header=True, sep=",")
-
+'''
 print("FINISHED")

@@ -1,9 +1,9 @@
 import numpy as np
-import random
 import matplotlib.pyplot as plt
+from scipy.cluster.hierarchy import dendrogram, fcluster, to_tree
 
 def plotScatter(categoryName, topProps, path, title):
-	x_ticks = np.arange(1, topProps.shape[0] + 1, 1);
+	x_ticks = np.arange(1, topProps.shape[0] + 1, 1)
 	y = topProps['Count']
 	plt.xticks(x_ticks, topProps.index.values, rotation='vertical')
 	plt.grid(linestyle='dotted', alpha=0.5)
@@ -17,7 +17,7 @@ def plotScatter(categoryName, topProps, path, title):
 	plt.cla()
 	plt.clf()
 	plt.close()
-	
+
 def plotBar(categoryName, props, path, title):
 	y = range(len(props))
 	labels = props.index.values
@@ -37,66 +37,25 @@ def plotBar(categoryName, props, path, title):
 	plt.cla()
 	plt.clf()
 	plt.close()
-	
-def plotThree(similarities, filename, subtitle):
-	# Create traces
-	data = []
-	fig, ax = plt.subplots()
-	markers = ['-o', '--v', '-.^', ':s', '->', ':d', '-.h']
-	
-	for similarity in similarities:
-		similarity_vector = np.array(similarity[1])
-		onlySimilarity = similarity_vector[:,2]
-		similarityRegulated, count = np.unique(onlySimilarity, return_counts=True)
-		#similarityRegulated = similarityRegulated[1:]
-		#count = count[1:]
-		soma = (np.sum(count, axis=0))
-		#print("Regulated: %s" % similarityRegulated)
-		#print("Count: %s" % count)
-		#print("Soma: %s" % soma)
-		y_axis = count / float(soma)
-		markerIndex = random.randint(0, len(markers)-1)
-		#ax.set_xlim(left=0.1)
-		plt.plot(similarityRegulated, y_axis, markers[markerIndex], label=similarity[0], markersize=3)
-		
-	ax.legend()
-	fig.suptitle("Infoboxes schema diversity", fontsize=12)
-	plt.title(subtitle)
-	plt.ylabel("Clusters Proportion")
-	plt.xlabel("Clusters Similarities")
-	plt.gca().invert_xaxis()
-	filename = 'results/plots/cluster/%s.png' % filename
+
+def plotDendrogram(linkagematrix, categoryname):
+	plt.figure(figsize=(25, 10))
+	plt.title('Hierarchical Clustering Dendrogram')
+	plt.xlabel('sample index')
+	plt.ylabel('distance')
+	dendrogram(
+	    linkagematrix,
+	    leaf_rotation=90.,  # rotates the x axis labels
+	    leaf_font_size=8.,  # font size for the x axis labels
+	)
+	filename = 'results/plots/cluster/DENDROGRAM-%s.png' % categoryname
 	plt.savefig(filename, bbox_inches='tight')
 	plt.gcf().clear()
 	plt.cla()
 	plt.clf()
 	plt.close()
-	
-def plotSimilarity(linkagematrix, categoryname):
-	# Create traces
-	data = []
-	fig, ax = plt.subplots()
-	markers = ['-o', '--v', '-.^', ':s', '->', ':d', '-.h']
-	
-	onlySimilarity = linkagematrix[:, 2]
-	similarityRegulated, count = np.unique(np.sort(onlySimilarity), return_counts=True)
-	#similarityRegulated = similarityRegulated[1:]
-	#count = count[1:]
-	soma = (np.sum(count, axis=0))
-	#print("Regulated: %s" % similarityRegulated)
-	#print("Count: %s" % count)
-	y_axis = count / float(soma)
-	markerIndex = random.randint(0, len(markers)-1)
-	plt.plot(similarityRegulated, y_axis, markers[markerIndex], label=categoryname, markersize=4)
-	
-	ax.legend()
-	plt.title("Infoboxes schema diversity of %s" % categoryname)
-	plt.ylabel("Clusters Proportion")
-	plt.xlabel("Clusters Similarities")
-	plt.gca().invert_xaxis()
-	filename = 'results/plots/cluster/%s-Cluster.png' % categoryname
-	plt.savefig(filename, bbox_inches='tight')
-	plt.gcf().clear()
-	plt.cla()
-	plt.clf()
-	plt.close()
+
+def plotTree(linkagematrix, categoryname):
+	rootnode, nodelist = to_tree(linkagematrix, rd=True)
+	print("NodeList: %s" % len(nodelist))
+	return rootnode, nodelist

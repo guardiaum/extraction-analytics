@@ -3,31 +3,33 @@ import statistics.common as stat
 import statistics.geo_temp as prop
 import plotting.visualization as v
 import pandas as pd
+import util.input as inp
 
 '''
-	FOR GROUP OF CATEGORIES EXECUTION
-	It is required to inform categoriesName and resultsFileName
+	STATISTIC EXECUTION
+	FOR GROUP OF CATEGORIES
+	It is required to inform categoriesName, output file name, title for plot and subtitle if needed
 '''
+# CSV columns for statistics result file
+columns = ["Count Articles", "Count Infoboxes", "Count Infob. w/ Geoinfo", "Count infob. w/ Datetime","Count Total Properties", "Count Geo Props.", "Count datetime props", "Avg. Properties", "std props", "median props", "var props", "cov props"]
+
+categoriesName, resultsFileName, title, subtitle = inp.readGroupOfFiles() # Read datasets name
 
 names = []
 categoriesResult = []
-columns = ["Count Articles", "Count Infoboxes", "Count Infob. w/ Geoinfo", "Count infob. w/ Datetime","Count Total Properties", "Count Geo Props.", "Count datetime props", "Avg. Properties", "std props", "median props", "var props", "cov props"]
 
-resultsFileName = "geo-gas-protein-statistics" #without csv extension
-categoriesName = ["Geothermal_power_stations", "Natural_gas_fields", "Protein_domains"]
-
-# iterates over csv files and calculates infobox statistics
+# Iterates over csv files and calculates infobox statistics
 for categoryName in categoriesName:
-	category = csv.readCSVFile("datasets/"+categoryName+".csv")
+	category = csv.readCSVFile("datasets/"+categoryName)
 	
-	names.append(categoryName)
+	names.append(categoryName.replace(".csv",""))
 	print("=================== %s ====================" % categoryName)
 	
 	# count elements
 	print("counting elements...")
 	articles, infoboxes, props = stat.countElements(category)
 	
-	# geo properties
+	# plot geo properties
 	articlesWithGeoProps = prop.getGeoProps(category)
 	countArticlesWithGeoProps = 0
 	countGeoProps = 0
@@ -36,7 +38,7 @@ for categoryName in categoriesName:
 		geoProps = prop.getSortedProperties(articlesWithGeoProps, infoboxes)
 		v.plotBar(categoryName, geoProps, 'results/plots/geo/', "Geographic propert. proportion for " + categoryName)
 	
-	# temporal properties
+	# plot temporal properties
 	articlesWithDateTimeProps = prop.getDateTimeProps(category)
 	countArticlesWithDateTimeProps = 0
 	countDateTimeProps = 0

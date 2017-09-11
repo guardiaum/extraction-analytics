@@ -50,3 +50,19 @@ def topPropertiesByProportion(category, topN, infoboxCount):
 	sort = sortedProperties(category)
 	sort = sort / infoboxCount
 	return sort.head(topN)
+	
+def getBiggerInfobox(category):
+	# header without article_name
+	header = category[0, 1:]
+	# subset matrix ignoring header and first column (article_name)
+	articles = category[1:, :]
+	# count existing properties for each infobox
+	countProperties = (articles!=' ').sum(axis=1)
+	biggerInfoboxIndex = np.argmax(countProperties)
+	# subset matrix ignoring only the header
+	biggerInfobox = articles[biggerInfoboxIndex, :]
+	article_name = biggerInfobox[0]
+	infobox_properties = header[np.where(biggerInfobox[1:])]
+	#print(article_name)
+	#print(infobox_properties)
+	return article_name, infobox_properties

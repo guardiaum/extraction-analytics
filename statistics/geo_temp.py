@@ -41,9 +41,9 @@ def getDateTimeProps(category):
 	has_values = articles[~np.all(articles==" ", axis=1)]
 	# get temporal props index
 	dateTimeProps = getHeaderDateTimeProps(category)
-	#subset rows from category with temporal value associated
+	# subset rows from category with temporal value associated
 	articlesWithDateTimeProps = has_values[:, dateTimeProps]
-	#remove articles with no temporal information related
+	# remove articles with no temporal information related
 	articlesWithDateTimeProps = articlesWithDateTimeProps[~np.all(articlesWithDateTimeProps==" ", axis=1)]
 	return articlesWithDateTimeProps
 
