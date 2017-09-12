@@ -24,6 +24,10 @@ for categoryName in categoriesName:
 	categoryName = categoryName.replace(".csv","")
 	names.append(categoryName)
 	print("=================== %s ====================" % categoryName)
+	# Plot properties distribution per category
+	infoboxesDistribution = stat.getInfoboxesDistribution(category)
+	v.plotInfoboxesDistribution(categoryName, infoboxesDistribution, 'results/plots/distr/', "Properties distribution per category")
+	
 	# Big Infobox
 	bigInfobox_name, bigInfobox_properties = stat.getBiggerInfobox(category)
 	
