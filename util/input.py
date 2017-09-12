@@ -30,11 +30,11 @@ def readGroupOfFiles():
 		categoriesName.append(files[option])
 	
 	# Name for outputfile
-	outputFileName = raw_input("Name for output file: ") # Inform name for output file
+	outputFileName = str(input("Name for output file: ")) # Inform name for output file
 	
-	title = raw_input("Inform title for plot if needed: ")
+	title = str(input("Inform title for plot if needed: "))
 	
-	subtitle = raw_input("Inform subtitle for plot if needed: ")
+	subtitle = str(input("Inform subtitle for plot if needed: "))
 	return categoriesName, outputFileName, title, subtitle
 	
 # Selects a group of files
