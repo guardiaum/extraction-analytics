@@ -16,12 +16,12 @@ def readGroupOfFiles():
 	
 	
 	# Datasets quantity
-	datasetsNumber = input("Inform datasets quantity: ")
+	datasetsNumber = int(input("Inform datasets quantity: "))
 	
 	# Get files
 	options = []
 	for index in range(0, datasetsNumber):
-		op = input("Inform dataset index: ")
+		op = int(input("Inform dataset index: "))
 		options.append(op)
 	
 	# Vector of selected categories
