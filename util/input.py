@@ -26,7 +26,7 @@ def readGroupOfFiles():
 	
 	# Vector of selected categories
 	categoriesName = []
-	for option in range(0, len(options)):
+	for option in options:
 		categoriesName.append(files[option])
 	
 	# Name for outputfile
