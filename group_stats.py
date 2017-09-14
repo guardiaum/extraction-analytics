@@ -13,10 +13,13 @@ import util.input as inp
 # CSV columns for statistics result file
 columns = ["Count Articles", "Count Infoboxes", "Count Infob. w/ Geoinfo", "Count infob. w/ Datetime","Count Total Properties", "Count Geo Props.", "Count datetime props", "Avg. Properties", "std props", "median props", "var props", "cov props"]
 
+biggerInfoboxesColumns = ["Category", "Article", "Size", "Properties"]
+
 categoriesName, resultsFileName, title, subtitle = inp.readGroupOfFiles() # Read datasets name
 
 names = []
 categoriesResult = []
+biggerInfoboxes = []
 
 # Iterates over csv files and calculates infobox statistics
 for categoryName in categoriesName:
@@ -30,6 +33,7 @@ for categoryName in categoriesName:
 	
 	# Big Infobox
 	bigInfobox_name, bigInfobox_properties = stat.getBiggerInfobox(category)
+	biggerInfoboxes.append([categoryName, bigInfobox_name, bigInfobox_properties.shape[0], bigInfobox_properties.flatten()])
 	
 	# count elements
 	print("counting elements...")
@@ -86,5 +90,11 @@ print("saving statistics to file")
 categoriesResult = pd.DataFrame(categoriesResult, index=names, columns=columns)
 path = 'results/csv/%s.csv' % resultsFileName
 categoriesResult.to_csv(path, index=True, header=True, sep=",")
-		
+
+# saves bigger infoboxes
+biggerInfoboxes = pd.DataFrame(biggerInfoboxes, index=names, columns=biggerInfoboxesColumns)
+pathBigInfoboxes = 'results/csv/big-infobox-%s.csv' % resultsFileName
+biggerInfoboxes.to_csv(pathBigInfoboxes, index=True, header=True, sep=",")
+
+	
 print("FINISHED")
