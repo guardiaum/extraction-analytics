@@ -1,18 +1,83 @@
 import numpy as np
 import pandas as pd
+import util.properties_categories as props
 
 '''
 	FOR GEOGRAPHIC AND DATE/TIME STATISTICS FROM PROPERTIES FROM INFOBOX EXTRACTIONS
 '''
-
-geoPropertiesNames = np.array(['locationMap', 'locationMapSize', 'latD', 'latM', 'latS', 'latNs', 'longD', 'longM', 'longS', 'longEw','coordinatesType', 'coordinatesDisplay', 'coordinatesFormat', 'coordinatesRegion', 'country', 'city', 'area', 'coordinatesRef', 'latitude', 'longitude', 'latDeg', 'latMin', 'latMax', 'lonDeg', 'latSec', 'latDir', 'lonMin', 'lonSec','lonDir', 'latd', 'latm', 'lats', 'latns', 'longd', 'longm', 'longs', 'longew', 'location', 'region', 'lat', 'long', 'latDegrees', 'latMinutes', 'latSeconds', 'latDirection', 'longDegrees', 'longMinutes', 'longSeconds', 'longDirection', 'coordDisplay', 'coordParameters', 'birthPlace', 'location_city', 'location_country' , 'address', 'geo_type', 'geo_temp_requirement', 'geo_well_count', 'geo_well_depth', 'geo_water_output', 'geo_cogenerationarea_total_sq_mi', 'area_land_sq_mi', 'area_water_sq_mi', 'area percentage', 'altitude_m', 'altitude_ref', 'birthPlace'  ])
-
-dateTimePropertiesNames = np.array(['years', 'year', 'date', 'birthDate', 'electionDate', 'timestamp', 'time', 'duration', 'start_date', 'stop_date', 'opened_date', 'inauguration_date', 'date_end', 'date_start', 'term_start', 'term_end', 'election_date', 'birth_date', 'death_date', 'years_active', 'firstdate', 'finaldate', 'dateStart', 'dateEnd', 'deathDate', 'startDate', 'stopDate', 'termStart', 'termEnd', 'governorStart','governorEnd', 'educationStart', 'educationEnd', 'laborEnd', 'laborStart', 'publicServiceEnd', 'publicServiceStart', 'electionDate', 'start', 'end', 'startyear', 'endyear', 'discovery', 'startofproduction', 'peakofproduction', 'productionYearOil', 'expectedabandonment', 'peakYear', 'startDevelopment', 'foundedDate', 'years', 'dateSigned', 'dateEffective', 'dateExpiration', 'dateDrafted', 'month', 'signeddate', 'time', 'timezone', 'rearguedate', 'reargueyear' ])
+def countDateTimeProps(category):
+	header = category[0, 1:]
+	infoboxes = category[1:, 1:]
+	
+	# removes all empty rows (articles without infobox)
+	infoboxes = infoboxes[~np.all(infoboxes==' ', axis=1)]
+	
+	# switch values in rows by its respective column name
+	infoboxes = [ header[np.where(infoboxes[ row, : ]!=' ' )] for row in range(0, infoboxes.shape[0]) ]
+	infoboxes = [ item.tolist() for item in infoboxes]
+	
+	countYear = 0
+	countDate = 0
+	countPeriod = 0
+	countTime = 0
+	countMonth = 0
+	countOther = 0
+	for infobox in infoboxes:
+		countYear = countYear + np.isin(infobox, props.year).sum(axis=0)
+		countDate = countDate + np.isin(infobox, props.date).sum(axis=0)
+		countPeriod = countPeriod + np.isin(infobox, props.period).sum(axis=0)
+		countTime = countTime + np.isin(infobox, props.time).sum(axis=0)
+		countMonth = countMonth + np.isin(infobox, props.month).sum(axis=0)
+		countOther = countOther + np.isin(infobox, props.other).sum(axis=0)
+	
+	datetimeTotal = countYear + countDate + countPeriod + countTime + countMonth + countOther
+	
+	countProperties = [countYear, countDate, countPeriod, countTime, countMonth, countOther]
+	
+	properties_name = np.array(["Year", "Date", "Period", "Time", "Month", "Other"])
+	
+	return pd.DataFrame(countProperties, columns=['Count'], index=properties_name) / datetimeTotal
+	
+def countGeographicProps(category):
+	
+	header = category[0, 1:]
+	infoboxes = category[1:, 1:]
+	
+	# removes all empty rows (articles without infobox)
+	infoboxes = infoboxes[~np.all(infoboxes==' ', axis=1)]
+	
+	# switch values in rows by its respective column name
+	infoboxes = [ header[np.where(infoboxes[ row, : ]!=' ' )] for row in range(0, infoboxes.shape[0]) ]
+	infoboxes = [ item.tolist() for item in infoboxes]
+	
+	countLatitude = 0
+	countLongitude = 0
+	countLocation = 0
+	countArea = 0
+	countCoord = 0
+	countAltitude = 0
+	countOther = 0
+	for infobox in infoboxes:
+		countLatitude = countLatitude + np.isin(infobox, props.latitudeProps).sum(axis=0)
+		countLongitude = countLongitude + np.isin(infobox, props.longitudeProps).sum(axis=0)
+		countLocation = countLocation + np.isin(infobox, props.locationProps).sum(axis=0)
+		countArea = countArea + np.isin(infobox, props.areaProps).sum(axis=0)
+		countCoord = countCoord + np.isin(infobox, props.coordinatesProps).sum(axis=0)
+		countAltitude = countAltitude + np.isin(infobox, props.altitudeProps).sum(axis=0)
+		countOther = countOther + np.isin(infobox, props.otherProps).sum(axis=0)
+	
+	geopropertiesTotal = countLatitude + countLongitude + countLocation + countArea + countCoord + countAltitude + countOther
+	
+	countProperties = [countLatitude, countLongitude, countLocation, countArea, countCoord, countAltitude, countOther]
+	
+	properties_name = np.array(["Latitude", "Longitude", "Location", "Area", "Coordinates", "Altitude", "Other"])
+	
+	return pd.DataFrame(countProperties, columns=['Count'], index=properties_name) / geopropertiesTotal
 
 # get geo properties from category header
 def getHeaderGeoProps(category):	
-	header = category[0,1:]
-	geographicProps = np.in1d(header, geoPropertiesNames, assume_unique=True)
+	header = category[0, 1:]
+	geographicProps = np.in1d(header, props.geoPropertiesNames, assume_unique=True)
 	return geographicProps
 
 # get articles with geographic information related
@@ -22,16 +87,16 @@ def getGeoProps(category):
 	has_values = articles[~np.all(articles==" ", axis=1)]
 	# get geographic props index
 	geographicProps = getHeaderGeoProps(category)
-	#subset rows from category with a geographic value associated
+	# subset rows from category with a geographic value associated
 	articlesWithGeographicProps = has_values[:, geographicProps]
-	#remove articles with no geographic information related
+	# remove articles with no geographic information related
 	articlesWithGeoProps = articlesWithGeographicProps[~np.all(articlesWithGeographicProps==" ", axis=1)]
 	return articlesWithGeoProps
 
 # get temporal properties from category header
 def getHeaderDateTimeProps(category):	
 	header = category[0,1:]
-	geographicProps = np.in1d(header, dateTimePropertiesNames, assume_unique=True)
+	geographicProps = np.in1d(header, props.dateTimePropertiesNames, assume_unique=True)
 	return geographicProps
 
 # get articles with temporal information related

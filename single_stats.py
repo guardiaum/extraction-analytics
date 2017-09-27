@@ -23,9 +23,6 @@ categoryName = categoryName.replace(".csv","")
 category = csv.readCSVFile("datasets/"+categoryName+".csv")
 
 print("=================== %s ====================" % categoryName)
-# Plot properties distribution per category
-infoboxesDistribution = stat.getInfoboxesDistribution(category)
-v.plotInfoboxesDistribution(categoryName, infoboxesDistribution, 'results/plots/distr/', "Properties distribution per category")
 
 # Big Infobox
 bigInfobox_name, bigInfobox_properties = stat.getBiggerInfobox(category)
@@ -39,8 +36,8 @@ articlesWithGeoProps = prop.getGeoProps(category)
 countArticlesWithGeoProps = 0
 countGeoProps = 0
 if(articlesWithGeoProps.size!=0):
-	countArticlesWithGeoProps, countGeoProps = prop.count(articlesWithGeoProps, articles, infoboxes, props)
-	geoProps = prop.getSortedProperties(articlesWithGeoProps, infoboxes)
+	#countArticlesWithGeoProps, countGeoProps = prop.count(articlesWithGeoProps, articles, infoboxes, props)
+	geoProps = prop.countGeographicProps(category) #prop.getSortedProperties(articlesWithGeoProps, infoboxes)
 	v.plotBar(categoryName, geoProps, 'results/plots/geo/', "Geographic propert. proportion for " + categoryName)
 
 # temporal properties
@@ -48,8 +45,8 @@ articlesWithDateTimeProps = prop.getDateTimeProps(category)
 countArticlesWithDateTimeProps = 0
 countDateTimeProps = 0
 if(articlesWithDateTimeProps.size!=0):
-	countArticlesWithDateTimeProps, countDateTimeProps = prop.count(articlesWithDateTimeProps, articles, infoboxes, props)
-	dateTimeProps = prop.getSortedProperties(articlesWithDateTimeProps, infoboxes)
+	#countArticlesWithDateTimeProps, countDateTimeProps = prop.count(articlesWithDateTimeProps, articles, infoboxes, props)
+	dateTimeProps = prop.countDateTimeProps(category) #prop.getSortedProperties(articlesWithDateTimeProps, infoboxes)
 	v.plotBar(categoryName, dateTimeProps, 'results/plots/datetime/', "DateTime proportion for " + categoryName)
 
 # get properties average
@@ -62,6 +59,10 @@ categories.append([articles, infoboxes, countArticlesWithGeoProps, countArticles
 print("getting top 30 properties...")
 topProperties = stat.topPropertiesByProportion(category, 30, infoboxes)
 
+# Plot properties distribution per category
+infoboxesDistribution = stat.getInfoboxesDistribution(category, topProperties)
+v.plotInfoboxesDistribution(categoryName, infoboxesDistribution, 'results/plots/distr/', "Properties distribution per category")
+
 # plot top properties
 print("plotting scatter...")
 v.plotScatter(categoryName, topProperties, 'results/plots/scatter/', "Properties proportion for " + categoryName)
@@ -72,7 +73,7 @@ print("Articles count: %s" % articles)
 print("Total Infoboxes count: %s" % infoboxes)
 print("Infoboxes w/ Geo: %s" % countArticlesWithGeoProps)
 print("Infoboxes w/ Datetime: %s" % countArticlesWithDateTimeProps)
-print("Props count: %s" % props)
+print("Common props count: %s" % props)
 print("Geo props count: %s" % countGeoProps)
 print("Geo date/time count: %s" % countDateTimeProps)
 print("Avg. Props: %s" % average)

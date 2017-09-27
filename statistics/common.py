@@ -72,14 +72,20 @@ def getBiggerInfobox(category):
 	#print(infobox_properties)
 	return article_name, infobox_properties
 
-# returns a dattaframe with infobox distribution
-def getInfoboxesDistribution(category):
-	# subset matrix ignoring header and first column with articles name
-	articles = category[1:, 1:]
+# returns a dataframe with infobox distribution
+def getInfoboxesDistribution(category, topProperties):
+	#subset header without article_name
+	header = category[0, 1:]
+	topPropsIndex = np.in1d(header, topProperties.index)
+	# gets articles and articles name
+	articles = category[1:, 0:]
 	# subset just articles name
-	articles_name = category[1:, 0]
-	# count existing properties for each infobox
-	countProperties = (articles!=' ').sum(axis=1)
+	articles_name = articles[1:, 0]
+	# subset articles recovering only top properties
+	articles_top = articles[1:, 1:]
+	articles_top = articles_top[:, topPropsIndex]
+	# count properties appearences in all articles
+	countProperties = (articles_top!=' ').sum(axis=1)
 	# distribution dataframe
 	infoboxesDistribution = pd.DataFrame(countProperties, columns=['Count'], index=articles_name)
 	infoboxesDistribution = infoboxesDistribution[infoboxesDistribution.Count!=0]
