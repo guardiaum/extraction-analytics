@@ -4,6 +4,24 @@ import pandas as pd
 '''
 	FOR GENERAL STATISTICS FROM PROPERTIES FROM INFOBOX EXTRACTIONS
 '''
+def getArticlesWithInfoboxScheme(category):
+	header = category[0, :]
+	articles = category[1:, 1:]
+	category = category[1:, :]
+	
+	# subset by infoboxes (non-empty rows)
+	# remove lines were all columns for properties are empty
+	infoboxesWithoutArticleName = ~np.all(articles==" ", axis=1)
+	
+	infoboxes = category[np.where(infoboxesWithoutArticleName)] 
+	
+	rows, cols = infoboxes.shape 
+	# replace property value by its respective property name
+	for x in range(0, rows):
+		for y in range(1, cols): #ignores first column containing article name
+			if(infoboxes[x, y]!=" "):
+				infoboxes[x, y] = header[y]
+	return infoboxes	
 
 # counts articles, infoboxes and properties
 def countElements(category):
@@ -91,3 +109,12 @@ def getInfoboxesDistribution(category, topProperties):
 	infoboxesDistribution = infoboxesDistribution[infoboxesDistribution.Count!=0]
 	#print(infoboxesDistribution)
 	return infoboxesDistribution
+	
+def mad(arr):
+    """ Median Absolute Deviation: a "Robust" version of standard deviation.
+        Indices variabililty of the sample.
+        https://en.wikipedia.org/wiki/Median_absolute_deviation 
+    """
+    arr = np.ma.array(arr).compressed() # should be faster to not use masked arrays.
+    med = np.median(arr)
+    return np.median(np.abs(arr - med))

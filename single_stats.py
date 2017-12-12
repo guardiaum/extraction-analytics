@@ -1,4 +1,5 @@
 import util.my_csv as csv
+import util.constants as constants
 import statistics.common as stat
 import statistics.geo_temp as prop
 import plotting.visualization as v
@@ -11,16 +12,16 @@ import util.input as inp
 '''
 
 # CSV columns for statistics result file
-columns = ["Count Articles", "Count Infoboxes", "Count Infob. w/ Geoinfo", "Count infob. w/ Datetime","Count Total Properties", "Count Geo Props.", "Count datetime props", "Avg. Properties", "std props", "median props", "var props", "cov props"]
+columns = ["Count Articles", "Count Infoboxes", "Count Infob. w/ Geoinfo", "Count infob. w/ Datetime","Count Total Properties", "Avg. Properties", "std props", "median props", "var props", "cov props"]
 
 # Lines from result file CSV
-categories = []
+statisticsFile = []
 
 # iterates over csv files and calculates infobox statistics
-categoryName = inp.readFile() # Read datasets name
+categoryName = inp.readFile(constants.infobox_datasets) # Read datasets name
 categoryName = categoryName.replace(".csv","")
 
-category = csv.readCSVFile("datasets/"+categoryName+".csv")
+category = csv.readCSVFile(constants.infobox_datasets+"/"+categoryName+".csv")
 
 print("=================== %s ====================" % categoryName)
 
@@ -33,19 +34,15 @@ articles, infoboxes, props = stat.countElements(category)
 
 # geo properties
 articlesWithGeoProps = prop.getGeoProps(category)
-countArticlesWithGeoProps = 0
-countGeoProps = 0
+countArticlesWithGeoProps, countGeoProps = articlesWithGeoProps.shape
 if(articlesWithGeoProps.size!=0):
-	#countArticlesWithGeoProps, countGeoProps = prop.count(articlesWithGeoProps, articles, infoboxes, props)
 	geoProps = prop.countGeographicProps(category) #prop.getSortedProperties(articlesWithGeoProps, infoboxes)
 	v.plotBar(categoryName, geoProps, 'results/plots/geo/', "Geographic propert. proportion for " + categoryName)
 
 # temporal properties
 articlesWithDateTimeProps = prop.getDateTimeProps(category)
-countArticlesWithDateTimeProps = 0
-countDateTimeProps = 0
+countArticlesWithDateTimeProps, countDateTimeProps = articlesWithDateTimeProps.shape
 if(articlesWithDateTimeProps.size!=0):
-	#countArticlesWithDateTimeProps, countDateTimeProps = prop.count(articlesWithDateTimeProps, articles, infoboxes, props)
 	dateTimeProps = prop.countDateTimeProps(category) #prop.getSortedProperties(articlesWithDateTimeProps, infoboxes)
 	v.plotBar(categoryName, dateTimeProps, 'results/plots/datetime/', "DateTime proportion for " + categoryName)
 
@@ -53,7 +50,7 @@ if(articlesWithDateTimeProps.size!=0):
 print("getting average infobox props...")
 average, std, median, variance, covariance = stat.averageInfoboxProperties(category)
 
-categories.append([articles, infoboxes, countArticlesWithGeoProps, countArticlesWithDateTimeProps, props, countGeoProps, countDateTimeProps, average, std, median, variance, covariance])
+statisticsFile.append([articles, infoboxes, countArticlesWithGeoProps, countArticlesWithDateTimeProps, props, average, std, median, variance, covariance])
 
 # get top 30 properties
 print("getting top 30 properties...")
@@ -74,15 +71,15 @@ print("Total Infoboxes count: %s" % infoboxes)
 print("Infoboxes w/ Geo: %s" % countArticlesWithGeoProps)
 print("Infoboxes w/ Datetime: %s" % countArticlesWithDateTimeProps)
 print("Common props count: %s" % props)
-print("Geo props count: %s" % countGeoProps)
-print("Geo date/time count: %s" % countDateTimeProps)
+print("Geographic props count: %s" % countGeoProps)
+print("DateTime props count: %s" % countDateTimeProps)
 print("Avg. Props: %s" % average)
 print("==========================================")
 print("saving statistics to file")
 
 # saves statistics into csv file
-categories = pd.DataFrame(categories, index={categoryName}, columns=columns)
+statisticsFile = pd.DataFrame(statisticsFile, index={categoryName}, columns=columns)
 path = 'results/csv/%s.csv' % categoryName
-categories.to_csv(path, index=True, header=True, sep=",")
+statisticsFile.to_csv(path, index=True, header=True, sep=",")
 
 print("FINISHED")

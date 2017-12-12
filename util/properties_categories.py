@@ -11,9 +11,9 @@ altitudeProps = np.array(['altitude_m', 'altitude_ref'])
 geoPropertiesNames = np.hstack([latitudeProps, longitudeProps, locationProps, areaProps, coordinatesProps, otherProps, altitudeProps])
 
 # DATE AND TIME PROPERTIES CATEGORIZATION
-year = np.array(['years', 'year', 'startyear', 'endyear', 'productionYearOil', 'peakYear', 'reargueyear', 'years_active'])
-date = np.array(['date', 'birthDate', 'electionDate', 'opened_date', 'inauguration_date', 'election_date', 'birth_date', 'death_date', 'deathDate', 'electionDate', 'foundedDate',  'dateSigned', 'dateEffective', 'dateExpiration', 'rearguedate', 'signeddate', 'dateDrafted', 'discovery', 'peakofproduction',  'expectedabandonment'])
-period = np.array(['duration', 'start_date', 'stop_date', 'date_end', 'date_start', 'term_start', 'term_end', 'firstdate', 'finaldate', 'dateStart', 'dateEnd', 'startDate', 'stopDate', 'termStart', 'termEnd', 'governorStart', 'governorEnd', 'educationStart', 'educationEnd', 'publicServiceEnd', 'publicServiceStart', 'start', 'end', 'laborEnd', 'laborStart', 'startDevelopment', 'startofproduction'])
+year = np.array(['years', 'year', 'startyear', 'endyear', 'productionYearOil', 'peakYear', 'reargueyear', 'years_active', 'birthYear', 'deathYear', 'undraftedYear', 'draftYear', 'formationYear', 'extinctionYear', 'foundingYear'])
+date = np.array(['date', 'birthDate', 'electionDate', 'opened_date', 'inauguration_date', 'election_date', 'birth_date', 'death_date', 'deathDate', 'electionDate', 'foundedDate',  'dateSigned', 'dateEffective', 'dateExpiration', 'rearguedate', 'signeddate', 'dateDrafted', 'discovery', 'peakofproduction',  'expectedabandonment', 'activeYearsStartDate', 'activeYearsEndDate', 'formationDate', 'foundingDate'])
+period = np.array(['duration', 'start_date', 'stop_date', 'date_end', 'date_start', 'term_start', 'term_end', 'firstdate', 'finaldate', 'dateStart', 'dateEnd', 'startDate', 'stopDate', 'termStart', 'termEnd', 'governorStart', 'governorEnd', 'educationStart', 'educationEnd', 'publicServiceEnd', 'publicServiceStart', 'start', 'end', 'laborEnd', 'laborStart', 'startDevelopment', 'startofproduction', 'activeYearsStartYear', 'activeYearsEndYear', 'serviceStartYear', 'serviceEndYear'])
 time = np.array(['timestamp', 'time', 'timezone'])
 month = np.array(['month', 'months'])
 other = np.array([])

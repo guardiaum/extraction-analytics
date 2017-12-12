@@ -36,7 +36,9 @@ def countDateTimeProps(category):
 	
 	properties_name = np.array(["Year", "Date", "Period", "Time", "Month", "Other"])
 	
-	return pd.DataFrame(countProperties, columns=['Count'], index=properties_name) / datetimeTotal
+	count_props = (pd.DataFrame(countProperties, columns=['Count'], index=properties_name) / datetimeTotal).fillna(0)
+	
+	return count_props[count_props.Count != 0]
 	
 def countGeographicProps(category):
 	
@@ -72,7 +74,9 @@ def countGeographicProps(category):
 	
 	properties_name = np.array(["Latitude", "Longitude", "Location", "Area", "Coordinates", "Altitude", "Other"])
 	
-	return pd.DataFrame(countProperties, columns=['Count'], index=properties_name) / geopropertiesTotal
+	count_props = (pd.DataFrame(countProperties, columns=['Count'], index=properties_name) / geopropertiesTotal).fillna(0)
+	
+	return count_props[count_props.Count != 0]
 
 # get geo properties from category header
 def getHeaderGeoProps(category):	
@@ -82,7 +86,8 @@ def getHeaderGeoProps(category):
 
 # get articles with geographic information related
 def getGeoProps(category):
-	articles = category[0:,1:]
+	# ignores first column (articles name)
+	articles = category[:,1:]
 	# remove lines were all columns for properties are empty
 	has_values = articles[~np.all(articles==" ", axis=1)]
 	# get geographic props index

@@ -102,6 +102,10 @@ ENV/
 
 logs/*
 datasets/*
+datasets/article-template/*
+datasets/infoboxes/*
+datasets/templates/*
+results/*
 results/csv/*
 results/plots/*
 results/plots/geo/*
@@ -113,6 +117,9 @@ results/plots/distr/*
 
 !logs/.gitkeep
 !datasets/.gitkeep
+!datasets/article-template/.gitkeep
+!datasets/infoboxes/.gitkeep
+!datasets/templates/.gitkeep
 !results/.gitkeep
 !results/csv/.gitkeep
 !results/plots/.gitkeep

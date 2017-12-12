@@ -1,10 +1,10 @@
 import os
 
 # Selects a group of files
-def readGroupOfFiles():
+def readGroupOfFiles(datasets_path):
 	
 	# Read input
-	input_files = os.listdir("datasets/")
+	input_files = os.listdir(datasets_path)
 	
 	files = []
 	for f in input_files:
@@ -38,9 +38,9 @@ def readGroupOfFiles():
 	return categoriesName, outputFileName, title, subtitle
 	
 # Selects a group of files
-def readFile():
+def readFile(datasets_path):
 	# Read input
-	input_files = os.listdir("datasets/")
+	input_files = os.listdir(datasets_path)
 	
 	files = []
 	for f in input_files:

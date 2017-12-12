@@ -93,12 +93,35 @@ def plotInfoboxesDistribution(categoryName, infoboxesDist, filepath, title):
 	plt.cla()
 	plt.clf()
 	plt.close()
+
+def plotTemplateDistribution(categoryName, templates, filepath):
+	fig, ax = plt.subplots()
+	
+	filename = filepath + '/templates-distribution-' + categoryName + '.png'
+	
+	x_ticks = np.arange(1, templates.shape[0] + 1, 1)
+	plt.xticks(x_ticks, templates.index.values, rotation='vertical')
+	
+	y = templates["Count"]
+	
+	plt.ylabel("Distribution")
+	plt.xlabel("Templates")
+	
+	plt.grid(linestyle='dotted', alpha=0.5)
+	plt.scatter( x_ticks, y, s=30, alpha=0.9)
+	
+	plt.savefig(filename, bbox_inches='tight')
+	
+	plt.gcf().clear()
+	plt.cla()
+	plt.clf()
+	plt.close()
+	
 	
 def plotBoxplot(categoriesSimilarities, filepath, title, subtitle):
 	categoriesName = []
 	data_to_plot = []
 	for index, category in enumerate(categoriesSimilarities):
-		x = index + 1
 		data_to_plot.append(category[1])
 		categoriesName.append(category[0])	
 	
@@ -107,14 +130,31 @@ def plotBoxplot(categoriesSimilarities, filepath, title, subtitle):
 	ax = fig.add_subplot(111)
 	# Create the boxplot
 	bp = ax.boxplot(data_to_plot)
-	
-	ax.set_xticklabels(categoriesName)
+	ax.set_xticklabels(categoriesName, rotation=45)
 	
 	plt.suptitle(title, fontsize=12)
 	plt.title(subtitle, fontsize=10)
 	
 	# save plot
 	plt.savefig(filepath, bbox_inches='tight')
+	plt.gcf().clear()
+	plt.cla()
+	plt.clf()
+	plt.close()
+	
+def plotQualityBoxplot(categoryName, similarities, filepath, title, subtitle):
+	fig = plt.figure(1, figsize=(9, 6))
+	# Create an axes instance
+	ax = fig.add_subplot(111)
+	# Create the boxplot
+	ax.boxplot(similarities)
+	ax.set_xticklabels(categoryName)
+	
+	plt.suptitle(title, fontsize=12)
+	plt.title(subtitle, fontsize=10)
+	
+	# save plot
+	plt.savefig(filepath+categoryName, bbox_inches='tight')
 	plt.gcf().clear()
 	plt.cla()
 	plt.clf()
