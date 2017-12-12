@@ -147,3 +147,4 @@ include/
 local/
 pip-selfcheck.json
 share/
+.idea/*
