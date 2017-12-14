@@ -8,24 +8,25 @@ from scipy.cluster.hierarchy import linkage
 from scipy.spatial.distance import pdist
 
 '''
-	CLUSTERING EXECUTION
-	FOR GROUP OF CATEGORIES 
-	It is required to inform categoriesName, output file name, title for plot and subtitle if needed
+    CLUSTERING EXECUTION
+    FOR GROUP OF CATEGORIES 
+    It is required to inform categoriesName, output file name, title for plot and subtitle if needed
 '''
 
 categoriesLinkage = [] # Linkage vector for plot a group
 
-categoriesName, outputFileName, title, subtitle = inp.readGroupOfFiles(constants.infobox_datasets) # Read datasets name
+# Read datasets name
+categoriesName, outputFileName, title, subtitle = inp.readGroupOfFiles(constants.infobox_datasets)
 
 for categoryName in categoriesName:
-	category = csv.readCSVFile(constants.infobox_datasets+"/"+categoryName)
-	
-	print("Start clustering: %s ====================" % categoryName)
-	
-	category = complete.preprocessDataset(category) # Preprocess datasets for plotting
-	distanceMatrix = pdist(category, 'jaccard')
-	#print(distanceMatrix)
-	categoriesLinkage.append([categoryName, distanceMatrix])
+    category = csv.readCSVFile(constants.infobox_datasets+"/"+categoryName)
+
+    print("Start clustering: %s ====================" % categoryName)
+
+    category = complete.preprocessDataset(category) # Preprocess datasets for plotting
+    distanceMatrix = pdist(category, 'jaccard')
+    #print(distanceMatrix)
+    categoriesLinkage.append([categoryName, distanceMatrix])
 
 print("Plotting...")
 

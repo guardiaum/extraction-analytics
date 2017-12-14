@@ -18,7 +18,8 @@ columns = ["Count Articles", "Count Infoboxes", "Count Infob. w/ Geoinfo", "Coun
 statisticsFile = []
 
 # iterates over csv files and calculates infobox statistics
-categoryName = inp.readFile(constants.infobox_datasets) # Read datasets name
+# Read datasets name
+categoryName = inp.readFile(constants.infobox_datasets)
 categoryName = categoryName.replace(".csv","")
 
 category = csv.readCSVFile(constants.infobox_datasets+"/"+categoryName+".csv")

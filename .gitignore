@@ -107,6 +107,8 @@ datasets/infoboxes/*
 datasets/templates/*
 results/*
 results/csv/*
+results/csv/geo/*
+results/csv/time/*
 results/plots/*
 results/plots/geo/*
 results/plots/datetime/*
@@ -122,6 +124,8 @@ results/plots/distr/*
 !datasets/templates/.gitkeep
 !results/.gitkeep
 !results/csv/.gitkeep
+!results/csv/geo/.gitkeep
+!results/csv/time/.gitkeep
 !results/plots/.gitkeep
 !results/plots/cluster
 !results/plots/cluster/.gitkeep
