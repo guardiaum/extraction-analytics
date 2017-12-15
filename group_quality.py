@@ -8,14 +8,16 @@ import pandas as pd
 from astropy.stats import median_absolute_deviation
 import quality.common as quality
 
-
-categoriesLinkage = [] # Linkage vector for plot a group
+categories = []
+similarities = []
+templates = []
 
 # Read datasets
-categoriesName, outputFileName, title, subtitle = inp.readGroupOfFiles(constants.infobox_datasets)
+categoriesName = inp.readFiles(constants.infobox_datasets)
 
 for categoryName in categoriesName:
     categoryName = categoryName.replace(".csv","")
+    categories.append(categoryName)
 
     articles = csv.readCSVFile(constants.infobox_datasets+"/"+categoryName+".csv")
 
@@ -26,7 +28,7 @@ for categoryName in categoriesName:
     templatesParameters = csv.readCSVFile(constants.template_datasets+"/"+categoryName+".csv")
 
     print("=================== %s ====================" % categoryName)
-
+    
     print("Mapped infoboxes: %s" % articlesWithInfobox.shape[0])
     print("Mapped template: %s" %  articlesWithTemplate.shape[0])
     print("Infobox mapping, missing template: %s " %
@@ -40,10 +42,19 @@ for categoryName in categoriesName:
     sortedTemplatesDistribution = templatesDist.sort_values(by="Count", axis=0, ascending=False)
     v.plotTemplateDistribution(categoryName, sortedTemplatesDistribution, 'results/plots/template/')
 
+    sortedTemplatesDistribution['Count'] = sortedTemplatesDistribution['Count'] / float(sortedTemplatesDistribution['Count'].sum())
+
+    topTemplates = sortedTemplatesDistribution[sortedTemplatesDistribution['Count'] >= 0.1]
+    templates.append(zip([categoryName] * topTemplates.shape[0], topTemplates.index.values, topTemplates['Count'].values))
+
     print("Plot infobox quality...")
-    similarities = quality.calculatesInfoboxQuality(articlesWithInfobox, articlesWithTemplate, templatesParameters)
-    #similarities = median_absolute_deviation(similarities, axis=0)
-    #print(similarities)
-    v.plotQualityBoxplot(categoryName, similarities, "results/plots/quality/", "Infobox quality by category", categoryName)
-    print("Finish plotting")
+    infoboxSimilarities = quality.calculatesInfoboxQuality(articlesWithInfobox, articlesWithTemplate, templatesParameters)
+    similarities.append(infoboxSimilarities)
+
+# plot templates distributions for all categories
+v.plotCategoriesTemplatesDistribution(templates, 'results/plots/template/category-templates-dist-all.png')
+
+# plot boxplots for infobox quality based on wikipedia templates
+v.plotQualityBoxplot(categories, similarities, "results/plots/quality/category-infoboxes-quality-all.png")
+print("Finish plotting")
 

@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from itertools import compress
+from pylab import *
 import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
 from scipy.cluster.hierarchy import dendrogram, fcluster, to_tree
@@ -85,12 +86,12 @@ def plotInfoboxesDistribution(categoryName, infoboxesDist, filepath, title):
     ax.plot(bins, y, '--')
 
     # set axes and title
-    ax.set_xlabel("Properties")
-    ax.set_ylabel("Infobox density")
+    ax.set_xlabel("Count properties")
+    ax.set_ylabel("Density")
 
-    plt.suptitle(title, fontsize=12)
+    #plt.title(title, fontsize=12)
     subtitle = r'Histogram of {0}: $\mu={1}$, $\sigma={2}$'.format(categoryName, mu,  sigma)
-    plt.title(subtitle, fontsize=9)
+    plt.suptitle(subtitle, fontsize=12)
 
     # save plot
     plt.savefig(filename, bbox_inches='tight')
@@ -101,14 +102,13 @@ def plotInfoboxesDistribution(categoryName, infoboxesDist, filepath, title):
 
 
 def plotTemplateDistribution(categoryName, templates, filepath):
-    fig, ax = plt.subplots()
 
     filename = filepath + '/templates-distribution-' + categoryName + '.png'
 
     x_ticks = np.arange(1, templates.shape[0] + 1, 1)
     plt.xticks(x_ticks, templates.index.values, rotation='vertical')
 
-    y = templates["Count"]
+    y = templates["Count"] / float(templates['Count'].sum())
 
     plt.ylabel("Distribution")
     plt.xlabel("Templates")
@@ -124,7 +124,55 @@ def plotTemplateDistribution(categoryName, templates, filepath):
     plt.close()
 
 
-def plotBoxplot(categoriesSimilarities, filepath, title, subtitle):
+def plotCategoriesTemplatesDistribution(templatesDistributions, filepath):
+    data = []
+    i = 1
+    for element in templatesDistributions:
+        color = plt.cm.tab20(i)
+        colorl = list(color)
+        colorl[3] = 0.5
+        color = tuple(colorl)
+
+        for tupla in element:
+            x, labels, y = tupla
+            data.append(dict(categoryN=i, category=x, distribution=y,
+                             infobox_template=labels, c=color))
+        i += 1
+
+    df = pd.DataFrame(data)
+
+    groups = df.groupby('categoryN')
+
+    names =[]
+    for name, group in groups:
+        names.append(group.category.values[0])
+
+    fig, ax = plt.subplots(figsize=(22, 10))
+
+    groups.plot(x='categoryN', y='distribution', kind='scatter',
+                s=1, xlim=(-1.5, 22), ax=ax, colorbar=False)
+
+    for name, group in groups:
+        a = pd.concat({'c':group.c, 'categoryN': group.categoryN,
+                       'distribution': group.distribution,
+                       'infobox_template': group.infobox_template}, axis=1)
+        for i, point in a.iterrows():
+            ax.text(point['categoryN'], point['distribution'],
+                    str(point['infobox_template']), ha='center',
+                    va='center', fontsize='x-large', backgroundcolor=point['c'], weight='bold')
+
+    x_ticks = np.arange(1, len(names) + 1, 1)
+    plt.xticks(x_ticks, names, rotation='vertical')
+    plt.ylabel("")
+    plt.xlabel("")
+    plt.grid(color='grey', linestyle='--', linewidth=0.8)
+    plt.savefig(filepath, bbox_inches='tight')
+    plt.gcf().clear()
+    plt.cla()
+    plt.clf()
+    plt.close()
+
+def plotBoxplot(categoriesSimilarities, filepath):
     categoriesName = []
     data_to_plot = []
     for index, category in enumerate(categoriesSimilarities):
@@ -136,10 +184,9 @@ def plotBoxplot(categoriesSimilarities, filepath, title, subtitle):
     ax = fig.add_subplot(111)
     # Create the boxplot
     bp = ax.boxplot(data_to_plot)
-    ax.set_xticklabels(categoriesName, rotation=45)
+    ax.set_xticklabels(categoriesName, rotation=90)
 
-    plt.suptitle(title, fontsize=12)
-    plt.title(subtitle, fontsize=10)
+    plt.title('Infoboxes homogeneity by category', fontsize=12)
 
     # save plot
     plt.savefig(filepath, bbox_inches='tight')
@@ -149,19 +196,18 @@ def plotBoxplot(categoriesSimilarities, filepath, title, subtitle):
     plt.close()
 
 
-def plotQualityBoxplot(categoryName, similarities, filepath, title, subtitle):
+def plotQualityBoxplot(categories, similarities, filepath):
     fig = plt.figure(1, figsize=(9, 6))
     # Create an axes instance
     ax = fig.add_subplot(111)
     # Create the boxplot
     ax.boxplot(similarities)
-    ax.set_xticklabels(categoryName)
+    ax.set_xticklabels(categories, rotation=90)
 
-    plt.suptitle(title, fontsize=12)
-    plt.title(subtitle, fontsize=10)
+    plt.title("Infoboxes similarity with community template", fontsize=12)
 
     # save plot
-    plt.savefig(filepath+categoryName, bbox_inches='tight')
+    plt.savefig(filepath, bbox_inches='tight')
     plt.gcf().clear()
     plt.cla()
     plt.clf()

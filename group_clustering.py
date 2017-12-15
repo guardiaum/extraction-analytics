@@ -16,21 +16,22 @@ from scipy.spatial.distance import pdist
 categoriesLinkage = [] # Linkage vector for plot a group
 
 # Read datasets name
-categoriesName, outputFileName, title, subtitle = inp.readGroupOfFiles(constants.infobox_datasets)
+categoriesName = inp.readFiles(constants.infobox_datasets)
 
 for categoryName in categoriesName:
+
     category = csv.readCSVFile(constants.infobox_datasets+"/"+categoryName)
 
+    categoryName = categoryName.replace(".csv", "")
     print("Start clustering: %s ====================" % categoryName)
 
     category = complete.preprocessDataset(category) # Preprocess datasets for plotting
     distanceMatrix = pdist(category, 'jaccard')
-    #print(distanceMatrix)
     categoriesLinkage.append([categoryName, distanceMatrix])
 
 print("Plotting...")
 
 # plot boxplot similarities
-v.plotBoxplot(categoriesLinkage, 'results/plots/boxplots/'+outputFileName+'.png', title, subtitle);
+v.plotBoxplot(categoriesLinkage, 'results/plots/boxplots/infoboxes-homogeneity-all.png');
 
 print("FINISHED")
