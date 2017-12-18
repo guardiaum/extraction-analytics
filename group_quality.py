@@ -11,6 +11,7 @@ import quality.common as quality
 categories = []
 similarities = []
 templates = []
+measuresTemplatePropsUsage = []
 
 # Read datasets
 categoriesName = inp.readFiles(constants.infobox_datasets)
@@ -50,6 +51,15 @@ for categoryName in categoriesName:
     print("Plot infobox quality...")
     infoboxSimilarities = quality.calculatesInfoboxQuality(articlesWithInfobox, articlesWithTemplate, templatesParameters)
     similarities.append(infoboxSimilarities)
+
+    measureTemplatePropsUsage = quality.measuresTemplatePropsUsage(articlesWithInfobox, articlesWithTemplate, templatesParameters)
+    print("MEAN PROPORTION USED TEMPLATE PROPS %s " % measureTemplatePropsUsage)
+    measuresTemplatePropsUsage.append({"Category": categoryName, "Props usage":measureTemplatePropsUsage})
+
+
+# prints CSV os measures for template props usage
+measuresTemplatePropsUsage = pd.DataFrame(measuresTemplatePropsUsage)
+measuresTemplatePropsUsage.to_csv('results/csv/wikipedia-template-props-usage.csv', index=False, header=True, sep=",")
 
 # plot templates distributions for all categories
 v.plotCategoriesTemplatesDistribution(templates, 'results/plots/template/category-templates-dist-all.png')

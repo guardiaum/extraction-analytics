@@ -20,7 +20,9 @@ def getSimilarityWithTemplate(templatesParameters, template_name, article, infob
                 docs = np.array([])
                 if wikipediaTemplate is not False and article is not False :
                     docs = np.append(docs, np.array2string(np.array(infobox), separator=','))
-                    docs = np.append(docs, np.array2string(np.array(wikipediaTemplate), separator=',').replace("_", ""))
+                    # replace hifen (algumas propriedades do template aparecem com hifen)
+                    docs = np.append(docs, np.array2string(np.array(wikipediaTemplate), separator=',')
+                                     .replace("_", "").replace("-",""))
 
                 representation = tfidf.fit_transform(docs)
 
@@ -52,3 +54,54 @@ def calculatesInfoboxQuality(articlesWithInfobox, articlesWithTemplate, template
 
         similarities.append(cosine)
     return similarities
+
+def measuresTemplatePropsUsage(articlesWithInfobox, articlesWithTemplate, templatesParameters):
+    measures = []
+
+    rows, cols = articlesWithTemplate.shape
+
+    # for each article selects its title and related template
+    for row in range(0, rows):
+        article = articlesWithTemplate[row, 0]
+        template_name = articlesWithTemplate[row, 1]
+
+        # selects article infobox and its related properties
+        articleInfobox = np.where(articlesWithInfobox[:,0]==article)
+        infoboxProps = articlesWithInfobox[articleInfobox,1:]
+        # flatten array
+        infobox = infoboxProps.flatten()
+        # removes empty cells
+        removeEmpty = np.where(infobox==' ')
+        infobox = np.delete(infobox, removeEmpty)
+
+        for templateParameters in templatesParameters:
+            if templateParameters[0] == template_name:
+
+                #print "TEMPLATE NAME", template_name
+
+                templatePropsUsed, wikipediaTemplateSize = getTemplateInfoboxMeasure(templateParameters[1:], infobox)
+
+                # proportion of template properties used by infobox over wikipedia template size
+                measures.append(templatePropsUsed / float(wikipediaTemplateSize))
+
+    measures = np.array(measures)
+    return np.mean(measures)
+
+def getTemplateInfoboxMeasure(templateParameters, infobox):
+
+    templateParameters = np.core.defchararray.replace(templateParameters, "_", "")
+    templateParameters = np.core.defchararray.replace(templateParameters, "-", "")
+    templateParameters = np.core.defchararray.lower(templateParameters)
+
+    infoboxParameters = np.core.defchararray.lower(infobox)
+
+    #print "INFOBOX"
+    #print infoboxParameters
+    #print "TEMPLATE"
+    #print templateParameters
+
+    intersec = np.intersect1d(infoboxParameters, templateParameters)
+    used = intersec.shape[0]
+    templateSize = templateParameters.shape[0]
+
+    return used, templateSize
