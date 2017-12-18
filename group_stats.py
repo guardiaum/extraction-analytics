@@ -16,7 +16,7 @@ import util.input as inp
 # CSV columns for statistics result file
 columns = ["Count Articles", "Count Infoboxes", "Count Infob. w/ Geoinfo",
            "Count infob. w/ Datetime","Count Total Properties", "Avg. Properties",
-           "std props", "median props", "var props", "cov props"]
+           "std props", "median props", "Infobox props miss usage index"]
 
 # CSV columns for bigger infoboxes
 biggerInfoboxesColumns = ["Article", "Size", "Properties"]
@@ -41,7 +41,7 @@ for categoryName in categoriesName:
 
     # count elements
     print("counting elements...")
-    articles, infoboxes, props = stat.countElements(category)
+    articles_count, infoboxes_count, common_props_count = stat.countElements(category)
 
     # count articles with geo and datetime properties
     # geo
@@ -52,40 +52,44 @@ for categoryName in categoriesName:
     countArticlesWithDateTimeProps, countDateTimeProps = articlesWithDateTimeProps.shape
 
     # get properties average
-    average, std, median, variance, covariance = stat.averageInfoboxProperties(category)
+    average, std, median = stat.averageInfoboxProperties(category)
 
-    categoriesResult.append([articles, infoboxes, countArticlesWithGeoProps,
-                             countArticlesWithDateTimeProps, props, average,
-                             std, median, variance, covariance])
+    # calculates infobox properties miss usage
+    propertiesProportion = stat.propertiesProportion(category, infoboxes_count)
+    props_missing_usage = stat.getMissingUsage(propertiesProportion)
 
+    # append to create csv file
+    categoriesResult.append([articles_count, infoboxes_count, countArticlesWithGeoProps,
+                             countArticlesWithDateTimeProps, common_props_count, average,
+                             std, median, props_missing_usage])
 
     # Plot properties distribution per category
-    infoboxesDistribution = stat.getInfoboxesDistribution(category)
-    v.plotInfoboxesDistribution(categoryName, infoboxesDistribution,
-                                'results/plots/distr/', "Infobox size distribution: " + categoryName)
+    propertiesDistribution = stat.getInfoboxesDistribution(category)
+    v.plotInfoboxesDistribution(categoryName, propertiesDistribution, 'results/plots/distr/')
 
     # get top 30 properties
     print("getting top 30 properties...")
-    topProperties = stat.topPropertiesByProportion(category, 30, infoboxes)
+    topProperties = stat.topPropertiesByProportion(category, 30, infoboxes_count)
     v.plotScatter(categoryName, topProperties, 'results/plots/scatter/', "Properties proportion: " + categoryName)
 
     print("------------------------------------------")
     print("Category: %s" % categoryName)
-    print("Articles count: %s" % articles)
-    print("Total Infoboxes count: %s" % infoboxes)
+    print("Articles count: %s" % articles_count)
+    print("Total Infoboxes count: %s" % infoboxes_count)
     print("Infoboxes w/ Geo: %s" % countArticlesWithGeoProps)
     print("Infoboxes w/ Datetime: %s" % countArticlesWithDateTimeProps)
-    print("Common props count: %s" % props)
+    print("Common props count: %s" % common_props_count)
     print("Geographic props count: %s" % countGeoProps)
     print("DateTime props count: %s" % countDateTimeProps)
     print("Avg. Props: %s" % average)
+    print("Props miss usage: %s" % props_missing_usage)
     print("==========================================")
 
 print("saving statistics to file")
 
 # saves statistics into csv file
 categoriesResult = pd.DataFrame(categoriesResult, index=names, columns=columns)
-path = 'results/csv/generalStatistics.csv'
+path = 'results/csv/general-statistics.csv'
 categoriesResult.to_csv(path, index=True, header=True, sep=",")
 
 # saves bigger infoboxes

@@ -69,7 +69,7 @@ def plotTree(linkagematrix, categoryname):
     return rootnode, nodelist
 
 
-def plotInfoboxesDistribution(categoryName, infoboxesDist, filepath, title):
+def plotInfoboxesDistribution(categoryName, infoboxesDist, filepath):
     fig, ax = plt.subplots()
     filename = filepath + '/infobox-distribution-' + categoryName + '.png'
     properties_count = infoboxesDist.Count
@@ -162,7 +162,8 @@ def plotCategoriesTemplatesDistribution(templatesDistributions, filepath):
                     va='center', fontsize='x-large', backgroundcolor=point['c'], weight='bold')
 
     x_ticks = np.arange(1, len(names) + 1, 1)
-    plt.xticks(x_ticks, names, rotation='vertical')
+    plt.xticks(x_ticks, names, rotation='vertical', fontsize=18)
+    plt.yticks(fontsize=18)
     plt.ylabel("")
     plt.xlabel("")
     plt.grid(color='grey', linestyle='--', linewidth=0.8)

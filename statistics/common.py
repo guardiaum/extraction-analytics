@@ -48,9 +48,9 @@ def averageInfoboxProperties(category):  # returns the average infobox propertie
     average = np.around(np.mean(countProperties), decimals=2)
     std = np.around(np.std(countProperties), decimals=2)
     median = np.around(np.median(countProperties), decimals=2)
-    variance = np.around(np.var(countProperties), decimals=2)
-    covariance = np.around(np.cov(countProperties), decimals=2)
-    return average, std, median, variance, covariance
+    #variance = np.around(np.var(countProperties), decimals=2)
+    #covariance = np.around(np.cov(countProperties), decimals=2)
+    return average, std, median #, variance, covariance
 
 
 def sortedProperties(category):  #returns a sorted dataframe of infobox properties
@@ -112,12 +112,17 @@ def getInfoboxesDistribution(category):  # returns a dataframe with infobox dist
     articles_props = articles[1:, 1:]
     #articles_props = articles_props[:, propsIndex]
     # count properties appearences in all articles
-    countProperties = (articles_props!=' ').sum(axis=1)
+    countProperties = (articles_props != ' ').sum(axis=1)
     # distribution dataframe
     infoboxesDistribution = pd.DataFrame(countProperties, columns=['Count'], index=articles_name)
     infoboxesDistribution = infoboxesDistribution[infoboxesDistribution.Count!=0]
     #print(infoboxesDistribution)
     return infoboxesDistribution
+
+
+def getMissingUsage(propertiesDistribution):
+    usage = (np.sum(propertiesDistribution, axis=0))['Count'] / float(propertiesDistribution.shape[0])
+    return np.around(1.0 - usage, decimals=2)
 
 
 def mad(arr):

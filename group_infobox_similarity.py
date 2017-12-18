@@ -8,8 +8,9 @@ from scipy.cluster.hierarchy import linkage
 from scipy.spatial.distance import pdist
 
 '''
-    CLUSTERING EXECUTION
+    INFOBOX HOMOGENEITY IN CATEGORY
     FOR GROUP OF CATEGORIES 
+    Measures how similar are the infoboxes in a given category
     It is required to inform categoriesName, output file name, title for plot and subtitle if needed
 '''
 
