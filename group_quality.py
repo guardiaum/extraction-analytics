@@ -41,7 +41,7 @@ for categoryName in categoriesName:
     unique, counts = np.unique(articlesWithTemplate[:,1], return_counts=True)
     templatesDist = pd.DataFrame(counts, columns=["Count"], index=unique)
     sortedTemplatesDistribution = templatesDist.sort_values(by="Count", axis=0, ascending=False)
-    v.plotTemplateDistribution(categoryName, sortedTemplatesDistribution, 'results/plots/template/')
+    v.plotTemplateDistribution(categoryName, sortedTemplatesDistribution, 'results/plots/template')
 
     sortedTemplatesDistribution['Count'] = sortedTemplatesDistribution['Count'] / float(sortedTemplatesDistribution['Count'].sum())
 

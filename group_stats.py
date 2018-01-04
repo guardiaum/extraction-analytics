@@ -65,7 +65,7 @@ for categoryName in categoriesName:
 
     # Plot properties distribution per category
     propertiesDistribution = stat.getInfoboxesDistribution(category)
-    v.plotInfoboxesDistribution(categoryName, propertiesDistribution, 'results/plots/distr/')
+    v.plotInfoboxesDistribution(categoryName, propertiesDistribution, 'results/plots/distr')
 
     # get top 30 properties
     print("getting top 30 properties...")

@@ -220,18 +220,22 @@ def groupPropsBarPlot(df, filepath, title):
     dfEmptyColumns = list(pd.isnull(df).sum() == df.shape[0])
 
     # Setting the positions and width for the bars
-    pos = list(range(df.shape[0]))
+    pos = range(0, df.shape[0])
+
     width = 0.15
 
     # Plotting the bars
     fig, ax = plt.subplots(figsize=(6, 10))
 
-    colors = ['#550080', '#8080ff', '#008000', '#ff00ff', '#b32400', '#392613', '#e60073']
+    colors = np.array(['#550080', '#8080ff', '#008000', '#ff00ff', '#b32400', '#392613', '#e60073'])
+
+    if(len(dfEmptyColumns)==8):
+        colors = np.append(colors, '#7d3c98')
 
     #removes empty columns for plot
     if dfEmptyColumns != 0:
         df = df.drop(df.columns[dfEmptyColumns], axis=1)
-        colors = list(compress(colors, list(~np.array(dfEmptyColumns))))
+        colors = colors[~np.array(dfEmptyColumns)]
         labels = list(df.columns)
         del labels[0]
 
