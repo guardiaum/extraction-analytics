@@ -22,7 +22,7 @@ articles_count = infobox_subset[,2]
 depth_value = depth_df[,2]
 
 table <- data.frame(Categories = categories_name, Articles = articles_count, Depth = depth_value)
-colnames(table) <- c("Categories", "Articles Count", "Depth")
+colnames(table) <- c("Category", "Articles Count", "Depth")
 
 #png("plots/R-articles-count.png", height=490, width=320)
 grob <- tableGrob(table, rows=NULL, theme = ttheme_default(base_size=8))
