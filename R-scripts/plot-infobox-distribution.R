@@ -8,6 +8,7 @@ library(ggplot2)
 
 # import statistics dataset 
 all <- read_csv("csv/general-statistics.csv")
+
 # subset infobox counts and category names
 infobox_subset = all[,0:5]
 categories = infobox_subset[,1]
