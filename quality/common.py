@@ -56,7 +56,7 @@ def calculatesInfoboxQuality(articlesWithInfobox, articlesWithTemplate, template
     return similarities
 
 def measuresTemplatePropsUsage(articlesWithInfobox, articlesWithTemplate, templatesParameters):
-    measures = []
+    proportions = []
 
     rows, cols = articlesWithTemplate.shape
 
@@ -78,21 +78,22 @@ def measuresTemplatePropsUsage(articlesWithInfobox, articlesWithTemplate, templa
             if templateParameters[0] == template_name:
 
                 #print "TEMPLATE NAME", template_name
-
                 templatePropsUsed, wikipediaTemplateSize = getTemplateInfoboxMeasure(templateParameters[1:], infobox)
 
                 # proportion of template properties used by infobox over wikipedia template size
-                measures.append(templatePropsUsed / float(wikipediaTemplateSize))
+                proportions.append(templatePropsUsed / float(wikipediaTemplateSize))
 
-    measures = np.array(measures)
-    return np.mean(measures)
+    proportions = np.array(proportions) # proportions mean
+    return np.mean(proportions), proportions
 
 def getTemplateInfoboxMeasure(templateParameters, infobox):
 
+    # normalize template parameters
     templateParameters = np.core.defchararray.replace(templateParameters, "_", "")
     templateParameters = np.core.defchararray.replace(templateParameters, "-", "")
     templateParameters = np.core.defchararray.lower(templateParameters)
 
+    # normalize infobox parameters
     infoboxParameters = np.core.defchararray.lower(infobox)
 
     #print "INFOBOX"

@@ -11,7 +11,8 @@ import quality.common as quality
 categories = []
 similarities = []
 templates = []
-measuresTemplatePropsUsage = []
+categoriesMeanTemplatePropsUsage = []
+categoriesProportionsTemplatePropsUsage = []
 
 # Read datasets
 categoriesName = inp.readFiles(constants.infobox_datasets)
@@ -52,19 +53,25 @@ for categoryName in categoriesName:
     infoboxSimilarities = quality.calculatesInfoboxQuality(articlesWithInfobox, articlesWithTemplate, templatesParameters)
     similarities.append(infoboxSimilarities)
 
-    measureTemplatePropsUsage = quality.measuresTemplatePropsUsage(articlesWithInfobox, articlesWithTemplate, templatesParameters)
-    print("MEAN PROPORTION USED TEMPLATE PROPS %s " % measureTemplatePropsUsage)
-    measuresTemplatePropsUsage.append({"Category": categoryName, "Props usage":measureTemplatePropsUsage})
+    meanTemplatePropsUsage, proportionsTemplatePropsUsage = quality.measuresTemplatePropsUsage(
+        articlesWithInfobox, articlesWithTemplate, templatesParameters)
+    print("MEAN PROPORTION USED TEMPLATE PROPS %s " % meanTemplatePropsUsage)
+    categoriesMeanTemplatePropsUsage.append({"Category": categoryName, "Props usage":meanTemplatePropsUsage})
+    categoriesProportionsTemplatePropsUsage.append(proportionsTemplatePropsUsage)
 
+# prints CSV of measures for template props usage
+categoriesMeanTemplatePropsUsage = pd.DataFrame(categoriesMeanTemplatePropsUsage)
+categoriesMeanTemplatePropsUsage.to_csv('results/csv/wikipedia-template-props-usage.csv', index=False, header=True, sep=",")
 
-# prints CSV os measures for template props usage
-measuresTemplatePropsUsage = pd.DataFrame(measuresTemplatePropsUsage)
-measuresTemplatePropsUsage.to_csv('results/csv/wikipedia-template-props-usage.csv', index=False, header=True, sep=",")
-
-# plot templates distributions for all categories
-v.plotCategoriesTemplatesDistribution(templates, 'results/plots/template/category-templates-dist-all.png')
+# plot boxplots for template properties usage
+v.plotPropsUsageBoxplot(categories, categoriesProportionsTemplatePropsUsage,
+                     "results/plots/quality/template-props-usage-quality-all.png")
 
 # plot boxplots for infobox quality based on wikipedia templates
-v.plotQualityBoxplot(categories, similarities, "results/plots/quality/category-infoboxes-quality-all.png")
+v.plotQualityBoxplot(categories, similarities, "results/plots/quality/infoboxes-quality-all.png")
+
+# plot templates distributions for all categories
+v.plotCategoriesTemplatesDistribution(templates, 'results/plots/template/templates-dist-all.png')
+
 print("Finish plotting")
 

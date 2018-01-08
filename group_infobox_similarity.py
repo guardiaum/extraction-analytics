@@ -33,6 +33,6 @@ for categoryName in categoriesName:
 print("Plotting...")
 
 # plot boxplot similarities
-v.plotBoxplot(categoriesLinkage, 'results/plots/boxplots/infoboxes-homogeneity-all.png');
+v.plotBoxplot(categoriesLinkage, 'results/plots/quality/infoboxes-homogeneity-all.png');
 
 print("FINISHED")
