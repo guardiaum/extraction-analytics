@@ -90,7 +90,8 @@ def plotInfoboxesDistribution(categoryName, infoboxesDist, filepath):
     ax.set_ylabel("Density")
 
     #plt.title(title, fontsize=12)
-    subtitle = r'Histogram of {0}: $\mu={1}$, $\sigma={2}$'.format(categoryName, mu,  sigma)
+    #subtitle = r'Histogram of {0}: $\mu={1}$, $\sigma={2}$'.format(categoryName, mu,  sigma)
+    subtitle = r'Histogram of {0}'.format(categoryName)
     plt.suptitle(subtitle, fontsize=12)
 
     # save plot
