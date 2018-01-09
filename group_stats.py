@@ -27,6 +27,7 @@ categoriesName = inp.readFiles(constants.infobox_datasets)
 names = []
 categoriesResult = []
 biggerInfoboxes = []
+infoboxesSizeByCategory = []
 
 # Iterates over csv files and calculates infobox statistics
 for categoryName in categoriesName:
@@ -63,8 +64,9 @@ for categoryName in categoriesName:
                              countArticlesWithDateTimeProps, common_props_count, average,
                              std, median, props_missing_usage])
 
-    # Plot properties distribution per category
+    # Plot infoboxes size distribution per category
     propertiesDistribution = stat.getInfoboxesDistribution(category)
+    infoboxesSizeByCategory.append(propertiesDistribution.values)
     v.plotInfoboxesDistribution(categoryName, propertiesDistribution, 'results/plots/distr')
 
     # get top 30 properties
@@ -86,6 +88,9 @@ for categoryName in categoriesName:
     print("==========================================")
 
 print("saving statistics to file")
+
+# boxplot of infoboxes size by category
+v.plotInfoboxesSizeBoxplot(names, infoboxesSizeByCategory, "results/plots/distr/infoboxes-size-all.png")
 
 # saves statistics into csv file
 categoriesResult = pd.DataFrame(categoriesResult, index=names, columns=columns)

@@ -197,6 +197,22 @@ def plotBoxplot(categoriesSimilarities, filepath):
     plt.clf()
     plt.close()
 
+def plotInfoboxesSizeBoxplot(categories, infoboxesSize, filepath):
+    fig = plt.figure(1, figsize=(9, 6))
+    # Create an axes instance
+    ax = fig.add_subplot(111)
+    # Create the boxplot
+    ax.boxplot(infoboxesSize)
+    ax.set_xticklabels(categories, rotation=90)
+
+    plt.title("Distribution of infoboxes size by category", fontsize=12)
+
+    # save plot
+    plt.savefig(filepath, bbox_inches='tight')
+    plt.gcf().clear()
+    plt.cla()
+    plt.clf()
+    plt.close()
 
 def plotQualityBoxplot(categories, similarities, filepath):
     fig = plt.figure(1, figsize=(9, 6))

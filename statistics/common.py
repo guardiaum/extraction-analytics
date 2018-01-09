@@ -99,25 +99,25 @@ def getBiggerInfobox(category):  # returns article name and infobox properties f
     #print(infobox_properties)
     return article_name, infobox_properties
 
-
-def getInfoboxesDistribution(category):  # returns a dataframe with infobox distribution
-    #subset header without article_name
-    #header = category[0, 1:]
-    #propsIndex = np.in1d(header, propertiesProportion.index)
+# Counts the amount of properties exist in each infobox
+# returns a dataframe with infoboxes size
+def getInfoboxesDistribution(category):
     # gets articles and articles name
     articles = category[1:, 0:]
+
     # subset just articles name
     articles_name = articles[1:, 0]
+
     # subset articles recovering only properties
     articles_props = articles[1:, 1:]
-    #articles_props = articles_props[:, propsIndex]
+
     # count properties appearences in all articles
     countProperties = (articles_props != ' ').sum(axis=1)
+
     # distribution dataframe
     infoboxesDistribution = pd.DataFrame(countProperties, columns=['Count'], index=articles_name)
-    infoboxesDistribution = infoboxesDistribution[infoboxesDistribution.Count!=0]
-    #print(infoboxesDistribution)
-    return infoboxesDistribution
+
+    return infoboxesDistribution[infoboxesDistribution.Count!=0]
 
 
 def getMissingUsage(propertiesDistribution):
