@@ -8,7 +8,7 @@ library(ggplot2)
 
 ############################ PLOT GEO PROPS 
 # import dataset
-geo_props <- read_csv("csv/geo/geo-props-count.csv")
+geo_props <- read_csv("csv/geo-props-count.csv")
 # removes empty columns
 geo_props <- geo_props[!sapply(geo_props, function(x) all(is.na(x)))]
 # reshape dataframe
@@ -29,11 +29,11 @@ geoplot <- ggplot(geo_props.m, aes(x=Category, y=value)) +
         legend.background=element_rect(fill=alpha('white', 0.8)), 
         legend.title=element_blank(), axis.title.x=element_blank(), axis.title.y=element_blank())
 
-ggsave(plot = geoplot, file = 'csv/geo/R-geo-props-count.png', device = "png", width = 4.5, height = 5, units = "in", dpi = 600)
+ggsave(plot = geoplot, file = '../results/plots/R-geo-props-count.png', device = "png", width = 4.5, height = 5, units = "in", dpi = 600)
 
 ############################ PLOT TIME PROPS 
 # import dataset
-time_props <- read_csv("csv/time/time-props-count.csv")
+time_props <- read_csv("csv/time-props-count.csv")
 # removes empty columns
 time_props <- time_props[!sapply(time_props, function(x) all(is.na(x)))]
 # reshape dataframe
@@ -47,4 +47,4 @@ time_props.m$value <- round(time_props.m$value, 4)
 # horizontal bar plot
 #png(filename = 'csv/time/R-time-props-count.png', width = 480, height = 480, units = "px", res=72)
 timeplot <- ggplot(time_props.m, aes(x=Category, y=value)) + geom_bar(aes(fill=variable), width=1.0, position=position_dodge(width=0.8), stat="identity") + coord_cartesian(xlim = c(0.0, 1.0)) + coord_flip() + theme(axis.text.x = element_text(angle=90, hjust=1), legend.position=c(0.7,0.2), legend.background=element_rect(fill=alpha('white', 0.8)), legend.title=element_blank(), axis.title.x=element_blank(), axis.title.y=element_blank())
-ggsave(plot = timeplot, file = 'csv/time/R-time-props-count.png', device = "png", width = 4.5, height = 5, units = "in", dpi = 600)
+ggsave(plot = timeplot, file = '../results/plots/R-time-props-count.png', device = "png", width = 4.5, height = 5, units = "in", dpi = 600)

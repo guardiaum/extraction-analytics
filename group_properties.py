@@ -59,16 +59,16 @@ def groupProps(propType, path, columns, filename, title):
 
     categoriesResult = pd.DataFrame(propsDict, columns=columns)
 
-    v.groupPropsBarPlot(categoriesResult, path+filename+".png", title)
+    v.groupPropsBarPlot(categoriesResult, "results/plots/"+filename+".png", title)
     categoriesResult.to_csv(path+filename+'.csv', index=False, header=True, sep=",")
 
 
 # Geographic properties
 columns = np.array(["Category","Latitude", "Longitude", "Location", "Area", "Coordinates", "Altitude", "Other"])
-groupProps(propType='geo', path='results/csv/geo/', columns=columns,
+groupProps(propType='geo', path='results/csv/', columns=columns,
            filename='geo-props-count', title="Spatial properties distribution")
 
 # Datetime properties
 columns = np.array(["Category","Year", "Date", "Period", "Time", "Month", "Other"])
-groupProps(propType='time', path='results/csv/time/', columns=columns,
+groupProps(propType='time', path='results/csv/', columns=columns,
            filename='time-props-count', title="Temporal properties distribution")
