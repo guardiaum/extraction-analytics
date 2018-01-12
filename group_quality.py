@@ -14,6 +14,7 @@ templates = []
 categoriesMeanTemplatePropsUsage = []
 categoriesTemplatePropsUsage = []
 categoriesPropsMissUsage = []
+mappedInfoboxTemplateProportion = []
 
 # Read datasets
 categoriesName = inp.readFiles(constants.infobox_datasets)
@@ -31,14 +32,20 @@ for categoryName in categoriesName:
 
     templatesParameters = csv.readCSVFile(constants.template_datasets+"/"+categoryName+".csv")
 
+    catMappedInfoboxes = articlesWithInfobox.shape[0]
+    catMappedTemplates = articlesWithTemplate.shape[0]
+
     print("=================== %s ====================" % categoryName)
-    
-    print("Mapped infoboxes: %s" % articlesWithInfobox.shape[0])
-    print("Mapped template: %s" %  articlesWithTemplate.shape[0])
-    print("Infobox mapping, missing template: %s " %
-          articlesWithInfobox[~np.isin(articlesWithInfobox[:, 0], articlesWithTemplate[:,0]), 0])
-    print("Template mapping, missing infobox: %s " %
-          articlesWithTemplate[~np.isin(articlesWithTemplate[:, 0], articlesWithInfobox[:, 0]), 0])
+
+    if catMappedInfoboxes == 0:
+        infoboxTemplateProportion = 0.0
+    else:
+        infoboxTemplateProportion = float(catMappedInfoboxes) / float(catMappedTemplates)
+        mappedInfoboxTemplateProportion.append([categoryName, infoboxTemplateProportion])
+        infoboxNoTemplate = articlesWithInfobox[~np.isin(articlesWithInfobox[:, 0], articlesWithTemplate[:, 0]), 0]
+        print("Infobox mapping, missing template: %s " % infoboxNoTemplate)
+        templateNoInfobox = articlesWithTemplate[~np.isin(articlesWithTemplate[:, 0], articlesWithInfobox[:, 0]), 0]
+        print("Template mapping, missing infobox: %s " % templateNoInfobox)
 
     print("Generating infobox distribution per category")
     unique, counts = np.unique(articlesWithTemplate[:,1], return_counts=True)
@@ -63,11 +70,11 @@ for categoryName in categoriesName:
 
     # count category elements
     articles_count, infoboxes_count, common_props_count = stat.countElements(articles)
+
     # calculates infobox properties miss usage
     propertiesProportion = stat.propertiesProportion(articles, infoboxes_count)
     props_missing_usage = stat.getMissingUsage(propertiesProportion)
     categoriesPropsMissUsage.append(props_missing_usage)
-    print("Props miss usage: %s" % props_missing_usage)
 
 # prints CSV of measures for template props usage
 categoriesMeanTemplatePropsUsage = pd.DataFrame(categoriesMeanTemplatePropsUsage)
@@ -86,6 +93,10 @@ v.plotQualityBoxplot(categories, similarities, "results/plots/quality/infoboxes-
 
 # plot templates distributions for all categories
 v.plotCategoriesTemplatesDistribution(templates, 'results/plots/template/templates-dist-all.png')
+
+print("Template-infobox proportions")
+print(mappedInfoboxTemplateProportion)
+v.plotMappedInfoboxTemplateProportion(mappedInfoboxTemplateProportion, 'results/plots/quality/infobox-template-mapping.png')
 
 print("Finish plotting")
 

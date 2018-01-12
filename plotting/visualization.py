@@ -277,10 +277,11 @@ def groupPropsBarPlot(df, filepath, title):
     # Plotting the bars
     fig, ax = plt.subplots(figsize=(6, 10))
 
-    colors = np.array(['#550080', '#8080ff', '#008000', '#ff00ff', '#b32400', '#392613', '#e60073'])
+    colors = np.array(['#550080', '#8080ff', '#008000', '#ff00ff', '#b32400', '#392613'])
 
     if(len(dfEmptyColumns)==8):
         colors = np.append(colors, '#7d3c98')
+        colors = np.append(colors, '#e60073')
 
     #removes empty columns for plot
     if dfEmptyColumns != 0:
@@ -319,4 +320,29 @@ def groupPropsBarPlot(df, filepath, title):
     plt.clf()
     plt.close()
 
+def plotMappedInfoboxTemplateProportion(mappedInfoboxTemplateProportion, filepath):
+    x = range(len(mappedInfoboxTemplateProportion))
 
+    labels = []
+    for category in range(len(mappedInfoboxTemplateProportion)):
+        labels.append(mappedInfoboxTemplateProportion[category][0])
+
+    values = []
+    for category in range(len(mappedInfoboxTemplateProportion)):
+        values.append(mappedInfoboxTemplateProportion[category][1])
+
+    fig = plt.figure(figsize=(2.5, 5), dpi=600)
+    ax = fig.add_subplot(1, 1, 1)
+    plt.barh(x, values, 0.5, color="gray", align='center', edgecolor="black", alpha=0.6)
+    ax.set_yticks(x)
+    ax.set_yticklabels(labels, fontsize=6)
+    plt.xticks(np.arange(0.0, 1.1, 0.25), fontsize=6)
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
+    ax.spines['left'].set_visible(False)
+    plt.title("Infobox-template mapping", fontsize=12)
+    plt.savefig(filepath, bbox_inches='tight')
+    plt.gcf().clear()
+    plt.cla()
+    plt.clf()
+    plt.close()

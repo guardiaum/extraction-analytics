@@ -64,11 +64,11 @@ def groupProps(propType, path, columns, filename, title):
 
 
 # Geographic properties
-columns = np.array(["Category","Latitude", "Longitude", "Location", "Area", "Coordinates", "Altitude", "Other"])
+columns = np.array(["Category","Latitude", "Longitude", "Location", "Area", "Coordinates", "Altitude", "Specific"])
 groupProps(propType='geo', path='results/csv/', columns=columns,
            filename='geo-props-count', title="Spatial properties distribution")
 
 # Datetime properties
-columns = np.array(["Category","Year", "Date", "Period", "Time", "Month", "Other"])
+columns = np.array(["Category","Year", "Date", "Period", "Time", "Month"])
 groupProps(propType='time', path='results/csv/', columns=columns,
            filename='time-props-count', title="Temporal properties distribution")

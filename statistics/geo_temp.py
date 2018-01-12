@@ -21,20 +21,19 @@ def countDateTimeProps(category):
     countPeriod = 0
     countTime = 0
     countMonth = 0
-    countOther = 0
+
     for infobox in infoboxes:
         countYear = countYear + np.isin(infobox, props.year).sum(axis=0)
         countDate = countDate + np.isin(infobox, props.date).sum(axis=0)
         countPeriod = countPeriod + np.isin(infobox, props.period).sum(axis=0)
         countTime = countTime + np.isin(infobox, props.time).sum(axis=0)
         countMonth = countMonth + np.isin(infobox, props.month).sum(axis=0)
-        countOther = countOther + np.isin(infobox, props.other).sum(axis=0)
 
-    datetimeTotal = countYear + countDate + countPeriod + countTime + countMonth + countOther
+    datetimeTotal = countYear + countDate + countPeriod + countTime + countMonth
 
-    countProperties = [countYear, countDate, countPeriod, countTime, countMonth, countOther]
+    countProperties = [countYear, countDate, countPeriod, countTime, countMonth]
 
-    properties_name = np.array(["Year", "Date", "Period", "Time", "Month", "Other"])
+    properties_name = np.array(["Year", "Date", "Period", "Time", "Month"])
 
     count_props = (pd.DataFrame(countProperties, columns=['Count'], index=properties_name) / datetimeTotal).fillna(0)
 
@@ -72,7 +71,7 @@ def countGeographicProps(category):
 
     countProperties = [countLatitude, countLongitude, countLocation, countArea, countCoord, countAltitude, countOther]
 
-    properties_name = np.array(["Latitude", "Longitude", "Location", "Area", "Coordinates", "Altitude", "Other"])
+    properties_name = np.array(["Latitude", "Longitude", "Location", "Area", "Coordinates", "Altitude", "Specific"])
 
     count_props = (pd.DataFrame(countProperties, columns=['Count'], index=properties_name) / geopropertiesTotal).fillna(0)
 

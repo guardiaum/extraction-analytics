@@ -14,9 +14,9 @@ longitudeProps = np.array(['longitude', 'longD', 'longM', 'longS', 'longEw',
 locationProps = np.array(['locationMap', 'locationMapSize', 'country',
                           'city', 'location', 'region', 'birthPlace',
                           'location_city', 'location_country', 'address', 'city', 'country', 'locationCity',
-                          'locationCountry',
-                          'birthPlace', 'deathPlace', 'mapType', 'locationCountry', 'pushpinMap', 'locmapin',
-                          'province', 'district', 'municipality', 'origin'])
+                          'locationCountry', 'restingplace', 'residence', 'nationality'
+                          'birthPlace', 'deathPlace', 'mapType', 'pushpinMap', 'locmapin',
+                          'province', 'district', 'municipality', 'origin', 'state', 'origin', 'homeTown'])
 
 areaProps = np.array([ 'area', 'area_land_sq_mi', 'area_water_sq_mi',
                        'area_percentage', 'geo_cogenerationarea_total_sq_mi'])
@@ -34,7 +34,8 @@ geoPropertiesNames = np.hstack([latitudeProps, longitudeProps, locationProps, ar
 year = np.array(['years', 'year', 'startyear', 'endyear', 'productionYearOil',
                  'peakYear', 'reargueyear', 'years_active', 'birthYear', 'deathYear',
                  'undraftedYear', 'draftYear', 'formationYear', 'extinctionYear', 'foundingYear',
-                 'yearsBuilt', "visitationYear"])
+                 'yearsBuilt', 'visitationYear' ,'yearsActive', 'yearsactive', 'serviceYears',
+                 'draftyear', 'draftYear', 'debutyear', 'finalyear', 'undraftedyear', 'modelYears'])
 
 date = np.array(['date', 'birthDate', 'electionDate', 'opened_date',
                  'inauguration_date', 'election_date', 'birth_date',
@@ -44,10 +45,11 @@ date = np.array(['date', 'birthDate', 'electionDate', 'opened_date',
                  'expectedabandonment', 'activeYearsStartDate', 'activeYearsEndDate',
                  'formationDate', 'foundingDate', 'estCompletion', 'launchDate', 'completionDate',
                  'consecratedDate', 'groundbreakingDate', 'renovationDate', 'established', 'demolishedDate',
-                 'completedDate', 'rebuildDate', 'inaugurationDate', 'productionDate'])
+                 'completedDate', 'rebuildDate', 'inaugurationDate', 'productionDate', 'production', 'foundation',
+                 'formation', 'extinction', 'establishedDate', 'debut', 'retired'])
 
 period = np.array(['duration', 'start_date', 'stop_date',
-                   'date_end', 'date_start', 'term_start',
+                   'date_end', 'date_start', 'term_start', 'careerStart', 'careerEnd'
                    'term_end', 'firstdate', 'finaldate', 'dateStart',
                    'dateEnd', 'startDate', 'stopDate', 'termStart', 'termEnd',
                    'governorStart', 'governorEnd', 'educationStart', 'educationEnd',
@@ -56,7 +58,6 @@ period = np.array(['duration', 'start_date', 'stop_date',
                    'activeYearsEndYear', 'serviceStartYear', 'serviceEndYear', 'highestStart', 'highestEnd',
                    'constructionStart', 'constructionStarted', 'estimatedCompletion'])
 
-time = np.array(['timestamp', 'time', 'timezone'])
+time = np.array(['day','timestamp', 'time', 'timezone'])
 month = np.array(['month', 'months'])
-other = np.array(['day'])
-dateTimePropertiesNames = np.hstack([year, date, period, time, month, other])
+dateTimePropertiesNames = np.hstack([year, date, period, time, month])
