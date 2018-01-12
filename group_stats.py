@@ -5,6 +5,7 @@ import statistics.geo_temp as prop
 import plotting.visualization as v
 import pandas as pd
 import util.input as inp
+import numpy as np
 
 '''
     STATISTIC EXECUTION
@@ -57,7 +58,7 @@ for categoryName in categoriesName:
 
     # calculates infobox properties miss usage
     propertiesProportion = stat.propertiesProportion(category, infoboxes_count)
-    props_missing_usage = stat.getMissingUsage(propertiesProportion)
+    props_missing_usage = np.mean(stat.getMissingUsage(propertiesProportion))
 
     # append to create csv file
     categoriesResult.append([articles_count, infoboxes_count, countArticlesWithGeoProps,

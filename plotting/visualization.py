@@ -231,6 +231,23 @@ def plotQualityBoxplot(categories, similarities, filepath):
     plt.clf()
     plt.close()
 
+def plotPropsMissUsageBoxplot(categories, missUsageIndexes, filepath):
+    fig = plt.figure(1, figsize=(9, 6))
+    # Create an axes instance
+    ax = fig.add_subplot(111)
+    # Create the boxplot
+    ax.boxplot(missUsageIndexes)
+    ax.set_xticklabels(categories, rotation=90)
+
+    plt.title("Infobox properties miss usage", fontsize=12)
+
+    # save plot
+    plt.savefig(filepath, bbox_inches='tight')
+    plt.gcf().clear()
+    plt.cla()
+    plt.clf()
+    plt.close()
+
 def plotPropsUsageBoxplot(categories, similarities, filepath):
     fig = plt.figure(1, figsize=(9, 6))
     # Create an axes instance

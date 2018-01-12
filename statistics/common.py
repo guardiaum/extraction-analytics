@@ -120,9 +120,9 @@ def getInfoboxesDistribution(category):
     return infoboxesDistribution[infoboxesDistribution.Count!=0]
 
 
-def getMissingUsage(propertiesDistribution):
-    usage = (np.sum(propertiesDistribution, axis=0))['Count'] / float(propertiesDistribution.shape[0])
-    return np.around(1.0 - usage, decimals=2)
+def getMissingUsage(propertiesProportion):
+    missUsage = 1.0 - propertiesProportion['Count']
+    return np.around(missUsage, decimals=2)
 
 
 def mad(arr):

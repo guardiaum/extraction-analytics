@@ -12,7 +12,8 @@ categories = []
 similarities = []
 templates = []
 categoriesMeanTemplatePropsUsage = []
-categoriesProportionsTemplatePropsUsage = []
+categoriesTemplatePropsUsage = []
+categoriesPropsMissUsage = []
 
 # Read datasets
 categoriesName = inp.readFiles(constants.infobox_datasets)
@@ -21,6 +22,7 @@ for categoryName in categoriesName:
     categoryName = categoryName.replace(".csv","")
     categories.append(categoryName)
 
+    # get category infobox dataset as articles
     articles = csv.readCSVFile(constants.infobox_datasets+"/"+categoryName+".csv")
 
     articlesWithInfobox = stat.getArticlesWithInfoboxScheme(articles)
@@ -57,14 +59,26 @@ for categoryName in categoriesName:
         articlesWithInfobox, articlesWithTemplate, templatesParameters)
     print("MEAN PROPORTION USED TEMPLATE PROPS %s " % meanTemplatePropsUsage)
     categoriesMeanTemplatePropsUsage.append({"Category": categoryName, "Props usage":meanTemplatePropsUsage})
-    categoriesProportionsTemplatePropsUsage.append(proportionsTemplatePropsUsage)
+    categoriesTemplatePropsUsage.append(proportionsTemplatePropsUsage)
+
+    # count category elements
+    articles_count, infoboxes_count, common_props_count = stat.countElements(articles)
+    # calculates infobox properties miss usage
+    propertiesProportion = stat.propertiesProportion(articles, infoboxes_count)
+    props_missing_usage = stat.getMissingUsage(propertiesProportion)
+    categoriesPropsMissUsage.append(props_missing_usage)
+    print("Props miss usage: %s" % props_missing_usage)
 
 # prints CSV of measures for template props usage
 categoriesMeanTemplatePropsUsage = pd.DataFrame(categoriesMeanTemplatePropsUsage)
 categoriesMeanTemplatePropsUsage.to_csv('results/csv/wikipedia-template-props-usage.csv', index=False, header=True, sep=",")
 
+# plot boxplots for properties miss usage
+v.plotPropsMissUsageBoxplot(categories, categoriesPropsMissUsage,
+                     "results/plots/quality/infobox-miss-props-usage-quality-all.png")
+
 # plot boxplots for template properties usage
-v.plotPropsUsageBoxplot(categories, categoriesProportionsTemplatePropsUsage,
+v.plotPropsUsageBoxplot(categories, categoriesTemplatePropsUsage,
                      "results/plots/quality/template-props-usage-quality-all.png")
 
 # plot boxplots for infobox quality based on wikipedia templates
