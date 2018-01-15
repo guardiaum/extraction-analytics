@@ -55,6 +55,47 @@ def calculatesInfoboxQuality(articlesWithInfobox, articlesWithTemplate, template
         similarities.append(cosine)
     return similarities
 
+# Calculates the proportion of template properties that are not used by recovered infoboxes
+# Receives as parameters articles with infobox, articles with respective template names
+#  and templates with its parameters
+def measuresTemplatePropsMissUsage(articlesWithInfobox, articlesWithTemplate, templatesParameters):
+    proportions = []
+
+    rows, cols = articlesWithTemplate.shape
+
+    # for each article selects its title and related template
+    for row in range(0, rows):
+        article_title = articlesWithTemplate[row, 0]
+        template_name = articlesWithTemplate[row, 1]
+
+        # selects article infobox and its related properties
+        articleInfobox = np.where(articlesWithInfobox[:,0]==article_title)
+        infoboxProps = articlesWithInfobox[articleInfobox, 1:]
+
+        # flatten array
+        infobox = infoboxProps.flatten()
+
+        # removes empty cells
+        removeEmpty = np.where(infobox==' ')
+        infobox = np.delete(infobox, removeEmpty)
+
+        # for each template in templatesParameters it searches for template
+        # with the same name as the one mapped in the infobox
+        for templateParameters in templatesParameters:
+
+            if templateParameters[0] == template_name: # finds mapped template in infobox
+                # gets the measure of not used template properties by the recovered infobox
+                notUsedPropsMeasure = getNotUsedPropertiesMeasure(templateParameters[1:], infobox)
+
+                # proportion of template properties not used by infobox over wikipedia template size
+                proportions.append(notUsedPropsMeasure)
+
+    # returns mean proportion and the proportion of miss usage in each article
+    return np.mean(np.array(proportions)), proportions
+
+# Calculates the proportion of template properties that are used by recovered infoboxes
+# Receives as parameters articles with infobox, articles with respective template names
+# and templates with its parameters
 def measuresTemplatePropsUsage(articlesWithInfobox, articlesWithTemplate, templatesParameters):
     proportions = []
 
@@ -74,35 +115,53 @@ def measuresTemplatePropsUsage(articlesWithInfobox, articlesWithTemplate, templa
         removeEmpty = np.where(infobox==' ')
         infobox = np.delete(infobox, removeEmpty)
 
+        # for each template in templatesParameters it searches for template
+        # with the same name as the one mapped in the infobox
         for templateParameters in templatesParameters:
             if templateParameters[0] == template_name:
-
-                #print "TEMPLATE NAME", template_name
-                templatePropsUsed, wikipediaTemplateSize = getTemplateInfoboxMeasure(templateParameters[1:], infobox)
+                # gets the measure of used template properties by the recovered infobox
+                usedPropsMeasure = getUsedPropertiesMeasure(templateParameters[1:], infobox)
 
                 # proportion of template properties used by infobox over wikipedia template size
-                proportions.append(templatePropsUsed / float(wikipediaTemplateSize))
+                proportions.append(usedPropsMeasure)
 
     proportions = np.array(proportions) # proportions mean
     return np.mean(proportions), proportions
 
-def getTemplateInfoboxMeasure(templateParameters, infobox):
+# finds the measure of not used template properties by the respective infobox
+def getNotUsedPropertiesMeasure(templateParameters, infoboxParameters):
 
-    # normalize template parameters
-    templateParameters = np.core.defchararray.replace(templateParameters, "_", "")
-    templateParameters = np.core.defchararray.replace(templateParameters, "-", "")
-    templateParameters = np.core.defchararray.lower(templateParameters)
+    infoboxParameters, templateParameters = normalizeTemplateInfoboxProperties(infoboxParameters, templateParameters)
 
-    # normalize infobox parameters
-    infoboxParameters = np.core.defchararray.lower(infobox)
+    #gets the difference btw template and infobox parameters
+    difference = np.setdiff1d(templateParameters, infoboxParameters)
+    notUsed = difference.shape[0]
+    templateSize = templateParameters.shape[0]
 
-    #print "INFOBOX"
-    #print infoboxParameters
-    #print "TEMPLATE"
-    #print templateParameters
+    return notUsed / float(templateSize) # returns proportion
 
+# finds the measure of used template properties by the respective infobox
+def getUsedPropertiesMeasure(templateParameters, infobox):
+
+    infoboxParameters, templateParameters = normalizeTemplateInfoboxProperties(infobox, templateParameters)
+
+    # gets the intersection btw template and infobox parameters
     intersec = np.intersect1d(infoboxParameters, templateParameters)
     used = intersec.shape[0]
     templateSize = templateParameters.shape[0]
 
-    return used, templateSize
+    return used / float(templateSize) # returns proportion
+
+# normalize template e recovered infobox parameters
+def normalizeTemplateInfoboxProperties(infobox, templateParameters):
+    # normalize template parameters
+    templateParameters = np.core.defchararray.replace(templateParameters, "_", "")
+    templateParameters = np.core.defchararray.replace(templateParameters, "-", "")
+    templateParameters = np.core.defchararray.replace(templateParameters, " ", "")
+    templateParameters = np.core.defchararray.lower(templateParameters)
+    templateParameters = np.unique(templateParameters)
+
+    # normalize infobox parameters
+    infoboxParameters = np.core.defchararray.lower(infobox)
+
+    return infoboxParameters, templateParameters

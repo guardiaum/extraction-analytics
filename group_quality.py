@@ -10,9 +10,9 @@ import quality.common as quality
 
 categories = []
 similarities = []
-templates = []
 categoriesMeanTemplatePropsUsage = []
 categoriesTemplatePropsUsage = []
+categoriesTemplatePropsMissUsage = []
 categoriesPropsMissUsage = []
 mappedInfoboxTemplateProportion = []
 
@@ -55,17 +55,26 @@ for categoryName in categoriesName:
 
     sortedTemplatesDistribution['Count'] = sortedTemplatesDistribution['Count'] / float(sortedTemplatesDistribution['Count'].sum())
 
-    topTemplates = sortedTemplatesDistribution[sortedTemplatesDistribution['Count'] >= 0.1]
-    templates.append(zip([categoryName] * topTemplates.shape[0], topTemplates.index.values, topTemplates['Count'].values))
+    sortedTemplatesDistribution['Template'] = sortedTemplatesDistribution.index
+    templateCSV = pd.DataFrame(sortedTemplatesDistribution)
+    templateCSV.to_csv("results/csv/templates/"+categoryName+"-distribution.csv", index=False, header=True, sep=",")
 
-    print("Plot infobox quality...")
     infoboxSimilarities = quality.calculatesInfoboxQuality(articlesWithInfobox, articlesWithTemplate, templatesParameters)
     similarities.append(infoboxSimilarities)
+
+    meanTemplatePropsMissUsage, proportionsTemplatePropsMissUsage = quality.measuresTemplatePropsMissUsage(
+        articlesWithInfobox, articlesWithTemplate, templatesParameters)
+    print("MEAN PROPORTION NOT USED TEMPLATE PROPS %s " % meanTemplatePropsMissUsage)
 
     meanTemplatePropsUsage, proportionsTemplatePropsUsage = quality.measuresTemplatePropsUsage(
         articlesWithInfobox, articlesWithTemplate, templatesParameters)
     print("MEAN PROPORTION USED TEMPLATE PROPS %s " % meanTemplatePropsUsage)
-    categoriesMeanTemplatePropsUsage.append({"Category": categoryName, "Props usage":meanTemplatePropsUsage})
+    categoriesMeanTemplatePropsUsage.append({"Category": categoryName,
+                                             "Props usage": meanTemplatePropsUsage,
+                                             "Miss usage": meanTemplatePropsMissUsage})
+
+
+    categoriesTemplatePropsMissUsage.append(proportionsTemplatePropsMissUsage)
     categoriesTemplatePropsUsage.append(proportionsTemplatePropsUsage)
 
     # count category elements
@@ -78,25 +87,31 @@ for categoryName in categoriesName:
 
 # prints CSV of measures for template props usage
 categoriesMeanTemplatePropsUsage = pd.DataFrame(categoriesMeanTemplatePropsUsage)
-categoriesMeanTemplatePropsUsage.to_csv('results/csv/wikipedia-template-props-usage.csv', index=False, header=True, sep=",")
+categoriesMeanTemplatePropsUsage.to_csv('results/csv/wikipedia-template-props-usage.csv',
+                                        index=False, header=True, sep=",")
 
 # plot boxplots for properties miss usage
 v.plotPropsMissUsageBoxplot(categories, categoriesPropsMissUsage,
-                     "results/plots/quality/infobox-miss-props-usage-quality-all.png")
+                            "results/plots/quality/infobox-miss-props-usage-quality-all.png")
 
 # plot boxplots for template properties usage
 v.plotPropsUsageBoxplot(categories, categoriesTemplatePropsUsage,
-                     "results/plots/quality/template-props-usage-quality-all.png")
+                        "results/plots/quality/template-props-usage-quality-all.png",
+                        title="Template properties usage")
+
+# plot boxplots for template properties usage
+v.plotPropsUsageBoxplot(categories, categoriesTemplatePropsMissUsage,
+                        "results/plots/quality/template-props-miss-usage-quality-all.png",
+                        title="Template properties miss usage")
 
 # plot boxplots for infobox quality based on wikipedia templates
 v.plotQualityBoxplot(categories, similarities, "results/plots/quality/infoboxes-quality-all.png")
 
 # plot templates distributions for all categories
-v.plotCategoriesTemplatesDistribution(templates, 'results/plots/template/templates-dist-all.png')
+#v.plotCategoriesTemplatesDistribution(templates, 'results/plots/template/templates-dist-all.png')
 
 print("Template-infobox proportions")
-print(mappedInfoboxTemplateProportion)
-v.plotMappedInfoboxTemplateProportion(mappedInfoboxTemplateProportion, 'results/plots/quality/infobox-template-mapping.png')
+v.plotMappedInfoboxTemplateProportion(mappedInfoboxTemplateProportion,'results/plots/quality/infobox-template-mapping.png')
 
 print("Finish plotting")
 

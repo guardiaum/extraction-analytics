@@ -248,7 +248,7 @@ def plotPropsMissUsageBoxplot(categories, missUsageIndexes, filepath):
     plt.clf()
     plt.close()
 
-def plotPropsUsageBoxplot(categories, similarities, filepath):
+def plotPropsUsageBoxplot(categories, similarities, filepath, title):
     fig = plt.figure(1, figsize=(9, 6))
     # Create an axes instance
     ax = fig.add_subplot(111)
@@ -256,7 +256,7 @@ def plotPropsUsageBoxplot(categories, similarities, filepath):
     ax.boxplot(similarities)
     ax.set_xticklabels(categories, rotation=90)
 
-    plt.title("Template properties usage", fontsize=12)
+    plt.title(title, fontsize=12)
 
     # save plot
     plt.savefig(filepath, bbox_inches='tight')
@@ -331,12 +331,12 @@ def plotMappedInfoboxTemplateProportion(mappedInfoboxTemplateProportion, filepat
     for category in range(len(mappedInfoboxTemplateProportion)):
         values.append(mappedInfoboxTemplateProportion[category][1])
 
-    fig = plt.figure(figsize=(2.5, 5), dpi=600)
-    ax = fig.add_subplot(1, 1, 1)
+    fig = plt.figure(1, figsize=(5, 9), dpi=300)
+    ax = fig.add_subplot(111)
     plt.barh(x, values, 0.5, color="gray", align='center', edgecolor="black", alpha=0.6)
     ax.set_yticks(x)
-    ax.set_yticklabels(labels, fontsize=6)
-    plt.xticks(np.arange(0.0, 1.1, 0.25), fontsize=6)
+    ax.set_yticklabels(labels, fontsize=10)
+    plt.xticks(np.arange(0.0, 1.1, 0.25), fontsize=10)
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
     ax.spines['left'].set_visible(False)
