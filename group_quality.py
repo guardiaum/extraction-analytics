@@ -48,42 +48,44 @@ for categoryName in categoriesName:
         print("Template mapping, missing infobox: %s " % templateNoInfobox)
 
     print("Generating infobox distribution per category")
-    unique, counts = np.unique(articlesWithTemplate[:,1], return_counts=True)
-    templatesDist = pd.DataFrame(counts, columns=["Count"], index=unique)
-    sortedTemplatesDistribution = templatesDist.sort_values(by="Count", axis=0, ascending=False)
-    v.plotTemplateDistribution(categoryName, sortedTemplatesDistribution, 'results/plots/template')
 
-    sortedTemplatesDistribution['Count'] = sortedTemplatesDistribution['Count'] / float(sortedTemplatesDistribution['Count'].sum())
+    if(articlesWithTemplate.shape[0] > 0):
+        unique, counts = np.unique(articlesWithTemplate[:,1], return_counts=True)
+        templatesDist = pd.DataFrame(counts, columns=["Count"], index=unique)
+        sortedTemplatesDistribution = templatesDist.sort_values(by="Count", axis=0, ascending=False)
+        v.plotTemplateDistribution(categoryName, sortedTemplatesDistribution, 'results/plots/template')
 
-    sortedTemplatesDistribution['Template'] = sortedTemplatesDistribution.index
-    templateCSV = pd.DataFrame(sortedTemplatesDistribution)
-    templateCSV.to_csv("results/csv/templates/"+categoryName+"-distribution.csv", index=False, header=True, sep=",")
+        sortedTemplatesDistribution['Count'] = sortedTemplatesDistribution['Count'] / float(sortedTemplatesDistribution['Count'].sum())
 
-    infoboxSimilarities = quality.calculatesInfoboxQuality(articlesWithInfobox, articlesWithTemplate, templatesParameters)
-    similarities.append(infoboxSimilarities)
+        sortedTemplatesDistribution['Template'] = sortedTemplatesDistribution.index
+        templateCSV = pd.DataFrame(sortedTemplatesDistribution)
+        templateCSV.to_csv("results/csv/templates/"+categoryName+"-distribution.csv", index=False, header=True, sep=",")
 
-    meanTemplatePropsMissUsage, proportionsTemplatePropsMissUsage = quality.measuresTemplatePropsMissUsage(
-        articlesWithInfobox, articlesWithTemplate, templatesParameters)
-    print("MEAN PROPORTION NOT USED TEMPLATE PROPS %s " % meanTemplatePropsMissUsage)
+        infoboxSimilarities = quality.calculatesInfoboxQuality(articlesWithInfobox, articlesWithTemplate, templatesParameters)
+        similarities.append(infoboxSimilarities)
 
-    meanTemplatePropsUsage, proportionsTemplatePropsUsage = quality.measuresTemplatePropsUsage(
-        articlesWithInfobox, articlesWithTemplate, templatesParameters)
-    print("MEAN PROPORTION USED TEMPLATE PROPS %s " % meanTemplatePropsUsage)
-    categoriesMeanTemplatePropsUsage.append({"Category": categoryName,
-                                             "Props usage": meanTemplatePropsUsage,
-                                             "Miss usage": meanTemplatePropsMissUsage})
+        meanTemplatePropsMissUsage, proportionsTemplatePropsMissUsage = quality.measuresTemplatePropsMissUsage(
+            articlesWithInfobox, articlesWithTemplate, templatesParameters)
+        print("MEAN PROPORTION NOT USED TEMPLATE PROPS %s " % meanTemplatePropsMissUsage)
+
+        meanTemplatePropsUsage, proportionsTemplatePropsUsage = quality.measuresTemplatePropsUsage(
+            articlesWithInfobox, articlesWithTemplate, templatesParameters)
+        print("MEAN PROPORTION USED TEMPLATE PROPS %s " % meanTemplatePropsUsage)
+        categoriesMeanTemplatePropsUsage.append({"Category": categoryName,
+                                                 "Props usage": meanTemplatePropsUsage,
+                                                 "Miss usage": meanTemplatePropsMissUsage})
 
 
-    categoriesTemplatePropsMissUsage.append(proportionsTemplatePropsMissUsage)
-    categoriesTemplatePropsUsage.append(proportionsTemplatePropsUsage)
+        categoriesTemplatePropsMissUsage.append(proportionsTemplatePropsMissUsage)
+        categoriesTemplatePropsUsage.append(proportionsTemplatePropsUsage)
 
-    # count category elements
-    articles_count, infoboxes_count, common_props_count = stat.countElements(articles)
+        # count category elements
+        articles_count, infoboxes_count, common_props_count = stat.countElements(articles)
 
-    # calculates infobox properties miss usage
-    propertiesProportion = stat.propertiesProportion(articles, infoboxes_count)
-    props_missing_usage = stat.getMissingUsage(propertiesProportion)
-    categoriesPropsMissUsage.append(props_missing_usage)
+        # calculates infobox properties miss usage
+        propertiesProportion = stat.propertiesProportion(articles, infoboxes_count)
+        props_missing_usage = stat.getMissingUsage(propertiesProportion)
+        categoriesPropsMissUsage.append(props_missing_usage)
 
 # prints CSV of measures for template props usage
 categoriesMeanTemplatePropsUsage = pd.DataFrame(categoriesMeanTemplatePropsUsage)
