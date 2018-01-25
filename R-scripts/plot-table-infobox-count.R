@@ -12,7 +12,7 @@ stats <- read_csv("csv/general-statistics.csv")
 stats <- stats[order(stats$X1),]
 
 depth_df <- read_csv("csv/categories-depth.csv", col_names=FALSE)
-colnames(depth_df) <- c("Categories", "Depth")
+colnames(depth_df) <- c("Categories", "Nodes")
 depth_df <- depth_df[order(depth_df$Categories),]
 
 # subset infobox counts and category names
