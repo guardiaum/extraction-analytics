@@ -199,6 +199,24 @@ def plotBoxplot(categoriesSimilarities, filepath):
     plt.clf()
     plt.close()
 
+def plotCompleteExtractionInfoboxesSizeBoxPlot(infoboxesSize, filepath):
+
+    fig = plt.figure(1, figsize=(3, 6))
+    # Create an axes instance
+    ax = fig.add_subplot(111)
+    # Create the boxplot
+    ax.boxplot(infoboxesSize)
+    plt.xticks([])
+    ax.set_ylabel('Size [Properties count]')
+    plt.title("Distribution of infoboxes size in whole Wikipedia", fontsize=12)
+
+    # save plot
+    plt.savefig(filepath, bbox_inches='tight')
+    plt.gcf().clear()
+    plt.cla()
+    plt.clf()
+    plt.close()
+
 def plotInfoboxesSizeBoxplot(categories, infoboxesSize, filepath):
     fig = plt.figure(1, figsize=(9, 6))
     # Create an axes instance

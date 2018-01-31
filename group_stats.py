@@ -1,4 +1,4 @@
-import util.my_csv as csv
+import util.my_csv as my_csv
 import util.constants as constants
 import statistics.common as stat
 import statistics.geo_temp as prop
@@ -6,6 +6,7 @@ import plotting.visualization as v
 import pandas as pd
 import util.input as inp
 import numpy as np
+import csv
 
 '''
     STATISTIC EXECUTION
@@ -30,9 +31,10 @@ categoriesResult = []
 biggerInfoboxes = []
 infoboxesSizeByCategory = []
 
+
 # Iterates over csv files and calculates infobox statistics
 for categoryName in categoriesName:
-    category = csv.readCSVFile(constants.infobox_datasets+"/"+categoryName)
+    category = my_csv.readCSVFile(constants.infobox_datasets+"/"+categoryName)
     categoryName = categoryName.replace(".csv","")
     names.append(categoryName)
     print("=================== %s ====================" % categoryName)
@@ -88,6 +90,7 @@ for categoryName in categoriesName:
     print("Props miss usage: %s" % props_missing_usage)
     print("==========================================")
 
+
 print("saving statistics to file")
 
 # boxplot of infoboxes size by category
@@ -102,5 +105,11 @@ categoriesResult.to_csv(path, index=True, header=True, sep=",")
 biggerInfoboxes = pd.DataFrame(biggerInfoboxes, index=names, columns=biggerInfoboxesColumns)
 pathBigInfoboxes = 'results/csv/big-infoboxes.csv'
 biggerInfoboxes.to_csv(pathBigInfoboxes, index=True, header=True, sep=",")
+
+print("plotting complete distribution of infoboxes size...")
+with open("results/csv/all_infoboxes_size.csv", 'r') as f:
+    category = list(csv.reader(f, delimiter=","))
+    infoboxesSize = pd.DataFrame(category).fillna('NA').values.astype(np.string_)
+    v.plotCompleteExtractionInfoboxesSizeBoxPlot(infoboxesSize[1:, 0].astype(int), "results/plots/distr/infoboxes-size-complete.png")
 
 print("FINISHED")
