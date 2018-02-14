@@ -1,8 +1,6 @@
 from clustering.cluster import Cluster
 from sklearn import metrics
 from datetime import datetime
-from scipy.cluster import hierarchy
-import matplotlib.pyplot as plt
 import numpy as np
 
 # replace property values by equivalent property name on each row

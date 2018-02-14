@@ -5,7 +5,6 @@ import util.input as inp
 import plotting.visualization as v
 import numpy as np
 import pandas as pd
-from astropy.stats import median_absolute_deviation
 import quality.common as quality
 
 categories = []

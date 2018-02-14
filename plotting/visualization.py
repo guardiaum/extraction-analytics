@@ -1,6 +1,4 @@
-import numpy as np
 import pandas as pd
-from itertools import compress
 import matplotlib as mpl
 mpl.use('Agg')
 from pylab import *

@@ -2,7 +2,6 @@ import csv
 import glob
 import os
 import numpy as np
-import itertools
 
 # gets all csv files under csv directory
 def readCSVDirectory(dir):
