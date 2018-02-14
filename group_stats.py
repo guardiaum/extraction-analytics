@@ -107,9 +107,12 @@ pathBigInfoboxes = 'results/csv/big-infoboxes.csv'
 biggerInfoboxes.to_csv(pathBigInfoboxes, index=True, header=True, sep=",")
 
 print("plotting complete distribution of infoboxes size...")
-with open("results/csv/all_infoboxes_size.csv", 'r') as f:
-    category = list(csv.reader(f, delimiter=","))
-    infoboxesSize = pd.DataFrame(category).fillna('NA').values.astype(np.string_)
-    v.plotCompleteExtractionInfoboxesSizeBoxPlot(infoboxesSize[1:, 0].astype(int), "results/plots/distr/infoboxes-size-complete.png")
+try:
+    with open("results/csv/all_infoboxes_size.csv", 'r') as f:
+        category = list(csv.reader(f, delimiter=","))
+        infoboxesSize = pd.DataFrame(category).fillna('NA').values.astype(np.string_)
+        v.plotCompleteExtractionInfoboxesSizeBoxPlot(infoboxesSize[1:, 0].astype(int), "results/plots/distr/infoboxes-size-complete.png")
+except IOError:
+    print("results/csv/all_infoboxes_size.csv DO NOT EXISTS")
 
 print("FINISHED")
