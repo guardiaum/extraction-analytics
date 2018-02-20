@@ -109,11 +109,10 @@ results/*
 results/csv/*
 results/csv/templates/*
 results/plots/*
-results/plots/geo/*
-results/plots/datetime/*
-results/plots/cluster/*
+results/plots/quality/*
+results/plots/template/*
+results/plots/template/wordcloud/*
 results/plots/scatter/*
-results/plots/boxplots/*
 results/plots/distr/*
 
 !logs/.gitkeep
@@ -127,14 +126,14 @@ results/plots/distr/*
 !results/plots/.gitkeep
 !results/plots/cluster
 !results/plots/cluster/.gitkeep
-!results/plots/geo
-!results/plots/geo/.gitkeep
-!results/plots/datetime
-!results/plots/datetime/.gitkeep
+!results/plots/quality
+!results/plots/quality/.gitkeep
+!results/plots/template
+!results/plots/template/.gitkeep
+!results/plots/template/wordcloud
+!results/plots/template/wordcloud/.gitkeep
 !results/plots/scatter/
 !results/plots/scatter/.gitkeep
-!results/plots/boxplots/
-!results/plots/boxplots/.gitkeep
 !results/plots/distr/
 !results/plots/distr/.gitkeep
 
