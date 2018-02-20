@@ -2,7 +2,6 @@ import util.my_csv as csv
 import util.constants as constants
 import numpy as np
 import statistics.geo_temp as prop
-import plotting.visualization as v
 import pandas as pd
 import util.input as inp
 
