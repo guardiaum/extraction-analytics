@@ -297,9 +297,8 @@ def groupPropsBarPlot(df, filepath, title):
 
     colors = np.array(['#550080', '#8080ff', '#008000', '#ff00ff', '#b32400', '#392613'])
 
-    if(len(dfEmptyColumns)==8):
+    if(len(dfEmptyColumns)==7):
         colors = np.append(colors, '#7d3c98')
-        colors = np.append(colors, '#e60073')
 
     #removes empty columns for plot
     if dfEmptyColumns != 0:

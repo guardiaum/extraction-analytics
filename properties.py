@@ -17,6 +17,8 @@ def timePropDict(categoriesName):
     timePropsDict = []
 
     for categoryName in categoriesName:
+        print categoryName
+
         category = csv.readCSVFile(constants.infobox_datasets + "/" + categoryName)
         categoryName = categoryName.replace(".csv", "")
 
@@ -29,28 +31,32 @@ def timePropDict(categoriesName):
             timePropsDict.append(timePropsDictAux)
     return timePropsDict
 
-
+'''
+    ITERATES THROUGH CATEGORIES DATASETS
+'''
 def geoPropDict(categoriesName):
     geoPropsDict = []
 
     for categoryName in categoriesName:
+        print categoryName
+
         category = csv.readCSVFile(constants.infobox_datasets + "/" + categoryName)
-        categoryName = categoryName.replace(".csv", "")
 
         articlesWithGeoProps = prop.getGeoProps(category)
+
         if (articlesWithGeoProps.size != 0):
             geoProps = prop.countGeographicProps(category)
             geoPropsDictAux = geoProps.to_dict()
             geoPropsDictAux = geoPropsDictAux.pop('Count')
-            geoPropsDictAux['Category'] = categoryName
+            geoPropsDictAux['Category'] = categoryName.replace(".csv", "")
             geoPropsDict.append(geoPropsDictAux)
+
     return geoPropsDict
 
 
 def groupProps(propType, path, columns, filename, title):
     # Read datasets
     categoriesName = inp.readFiles(constants.infobox_datasets)
-
     propsDict = []
     if propType == 'geo':
         propsDict = geoPropDict(categoriesName)
@@ -59,16 +65,16 @@ def groupProps(propType, path, columns, filename, title):
 
     categoriesResult = pd.DataFrame(propsDict, columns=columns)
 
-    v.groupPropsBarPlot(categoriesResult, "results/plots/"+filename+".png", title)
+    #v.groupPropsBarPlot(categoriesResult, "results/plots/"+filename+".png", title)
     categoriesResult.to_csv(path+filename+'.csv', index=False, header=True, sep=",")
 
 
 # Geographic properties
-columns = np.array(["Category","Latitude", "Longitude", "Location", "Area", "Coordinates", "Altitude", "Specific"])
+columns = np.array(['Category','latitude', 'longitude', 'coordinates', 'location', 'map', 'other'])
 groupProps(propType='geo', path='results/csv/', columns=columns,
            filename='geo-props-count', title="Spatial properties distribution")
 
 # Datetime properties
-columns = np.array(["Category","Year", "Date", "Period", "Time", "Month"])
+columns = np.array(["Category", "Date", "Period", "Time"])
 groupProps(propType='time', path='results/csv/', columns=columns,
            filename='time-props-count', title="Temporal properties distribution")
