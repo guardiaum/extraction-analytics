@@ -9,7 +9,7 @@ article_template_datasets = "datasets/article-template"
 geo_props_dict = {"latitude": {"lat.*"},
                   "longitude": {"lon.*", "long.*"},
                   "coordinates": {".*coordinate.*", ".*coord.*"},
-                  "location": {".*location.*",".*region.*", ".*place.*", ".*city.*", ".*address.*",
+                  "location": {".*location.*",".*region.*", ".*place.*", "(.*\W)city.*", ".*address.*",
                                ".*country.*", ".*residence.*", ".*origin.*", ".*state.*"},
                   "map": {".*map.*"},
                   "other": {".*geo.*", ".*area.*", ".*land.*", ".*altitude.*"}}

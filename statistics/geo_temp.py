@@ -100,6 +100,8 @@ def getHeaderDateTimeProps(category):
     dateTimeProps = [prop for prop in header
                        if any(re.compile(propName).match(prop) for propName in constants.datetime_props_dict_all)]
 
+    print(dateTimeProps)
+
     return np.isin(header, dateTimeProps)
 
 
@@ -109,6 +111,8 @@ def getHeaderGeoProps(category):
 
     geographicProps = [prop for prop in header
                        if any(re.compile(propName).match(prop) for propName in constants.geo_props_dict_all)]
+
+    print(geographicProps)
 
     return np.isin(header, geographicProps)
 
