@@ -110,8 +110,8 @@ print("plotting complete distribution of infoboxes size...")
 try:
     with open("results/csv/all_infoboxes_size.csv", 'r') as f:
         category = list(csv.reader(f, delimiter=","))
-        infoboxesSize = pd.DataFrame(category).fillna('NA').values.astype(np.string_)
-        v.plotCompleteExtractionInfoboxesSizeBoxPlot(infoboxesSize[1:, 0].astype(int), "results/plots/distr/infoboxes-size-complete.png")
+        infoboxesSize = pd.DataFrame(category).fillna(0).values.astype(np.int_)
+        v.plotCompleteExtractionInfoboxesSizeBoxPlot(infoboxesSize, "results/plots/infoboxes-size-complete.png")
 except IOError:
     print("results/csv/all_infoboxes_size.csv DO NOT EXISTS")
 

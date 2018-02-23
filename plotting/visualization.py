@@ -198,13 +198,19 @@ def plotBoxplot(categoriesSimilarities, filepath):
     plt.close()
 
 def plotCompleteExtractionInfoboxesSizeBoxPlot(infoboxesSize, filepath):
+    propsCount = infoboxesSize[1:, 0].astype(int)
+    geoPropsCount = infoboxesSize[1:, 1].astype(int)
+    datetimePropsCount = infoboxesSize[1:, 2].astype(int)
+
+    labels = ["Infobox", "Geo", "Datetime"]
+    infoboxesSize = [propsCount, geoPropsCount, datetimePropsCount]
 
     fig = plt.figure(1, figsize=(3, 6))
     # Create an axes instance
     ax = fig.add_subplot(111)
     # Create the boxplot
     ax.boxplot(infoboxesSize)
-    plt.xticks([])
+    ax.set_xticklabels(labels)
     ax.set_ylabel('Size [Properties count]')
     plt.title("Distribution of infoboxes size in whole Wikipedia", fontsize=12)
 
