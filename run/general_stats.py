@@ -41,6 +41,7 @@ def saveBigInfoboxesInfo(categoryName, category, namesLength):
 
 def saveStatisticsToFile(categoryName, categoriesResult, namesLength):
     print("saving statistics to file")
+
     categoriesResult = pd.DataFrame(categoriesResult, index=[categoryName], columns=columns)
 
     if (namesLength == 1):
@@ -49,12 +50,42 @@ def saveStatisticsToFile(categoryName, categoriesResult, namesLength):
         with open('results/csv/general-statistics.csv', 'a') as f:
             categoriesResult.to_csv(f, index=True, header=False, encoding='utf-8')
 
+
+def saveInfoboxesSizeByCategoryToFile(categoryName, propertiesDistribution, namesLength):
+    print("Saving infobox distribution to file")
+
+    propertiesDistribution = [i for row in propertiesDistribution for i in row]
+
+    infoboxDistribution = pd.DataFrame([propertiesDistribution], index=[categoryName])
+
+    if (namesLength == 1):
+        infoboxDistribution.to_csv('results/csv/temp-categories-infobox-distribution.csv', mode='w', index=True, header=False, encoding='utf-8')
+    else:
+        with open('results/csv/temp-categories-infobox-distribution.csv', 'a') as f:
+            infoboxDistribution.to_csv(f, index=True, header=False, encoding='utf-8')
+
+
+def plotInfoboxesSizeDist4SelectedCategories():
+    infoboxesSizeByCategory = my_csv.readCSVFile('results/csv/temp-categories-infobox-distribution.csv')
+
+    labels = []
+    infoboxesDistribution = []
+
+    for row in infoboxesSizeByCategory:
+        label = row[0]
+        distribution = row[1:]
+        labels.append(label)
+        infoboxesDistribution.append(map(int, distribution))
+
+    # boxplot of infoboxes size by category
+    v.plotInfoboxesSizeBoxplot(labels, infoboxesDistribution, "results/plots/distr/all-cat-infoboxes-size-dist.png")
+
+
 def run():
     # Read datasets
     categoriesName = inp.readFiles(constants.infobox_datasets)
 
     names = []
-    infoboxesSizeByCategory = []
 
     # Iterates over csv files and calculates infobox statistics
     for categoryName in categoriesName:
@@ -110,7 +141,9 @@ def run():
 
         # Plot infoboxes size distribution per category
         propertiesDistribution = stat.getInfoboxesDistribution(category)
-        infoboxesSizeByCategory.append(propertiesDistribution.values)
+
+        saveInfoboxesSizeByCategoryToFile(categoryName, propertiesDistribution.values, len(names))
+
         v.plotInfoboxesDistribution(categoryName, propertiesDistribution, 'results/plots/distr')
 
         # get top 30 properties
@@ -118,8 +151,6 @@ def run():
         topProperties = stat.topPropertiesByProportion(category, 30, infoboxes_count)
         v.plotScatter(categoryName, topProperties, 'results/plots/scatter/', "Properties proportion: " + categoryName)
 
-    # boxplot of infoboxes size by category
-    v.plotInfoboxesSizeBoxplot(names, infoboxesSizeByCategory, "results/plots/distr/all-cat-infoboxes-size-dist.png")
 
 def runCompleteInfoboxSizeDistribution():
     print("plotting complete distribution of infoboxes size...")
@@ -131,8 +162,10 @@ def runCompleteInfoboxSizeDistribution():
     except IOError:
         print("results/csv/all_infoboxes_size.csv DO NOT EXISTS")
 
-
 run()
+
 runCompleteInfoboxSizeDistribution()
+
+plotInfoboxesSizeDist4SelectedCategories();
 
 print("FINISHED")

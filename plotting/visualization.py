@@ -221,13 +221,14 @@ def plotCompleteExtractionInfoboxesSizeBoxPlot(infoboxesSize, filepath):
     plt.clf()
     plt.close()
 
-def plotInfoboxesSizeBoxplot(categories, infoboxesSize, filepath):
+def plotInfoboxesSizeBoxplot(labels, infoboxesDistribution, filepath):
+
     fig = plt.figure(1, figsize=(9, 6))
     # Create an axes instance
     ax = fig.add_subplot(111)
     # Create the boxplot
-    ax.boxplot(infoboxesSize)
-    ax.set_xticklabels(categories, rotation=90)
+    ax.boxplot(infoboxesDistribution)
+    ax.set_xticklabels(labels, rotation=90)
 
     plt.title("Distribution of infoboxes size by category", fontsize=12)
 
