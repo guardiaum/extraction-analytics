@@ -86,8 +86,16 @@ def run(args):
     # Read datasets
     categoriesName = inp.readFiles(constants.infobox_datasets)
 
-    if len(args)==2:
-        categoriesName = categoriesName[0:int(args[1])]
+    if len(args)==3:
+        numberOfChunks = int(args[1])
+        chunk2select = int(args[2]) - 1
+
+        chunks = inp.chunkIt(categoriesName, numberOfChunks)
+
+        categoriesName = chunks[chunk2select]
+
+        print(chunks)
+        print(categoriesName)
 
     names = []
 

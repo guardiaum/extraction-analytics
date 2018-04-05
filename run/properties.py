@@ -57,9 +57,17 @@ def geoPropDict(categoriesName):
 def groupProps(propType, path, columns, filename, title):
     # Read datasets
     categoriesName = inp.readFiles(constants.infobox_datasets)
-    
-    if len(sys.argv)==2:
-        categoriesName = categoriesName[0:int(sys.argv[1])]
+
+    if len(sys.argv) == 3:
+        numberOfChunks = int(sys.argv[1])
+        chunk2select = int(sys.argv[2]) - 1
+
+        chunks = inp.chunkIt(categoriesName, numberOfChunks)
+
+        categoriesName = chunks[chunk2select]
+
+        print(chunks)
+        print(categoriesName)
 
     propsDict = []
     if propType == 'geo':
