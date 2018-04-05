@@ -4,6 +4,7 @@ import util.constants as constants
 import util.input as inp
 import clustering.hac_complete_linkagematrix as complete
 from scipy.spatial.distance import pdist
+import sys
 
 '''
     INFOBOX HOMOGENEITY IN CATEGORY
@@ -16,6 +17,9 @@ categoriesLinkage = [] # Linkage vector for plot a group
 
 # Read datasets name
 categoriesName = inp.readFiles(constants.infobox_datasets)
+
+if len(sys.argv) == 2:
+    categoriesName = categoriesName[0:int(sys.argv[1])]
 
 for categoryName in categoriesName:
 

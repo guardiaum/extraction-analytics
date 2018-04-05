@@ -7,6 +7,7 @@ import pandas as pd
 import util.input as inp
 import numpy as np
 import csv
+import sys
 
 '''
     STATISTIC EXECUTION
@@ -81,9 +82,12 @@ def plotInfoboxesSizeDist4SelectedCategories():
     v.plotInfoboxesSizeBoxplot(labels, infoboxesDistribution, "results/plots/distr/all-cat-infoboxes-size-dist.png")
 
 
-def run():
+def run(args):
     # Read datasets
     categoriesName = inp.readFiles(constants.infobox_datasets)
+
+    if len(args)==2:
+        categoriesName = categoriesName[0:int(args[1])]
 
     names = []
 
@@ -162,7 +166,8 @@ def runCompleteInfoboxSizeDistribution():
     except IOError:
         print("results/csv/all_infoboxes_size.csv DO NOT EXISTS")
 
-run()
+
+run(sys.argv)
 
 runCompleteInfoboxSizeDistribution()
 

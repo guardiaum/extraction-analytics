@@ -4,6 +4,7 @@ import numpy as np
 import statistics.geo_temp as prop
 import pandas as pd
 import util.input as inp
+import sys
 
 '''
     GROUP PROPERTIES COUNT
@@ -56,6 +57,10 @@ def geoPropDict(categoriesName):
 def groupProps(propType, path, columns, filename, title):
     # Read datasets
     categoriesName = inp.readFiles(constants.infobox_datasets)
+    
+    if len(sys.argv)==2:
+        categoriesName = categoriesName[0:int(sys.argv[1])]
+
     propsDict = []
     if propType == 'geo':
         propsDict = geoPropDict(categoriesName)

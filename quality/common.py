@@ -125,8 +125,7 @@ def measuresTemplatePropsUsage(articlesWithInfobox, articlesWithTemplate, templa
                 # proportion of template properties used by infobox over wikipedia template size
                 proportions.append(usedPropsMeasure)
 
-    proportions = np.array(proportions) # proportions mean
-    return np.mean(proportions), proportions
+    return np.mean(np.array(proportions)), proportions
 
 # finds the measure of not used template properties by the respective infobox
 def getNotUsedPropertiesMeasure(templateParameters, infoboxParameters):

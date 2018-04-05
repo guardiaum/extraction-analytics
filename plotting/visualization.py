@@ -345,26 +345,31 @@ def groupPropsBarPlot(df, filepath, title):
     plt.close()
 
 def plotMappedInfoboxTemplateProportion(mappedInfoboxTemplateProportion, filepath):
-    x = range(len(mappedInfoboxTemplateProportion))
 
     labels = []
-    for category in range(len(mappedInfoboxTemplateProportion)):
-        labels.append(mappedInfoboxTemplateProportion[category][0])
-
     values = []
-    for category in range(len(mappedInfoboxTemplateProportion)):
-        values.append(mappedInfoboxTemplateProportion[category][1])
+    for i in range(len(mappedInfoboxTemplateProportion)):
+        labels.append(mappedInfoboxTemplateProportion[i][0])
+        values.append(float(mappedInfoboxTemplateProportion[i][1]))
+
+    x = range(len(labels))
 
     fig = plt.figure(1, figsize=(5, 9), dpi=300)
     ax = fig.add_subplot(111)
+
     plt.barh(x, values, 0.5, color="gray", align='center', edgecolor="black", alpha=0.6)
+
     ax.set_yticks(x)
     ax.set_yticklabels(labels, fontsize=10)
-    plt.xticks(np.arange(0.0, 1.1, 0.25), fontsize=10)
+
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
     ax.spines['left'].set_visible(False)
+
+    plt.xticks(np.arange(0.0, 1.1, 0.25), fontsize=10)
+
     plt.title("Infobox-template mapping", fontsize=12)
+
     plt.savefig(filepath, bbox_inches='tight')
     plt.gcf().clear()
     plt.cla()
