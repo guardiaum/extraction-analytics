@@ -23,8 +23,10 @@ def timePropDict(categoriesName):
         categoryName = categoryName.replace(".csv", "")
 
         articlesWithTimeProps = prop.getDateTimeProps(category)
-        if (articlesWithTimeProps.size != 0):
+
+        if (articlesWithTimeProps.shape[0] != 0):
             timeProps = prop.countDateTimeProps(category)
+
             timePropsDictAux = timeProps.to_dict()
             timePropsDictAux = timePropsDictAux.pop('Count')
             timePropsDictAux['Category'] = categoryName
@@ -44,8 +46,9 @@ def geoPropDict(categoriesName):
 
         articlesWithGeoProps = prop.getGeoProps(category)
 
-        if (articlesWithGeoProps.size != 0):
+        if (articlesWithGeoProps.shape[1] != 0):
             geoProps = prop.countGeographicProps(category)
+
             geoPropsDictAux = geoProps.to_dict()
             geoPropsDictAux = geoPropsDictAux.pop('Count')
             geoPropsDictAux['Category'] = categoryName.replace(".csv", "")
@@ -71,8 +74,10 @@ def groupProps(propType, path, columns, filename, title):
 
     propsDict = []
     if propType == 'geo':
+        print("Generating geo properties statistics")
         propsDict = geoPropDict(categoriesName)
     elif propType == 'time':
+        print("Generating temporal properties statistics")
         propsDict = timePropDict(categoriesName)
 
     categoriesResult = pd.DataFrame(propsDict, columns=columns)
@@ -82,7 +87,7 @@ def groupProps(propType, path, columns, filename, title):
 
 
 # Geographic properties
-columns = np.array(['Category','latitude', 'longitude', 'coordinates', 'location', 'map', 'other'])
+columns = np.array(['Category','latitude', 'longitude', 'coordinates', 'location'])
 groupProps(propType='geo', path='results/csv/', columns=columns,
            filename='geo-props-count', title="Spatial properties distribution")
 

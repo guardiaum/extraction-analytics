@@ -27,7 +27,8 @@ geoplot <- ggplot(geo_props.m, aes(x=Category, y=value)) +
   theme(axis.text.x = 
           element_text(angle=90, hjust=1), legend.position=c(0.7,0.2), 
         legend.background=element_rect(fill=alpha('white', 0.8)), 
-        legend.title=element_blank(), axis.title.x=element_blank(), axis.title.y=element_blank())
+        legend.title=element_blank(), axis.title.x=element_blank(), axis.title.y=element_blank()) +
+  scale_fill_discrete(guide=guide_legend(reverse=T))
 
 ggsave(plot = geoplot, file = '../results/plots/R-geo-props-count.png', device = "png", width = 4.5, height = 5, units = "in", dpi = 600)
 
@@ -46,5 +47,5 @@ time_props.m$value <- sapply(time_props.m[,'value'], as.numeric)
 time_props.m$value <- round(time_props.m$value, 4)
 # horizontal bar plot
 #png(filename = 'csv/time/R-time-props-count.png', width = 480, height = 480, units = "px", res=72)
-timeplot <- ggplot(time_props.m, aes(x=Category, y=value)) + geom_bar(aes(fill=variable), width=1.0, position=position_dodge(width=0.8), stat="identity") + coord_cartesian(xlim = c(0.0, 1.0)) + coord_flip() + theme(axis.text.x = element_text(angle=90, hjust=1), legend.position=c(0.7,0.2), legend.background=element_rect(fill=alpha('white', 0.8)), legend.title=element_blank(), axis.title.x=element_blank(), axis.title.y=element_blank())
+timeplot <- ggplot(time_props.m, aes(x=Category, y=value)) + geom_bar(aes(fill=variable), width=1.0, position=position_dodge(width=0.8), stat="identity") + coord_cartesian(xlim = c(0.0, 1.0)) + coord_flip() + theme(axis.text.x = element_text(angle=90, hjust=1), legend.position=c(0.7,0.2), legend.background=element_rect(fill=alpha('white', 0.8)), legend.title=element_blank(), axis.title.x=element_blank(), axis.title.y=element_blank()) + scale_fill_discrete(guide=guide_legend(reverse=T))
 ggsave(plot = timeplot, file = '../results/plots/R-time-props-count.png', device = "png", width = 4.5, height = 5, units = "in", dpi = 600)

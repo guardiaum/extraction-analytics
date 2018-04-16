@@ -34,8 +34,9 @@ df.m <- melt(df, id.vars='Categories')
 plot <- ggplot(df.m, aes(x=Categories, y=value)) + 
   geom_bar(aes(fill = variable), width=1.0, position = position_dodge(width=0.8), stat="identity") + 
   coord_flip() + theme(legend.position=c(0.75,0.2), legend.background=element_rect(fill=alpha('white', 0.7)),
-                       legend.title = element_blank(), axis.title.x=element_blank(), axis.title.y=element_blank())
-
+                       legend.title = element_blank(), axis.title.x=element_blank(), axis.title.y=element_blank()) +
+                       scale_fill_discrete(guide=guide_legend(reverse=T))
+                    
 ggsave(plot = plot, file = 'plots/R-infobox-proportion.png', device = "png", width = 4.5, height = 5, units = "in", dpi = 600)
 
 
