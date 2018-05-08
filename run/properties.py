@@ -87,7 +87,7 @@ def groupProps(propType, path, columns, filename, title):
 
 
 # Geographic properties
-columns = np.array(['Category','latitude', 'longitude', 'coordinates', 'location'])
+columns = np.array(['Category','Latitude', 'Longitude', 'Coordinates', 'Location'])
 groupProps(propType='geo', path='results/csv/', columns=columns,
            filename='geo-props-count', title="Spatial properties distribution")
 

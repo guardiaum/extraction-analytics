@@ -66,11 +66,11 @@ def saveInfoboxesSizeByCategoryToFile(categoryName, propertiesDistribution, name
             infoboxDistribution.to_csv(f, index=True, header=False, encoding='utf-8')
 
 
-def plotInfoboxesSizeDist4SelectedCategories():
+def plotInfoboxesSizeDist4SelectedCategories(infoboxesSize):
     infoboxesSizeByCategory = my_csv.readCSVFile('results/csv/temp-categories-infobox-distribution.csv')
 
-    labels = []
-    infoboxesDistribution = []
+    labels = ["Complete Wikipedia"]
+    infoboxesDistribution = [infoboxesSize]
 
     for row in infoboxesSizeByCategory:
         label = row[0]
@@ -170,15 +170,16 @@ def runCompleteInfoboxSizeDistribution():
         with open("results/csv/all_infoboxes_size.csv", 'r') as f:
             category = list(csv.reader(f, delimiter=","))
             infoboxesSize = pd.DataFrame(category).fillna(0).values.astype(np.int_)
-            v.plotCompleteExtractionInfoboxesSizeBoxPlot(infoboxesSize, "results/plots/distr/infoboxes-size-complete.png")
+            infoboxesSize = v.plotCompleteExtractionInfoboxesSizeBoxPlot(infoboxesSize, "results/plots/distr/infoboxes-size-complete.png")
+            return infoboxesSize
     except IOError:
         print("results/csv/all_infoboxes_size.csv DO NOT EXISTS")
 
 
 run(sys.argv)
 
-runCompleteInfoboxSizeDistribution()
+infoboxesSize = runCompleteInfoboxSizeDistribution()
 
-plotInfoboxesSizeDist4SelectedCategories();
+plotInfoboxesSizeDist4SelectedCategories(infoboxesSize);
 
 print("FINISHED")

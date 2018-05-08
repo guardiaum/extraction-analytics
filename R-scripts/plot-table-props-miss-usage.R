@@ -22,4 +22,4 @@ grob <- tableGrob(table, rows=NULL, theme = ttheme_default(base_size=8))
 # Dimensions: 320x490 (px)
 ggsave(plot = grob, 
        file = 'plots/R-miss-usage-index.png', device = "png", 
-       width = 3.30, height = 5, units = "in", dpi = 300)
+       width = NA, height = NA, units = "in", dpi = 300)

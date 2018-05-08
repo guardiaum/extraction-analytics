@@ -81,7 +81,7 @@ def countGeographicProps(category):
 
     countProperties = [countLatitude, countLongitude, countCoord, countLocation]
 
-    properties_name = ['latitude', 'longitude', 'coordinates', 'location']
+    properties_name = ['Latitude', 'Longitude', 'Coordinates', 'Location']
 
     count_props = (pd.DataFrame(countProperties, columns=['Count'], index=properties_name) / countTotalPropertiesUsedByInfoboxes).fillna(0)
 

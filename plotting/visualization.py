@@ -14,7 +14,7 @@ def plotScatter(categoryName, topProps, path, title):
     plt.grid(linestyle='dotted', alpha=0.5)
     colors = y
     plt.scatter( x_ticks, y, c=colors, s=30, alpha=0.9, cmap=plt.cm.cool)
-    plt.title(title)
+    #plt.title(title)
     plt.ylabel("Proportion")
     plt.xlabel("Properties")
     plt.savefig(path+categoryName+'.png', bbox_inches='tight')
@@ -35,7 +35,7 @@ def plotBar(categoryName, props, path, title):
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
     ax.spines['left'].set_visible(False)
-    plt.title(title)
+    #plt.title(title)
     plt.xlabel("Proportion")
     plt.ylabel("Properties")
     plt.savefig(path+categoryName+'.png', bbox_inches='tight')
@@ -47,7 +47,7 @@ def plotBar(categoryName, props, path, title):
 
 def plotDendrogram(filepath, linkagematrix, categoryname):
     plt.figure(figsize=(25, 10))
-    plt.title('Hierarchical Clustering Dendrogram')
+    #plt.title('Hierarchical Clustering Dendrogram')
     plt.xlabel('sample index')
     plt.ylabel('distance')
     dendrogram(
@@ -91,8 +91,8 @@ def plotInfoboxesDistribution(categoryName, infoboxesDist, filepath):
 
     #plt.title(title, fontsize=12)
     #subtitle = r'Histogram of {0}: $\mu={1}$, $\sigma={2}$'.format(categoryName, mu,  sigma)
-    subtitle = r'Histogram of {0}'.format(categoryName)
-    plt.suptitle(subtitle, fontsize=12)
+    #subtitle = r'Histogram of {0}'.format(categoryName)
+    #plt.suptitle(subtitle, fontsize=12)
 
     # save plot
     plt.savefig(filename, bbox_inches='tight')
@@ -188,7 +188,7 @@ def plotBoxplot(categoriesSimilarities, filepath):
     bp = ax.boxplot(data_to_plot)
     ax.set_xticklabels(categoriesName, rotation=90)
 
-    plt.title('Infoboxes homogeneity by category', fontsize=12)
+    #plt.title('Infoboxes homogeneity by category', fontsize=12)
 
     # save plot
     plt.savefig(filepath, bbox_inches='tight')
@@ -199,20 +199,23 @@ def plotBoxplot(categoriesSimilarities, filepath):
 
 def plotCompleteExtractionInfoboxesSizeBoxPlot(infoboxesSize, filepath):
     propsCount = infoboxesSize[1:, 0].astype(int)
-    geoPropsCount = infoboxesSize[1:, 1].astype(int)
-    datetimePropsCount = infoboxesSize[1:, 2].astype(int)
+    #geoPropsCount = infoboxesSize[1:, 1].astype(int)
+    #datetimePropsCount = infoboxesSize[1:, 2].astype(int)
 
-    labels = ["Infobox", "Geo", "Datetime"]
-    infoboxesSize = [propsCount, geoPropsCount, datetimePropsCount]
+    labels = ["Infobox"]
+    infoboxesSize = [propsCount]
 
-    fig = plt.figure(1, figsize=(3, 6))
+    fig = plt.figure(1, figsize=(3, 1))
     # Create an axes instance
     ax = fig.add_subplot(111)
     # Create the boxplot
-    ax.boxplot(infoboxesSize)
-    ax.set_xticklabels(labels)
-    ax.set_ylabel('Size [Properties count]')
-    plt.title("Distribution of infoboxes size in whole Wikipedia", fontsize=12)
+    bp = ax.boxplot(infoboxesSize, vert=False)
+    median = (bp['medians'][0]).get_xdata()[0]
+    ax.set_yticklabels(labels)
+    ax.set_xlabel('Size [Properties count]')
+    plt.xlim(xmax=150)
+    #plt.title("Distribution of infoboxes size in whole Wikipedia", fontsize=10)
+    plt.suptitle("Median: %s" % median, fontsize=8)
 
     # save plot
     plt.savefig(filepath, bbox_inches='tight')
@@ -220,6 +223,7 @@ def plotCompleteExtractionInfoboxesSizeBoxPlot(infoboxesSize, filepath):
     plt.cla()
     plt.clf()
     plt.close()
+    return infoboxesSize
 
 def plotInfoboxesSizeBoxplot(labels, infoboxesDistribution, filepath):
 
@@ -230,7 +234,7 @@ def plotInfoboxesSizeBoxplot(labels, infoboxesDistribution, filepath):
     ax.boxplot(infoboxesDistribution)
     ax.set_xticklabels(labels, rotation=90)
 
-    plt.title("Distribution of infoboxes size by category", fontsize=12)
+    #plt.title("Distribution of infoboxes size by category", fontsize=12)
 
     # save plot
     plt.savefig(filepath, bbox_inches='tight')
@@ -247,7 +251,7 @@ def plotQualityBoxplot(categories, similarities, filepath):
     ax.boxplot(similarities)
     ax.set_xticklabels(categories, rotation=90)
 
-    plt.title("Infoboxes similarity with community template", fontsize=12)
+    #plt.title("Infoboxes similarity with community template", fontsize=12)
 
     # save plot
     plt.savefig(filepath, bbox_inches='tight')
@@ -264,7 +268,7 @@ def plotPropsMissUsageBoxplot(categories, missUsageIndexes, filepath):
     ax.boxplot(missUsageIndexes)
     ax.set_xticklabels(categories, rotation=90)
 
-    plt.title("Infobox properties miss usage", fontsize=12)
+    #plt.title("Infobox properties miss usage", fontsize=12)
 
     # save plot
     plt.savefig(filepath, bbox_inches='tight')
@@ -281,7 +285,7 @@ def plotPropsUsageBoxplot(categories, similarities, filepath, title):
     ax.boxplot(similarities)
     ax.set_xticklabels(categories, rotation=90)
 
-    plt.title(title, fontsize=12)
+    #plt.title(title, fontsize=12)
 
     # save plot
     plt.savefig(filepath, bbox_inches='tight')
@@ -321,7 +325,7 @@ def groupPropsBarPlot(df, filepath, title):
         i += 1
 
     # Set the chart's title
-    plt.title(title)
+    #plt.title(title)
 
     # Set the y axis label
     ax.set_xlabel('Proportion')
@@ -368,7 +372,7 @@ def plotMappedInfoboxTemplateProportion(mappedInfoboxTemplateProportion, filepat
 
     plt.xticks(np.arange(0.0, 1.1, 0.25), fontsize=10)
 
-    plt.title("Infobox-template mapping", fontsize=12)
+    #plt.title("Infobox-template mapping", fontsize=12)
 
     plt.savefig(filepath, bbox_inches='tight')
     plt.gcf().clear()
