@@ -29,7 +29,7 @@ ggsave(plot = plot, file="plots/R-infobox-cat-hist.png", device = "png",
 
 # Plot for template usage table
 templates <- read_csv(file="csv/all-categories-template-usage.csv")
-grob_templates <- tableGrob(templates, cols = c("", "# Templates", "Most Used", "Freq. (Most Used)"), rows=NULL, theme = ttheme_default(base_size=8))
+grob_templates <- tableGrob(templates, cols = c("Category", "# Templates", "Most Used", "Freq. (Most Used)"), rows=NULL, theme = ttheme_default(base_size=8))
 ggsave(plot = grob_templates, 
        file = 'plots/R-templates-usage.png', device = "png", width = NA, height = NA, units = "in", dpi = 300)
 

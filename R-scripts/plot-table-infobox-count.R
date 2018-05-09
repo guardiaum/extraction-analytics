@@ -25,7 +25,7 @@ depth_value = depth_df[,2]
 descriptions_new = sapply(lapply(stats$description, strwrap, width=90), paste, collapse="\n")
 
 table <- data.frame(Categories = categories_name, Articles = articles_count, Infoboxes = infoboxes_count, Depth = depth_value, Description = descriptions_new)
-colnames(table) <- c("Category", "# Articles", "# Infoboxes", "# Nodes", "#Category Description")
+colnames(table) <- c("Category", "# Articles", "# Infoboxes", "# Nodes", "Category Description")
 
 columns_alignment <- matrix(c(0, 0.5, 0.5, 0.5, 0), ncol=5, nrow=nrow(table), byrow=TRUE)
 x <- matrix(c(0.01, 0.5, 0.5, 0.5, 0.01), ncol=5, nrow=nrow(table), byrow=TRUE)

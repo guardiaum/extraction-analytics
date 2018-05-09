@@ -199,8 +199,24 @@ def run(args):
         articlesWithInfobox = stat.getArticlesWithInfoboxScheme(articles)
 
         articlesWithTemplate = csv.readCSVFile(constants.article_template_datasets+"/"+categoryName+".csv")
+        # normalize template mappings
+        lowercased = np.char.lower(articlesWithTemplate[:, 1])
+        articlesWithTemplate[:, 1] = lowercased
 
-        templatesParameters = csv.readCSVFile(constants.template_datasets+"/"+categoryName+".csv")
+        tempParameters = csv.readCSVFile(constants.template_datasets+"/"+categoryName+".csv")
+
+        # normalize template names
+        templatesParameters = []
+        for t in range(0, tempParameters.shape[0]):
+            template_name = tempParameters[t][0].lower()
+            wikipediaTemplate = tempParameters[t][1:]
+
+            temp = [template_name]
+            for i in range(len(wikipediaTemplate)):
+                temp.append(wikipediaTemplate[i])
+            templatesParameters.append(temp)
+
+        templatesParameters = np.array(templatesParameters)
 
         catMappedInfoboxes = articlesWithInfobox.shape[0]
 
