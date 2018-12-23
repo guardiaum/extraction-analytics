@@ -205,18 +205,18 @@ def plotCompleteExtractionInfoboxesSizeBoxPlot(infoboxesSize, filepath):
     labels = ["Infobox"]
     infoboxesSize = [[propsCount]]
     print(infoboxesSize)
-    fig = plt.figure(1, figsize=(5,1),dpi=400)
+    fig = plt.figure(1, figsize=(5,1))
     # Create an axes instance
     ax = fig.add_subplot(111)
     # Create the boxplot
     bp = ax.boxplot(infoboxesSize, vert=False)
     median = (bp['medians'][0]).get_xdata()[0]
     ax.set_yticklabels(labels, fontsize=10)
-    ax.set_xlabel('Size [Properties count]')
+    #ax.set_xlabel('Size [Properties count]')
     plt.xticks(fontsize=10)
     plt.xlim(xmax=175)
     #plt.title("Distribution of infoboxes size in whole Wikipedia", fontsize=10)
-    plt.suptitle("Median: %s" % median, fontsize=8)
+    plt.title("Median: %s" % median, fontsize=10)
 
     # save plot
     plt.savefig(filepath, bbox_inches='tight')
