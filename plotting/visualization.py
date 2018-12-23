@@ -185,8 +185,8 @@ def plotBoxplot(categoriesSimilarities, filepath):
     # Create an axes instance
     ax = fig.add_subplot(111)
     # Create the boxplot
-    bp = ax.boxplot(data_to_plot)
-    ax.set_xticklabels(categoriesName, rotation=90)
+    bp = ax.boxplot(data_to_plot, vert=False)
+    ax.set_yticklabels(categoriesName)
 
     #plt.title('Infoboxes homogeneity by category', fontsize=12)
 
@@ -250,8 +250,8 @@ def plotQualityBoxplot(categories, similarities, filepath):
     # Create an axes instance
     ax = fig.add_subplot(111)
     # Create the boxplot
-    ax.boxplot(similarities)
-    ax.set_xticklabels(categories, rotation=90)
+    ax.boxplot(similarities, vert=False)
+    ax.set_yticklabels(categories)
 
     #plt.title("Infoboxes similarity with community template", fontsize=12)
 
@@ -267,8 +267,8 @@ def plotPropsMissUsageBoxplot(categories, missUsageIndexes, filepath):
     # Create an axes instance
     ax = fig.add_subplot(111)
     # Create the boxplot
-    ax.boxplot(missUsageIndexes)
-    ax.set_xticklabels(categories, rotation=90)
+    ax.boxplot(missUsageIndexes, vert=False)
+    ax.set_yticklabels(categories)
 
     #plt.title("Infobox properties miss usage", fontsize=12)
 
@@ -284,8 +284,8 @@ def plotPropsUsageBoxplot(categories, similarities, filepath, title):
     # Create an axes instance
     ax = fig.add_subplot(111)
     # Create the boxplot
-    ax.boxplot(similarities)
-    ax.set_xticklabels(categories, rotation=90)
+    ax.boxplot(similarities, vert=False)
+    ax.set_yticklabels(categories)
 
     #plt.title(title, fontsize=12)
 

@@ -28,7 +28,7 @@ def getSimilarityWithTemplate(templatesParameters, template_name, article, infob
                 representation = tfidf.fit_transform(docs)
 
                 cosine = cosine_similarity(representation[0:1], representation)[0, 1]
-                break;
+                return cosine
     return cosine
 
 def calculatesInfoboxQuality(articlesWithInfobox, articlesWithTemplate, templatesParameters):

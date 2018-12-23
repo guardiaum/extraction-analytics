@@ -56,6 +56,10 @@ def saveSimilarities(articlesWithInfobox, articlesWithTemplate, templatesParamet
             similarities.to_csv(f, index=True, header=False, encoding='utf-8')
 
 
+'''
+    plot similarities between infobox properties and template scheme
+    tf-idf + cosine similarity
+'''
 def plotSimilarities():
     print("Plot infobox quality based on template similarity")
 
@@ -279,9 +283,11 @@ def getTemplateDistributionSorted(articlesWithTemplate):
 
 run(sys.argv)
 plotMappedInfoboxTemplate()
-plotSimilarities()  # similaridade com template
-plotExternalPropertiesUsage()  # template properties usage mean and proportion
-plotExternalPropertiesMissUsage()
-plotInternalPropertiesMissUsage()
+plotSimilarities()  # similaridade com template tf-idf + cosine
+plotInternalPropertiesMissUsage()  # Subtracts the proportion of properties usage on infoboxes from 1
+
+'''COMPLEMENTARY'''
+plotExternalPropertiesUsage()  # Calculates the proportion of template properties that are used by recovered infoboxes
+plotExternalPropertiesMissUsage()  # Calculates the proportion of template properties that are NOT used by infoboxes
 
 print("Finish plotting")
