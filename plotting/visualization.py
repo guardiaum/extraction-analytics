@@ -198,12 +198,12 @@ def plotBoxplot(categoriesSimilarities, filepath):
     plt.close()
 
 def plotCompleteExtractionInfoboxesSizeBoxPlot(infoboxesSize, filepath):
-    propsCount = infoboxesSize[1:, 0].astype(int)
+    infoboxesSize = infoboxesSize[['infoboxes']]  #.astype(int)
     #geoPropsCount = infoboxesSize[1:, 1].astype(int)
     #datetimePropsCount = infoboxesSize[1:, 2].astype(int)
 
     labels = ["Infobox"]
-    infoboxesSize = [propsCount]
+    #infoboxesSize = [propsCount]
 
     fig = plt.figure(1, figsize=(3, 1))
     # Create an axes instance
@@ -231,8 +231,9 @@ def plotInfoboxesSizeBoxplot(labels, infoboxesDistribution, filepath):
     # Create an axes instance
     ax = fig.add_subplot(111)
     # Create the boxplot
-    ax.boxplot(infoboxesDistribution)
-    ax.set_xticklabels(labels, rotation=90)
+    ax.boxplot(infoboxesDistribution, vert=False)
+    ax.set_yticklabels(labels)
+    #ax.set_xticklabels(labels, rotation=90)
 
     #plt.title("Distribution of infoboxes size by category", fontsize=12)
 

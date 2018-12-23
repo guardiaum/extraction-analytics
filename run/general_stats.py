@@ -167,19 +167,19 @@ def run(args):
 def runCompleteInfoboxSizeDistribution():
     print("plotting complete distribution of infoboxes size...")
     try:
-        with open("results/csv/all_infoboxes_size.csv", 'r') as f:
-            category = list(csv.reader(f, delimiter=","))
-            infoboxesSize = pd.DataFrame(category).fillna(0).values.astype(np.int_)
-            infoboxesSize = v.plotCompleteExtractionInfoboxesSizeBoxPlot(infoboxesSize, "results/plots/distr/infoboxes-size-complete.png")
-            return infoboxesSize
+        infoboxesSize = pd.read_csv("results/csv/all_infoboxes_size.csv", sep=',', header='infer', dtype=np.int32)
+        print(infoboxesSize.describe())
+        #infoboxesSize = pd.DataFrame(category, ).fillna(0)
+        infoboxesSize = v.plotCompleteExtractionInfoboxesSizeBoxPlot(infoboxesSize, "results/plots/distr/infoboxes-size-complete.png")
+        return infoboxesSize
     except IOError:
         print("results/csv/all_infoboxes_size.csv DO NOT EXISTS")
 
 
-run(sys.argv)
+#run(sys.argv)
 
 infoboxesSize = runCompleteInfoboxSizeDistribution()
 
-plotInfoboxesSizeDist4SelectedCategories(infoboxesSize);
+plotInfoboxesSizeDist4SelectedCategories(infoboxesSize)
 
 print("FINISHED")

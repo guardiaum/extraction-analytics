@@ -279,8 +279,8 @@ def getTemplateDistributionSorted(articlesWithTemplate):
 
 run(sys.argv)
 plotMappedInfoboxTemplate()
-plotSimilarities()
-plotExternalPropertiesUsage()
+plotSimilarities()  # similaridade com template
+plotExternalPropertiesUsage()  # template properties usage mean and proportion
 plotExternalPropertiesMissUsage()
 plotInternalPropertiesMissUsage()
 
