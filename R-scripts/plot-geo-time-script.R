@@ -28,7 +28,7 @@ geo_props.m <- melt(geo_props, id.vars = 'Category')
 geoplot <- ggplot(geo_props.m, aes(x=Category, y=value)) + 
   geom_bar(aes(fill=variable), position=position_dodge(width=0.8), stat="identity") + 
   coord_flip() + 
-  theme(legend.position=c(0.6,0.43), 
+  theme(legend.position=c(0.6,0.48), 
         legend.background=element_rect(fill=alpha('white', 0.8)), 
         legend.title=element_blank(), axis.title.x=element_blank(), axis.title.y=element_blank()) +
   scale_fill_discrete(guide=guide_legend(reverse=T))

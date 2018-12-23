@@ -13,7 +13,7 @@ def countDateTimeProps(category):
     # removes all empty rows (articles without infobox)
     infoboxes = infoboxes[~np.all(infoboxes==' ', axis=1)]
     propertiesCount = infoboxes.shape[1]
-
+    infoboxesCount = infoboxes.shape[0]
     # switch values in rows by its respective column name
     infoboxes = [header[np.where(infoboxes[ row, : ]!=' ' )] for row in range(0, infoboxes.shape[0])]
     infoboxes = [item.tolist() for item in infoboxes]
@@ -40,6 +40,9 @@ def countDateTimeProps(category):
 
     properties_name = np.array(["Date", "Period", "Time"])
 
+    print("INFOBOXES: %s | DATETIME PROPS: %s | TOTAL PROPS: %s" % (
+    infoboxesCount, countProperties, countTotalPropertiesUsedByInfoboxes))
+
     count_props = (pd.DataFrame(countProperties, columns=['Count'], index=properties_name) / countTotalPropertiesUsedByInfoboxes).fillna(0)
 
     return count_props[count_props.Count != 0]
@@ -52,7 +55,7 @@ def countGeographicProps(category):
     # removes all empty rows (articles without infobox)
     infoboxes = infoboxes[~np.all(infoboxes==' ', axis=1)]
     propertiesCount = infoboxes.shape[1]
-
+    infoboxesCount = infoboxes.shape[0]
     # switch values in rows by its respective column name
     infoboxes = [ header[np.where(infoboxes[ row, : ]!=' ' )] for row in range(0, infoboxes.shape[0]) ]
     infoboxes = [ item.tolist() for item in infoboxes]
@@ -63,18 +66,18 @@ def countGeographicProps(category):
     countCoord = 0
     countTotalPropertiesUsedByInfoboxes = 0
     for infobox in infoboxes:
-        countLatitude = countLatitude + np.array([prop for prop in infobox
-                                         if any(re.compile(propName).match(prop)
-                                                for propName in constants.geo_props_dict['latitude'])]).shape[0]
-        countLongitude = countLongitude + np.array([prop for prop in infobox
-                                         if any(re.compile(propName).match(prop)
-                                                for propName in constants.geo_props_dict['longitude'])]).shape[0]
-        countCoord = countCoord + np.array([prop for prop in infobox
-                                         if any(re.compile(propName).match(prop)
-                                                for propName in constants.geo_props_dict['coordinates'])]).shape[0]
-        countLocation = countLocation + np.array([prop for prop in infobox
-                                         if any(re.compile(propName).match(prop)
-                                                for propName in constants.geo_props_dict['location'])]).shape[0]
+        countLatitpeavaude = countLatitude + np.array([p2 for p2 in infobox
+                                         if any(re.compile(p1).match(p2)
+                                                for p1 in constants.geo_props_dict['latitude'])]).shape[0]
+        countLongitude = countLongitude + np.array([p2 for p2 in infobox
+                                         if any(re.compile(p1).match(p2)
+                                                for p1 in constants.geo_props_dict['longitude'])]).shape[0]
+        countCoord = countCoord + np.array([p2 for p2 in infobox
+                                         if any(re.compile(p1).match(p2)
+                                                for p1 in constants.geo_props_dict['coordinates'])]).shape[0]
+        countLocation = countLocation + np.array([p2 for p2 in infobox
+                                         if any(re.compile(p1).match(p2)
+                                                for p1 in constants.geo_props_dict['location'])]).shape[0]
         countTotalPropertiesUsedByInfoboxes = countTotalPropertiesUsedByInfoboxes + len(infobox)
 
     geopropertiesTotal = countLatitude + countLongitude + countLocation + countCoord
@@ -82,6 +85,8 @@ def countGeographicProps(category):
     countProperties = [countLatitude, countLongitude, countCoord, countLocation]
 
     properties_name = ['Latitude', 'Longitude', 'Coordinates', 'Location']
+
+    print("INFOBOXES: %s | GEO PROPS: %s | TOTAL PROPS: %s" % (infoboxesCount, countProperties, countTotalPropertiesUsedByInfoboxes))
 
     count_props = (pd.DataFrame(countProperties, columns=['Count'], index=properties_name) / countTotalPropertiesUsedByInfoboxes).fillna(0)
 

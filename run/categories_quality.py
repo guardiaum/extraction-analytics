@@ -71,6 +71,9 @@ def plotSimilarities():
     # plot boxplots for infobox quality based on wikipedia templates
     v.plotQualityBoxplot(names, similarities, 'results/plots/quality/infoboxes-quality-all.png')
 
+def saveTemplatePropsUsageAndSize2File(proportionsTemplatePropsUsage, templates_size):
+    df = pd.DataFrame({"Props Usage": proportionsTemplatePropsUsage, "Template Size": templates_size})
+    df.to_csv('results/csv/props_usage-template_size-relation.csv', mode='a', index=False, header=True, encoding='utf-8')
 
 #[external] templates based
 def saveTemplatePropsUsageToFile(categoryName, meanTemplatePropsUsage,
@@ -235,8 +238,8 @@ def run(args):
 
             plotAndSaveTemplateDistribution(categoryName, sortedTemplatesDistribution)
 
-            meanTemplatePropsMissUsage, meanTemplatePropsUsage, proportionsTemplatePropsMissUsage, proportionsTemplatePropsUsage = getTemplatePropsMeasures(
-                articlesWithInfobox, articlesWithTemplate, templatesParameters)
+            meanTemplatePropsMissUsage, meanTemplatePropsUsage, proportionsTemplatePropsMissUsage, proportionsTemplatePropsUsage = \
+                getTemplatePropsMeasures(articlesWithInfobox, articlesWithTemplate, templatesParameters)
 
             saveTemplatePropsUsageToFile(categoryName,
                                          meanTemplatePropsUsage, proportionsTemplatePropsUsage,
@@ -248,9 +251,13 @@ def getTemplatePropsMeasures(articlesWithInfobox, articlesWithTemplate, template
     meanTemplatePropsMissUsage, proportionsTemplatePropsMissUsage = quality.measuresTemplatePropsMissUsage(
         articlesWithInfobox, articlesWithTemplate, templatesParameters)
     print("MEAN PROPORTION NOT USED TEMPLATE PROPS %s " % meanTemplatePropsMissUsage)
-    meanTemplatePropsUsage, proportionsTemplatePropsUsage = quality.measuresTemplatePropsUsage(
+    meanTemplatePropsUsage, proportionsTemplatePropsUsage, templates_size = quality.measuresTemplatePropsUsage(
         articlesWithInfobox, articlesWithTemplate, templatesParameters)
     print("MEAN PROPORTION USED TEMPLATE PROPS %s " % meanTemplatePropsUsage)
+
+    print("Template Props and Template size relation save to file for category")
+    saveTemplatePropsUsageAndSize2File(proportionsTemplatePropsUsage, templates_size)
+
     return meanTemplatePropsMissUsage, meanTemplatePropsUsage, proportionsTemplatePropsMissUsage, proportionsTemplatePropsUsage
 
 

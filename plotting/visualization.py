@@ -213,7 +213,7 @@ def plotCompleteExtractionInfoboxesSizeBoxPlot(infoboxesSize, filepath):
     median = (bp['medians'][0]).get_xdata()[0]
     ax.set_yticklabels(labels)
     ax.set_xlabel('Size [Properties count]')
-    plt.xlim(xmax=150)
+    plt.xlim(xmax=175)
     #plt.title("Distribution of infoboxes size in whole Wikipedia", fontsize=10)
     plt.suptitle("Median: %s" % median, fontsize=8)
 

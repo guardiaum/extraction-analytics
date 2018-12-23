@@ -176,10 +176,10 @@ def runCompleteInfoboxSizeDistribution():
         print("results/csv/all_infoboxes_size.csv DO NOT EXISTS")
 
 
-run(sys.argv)
+#run(sys.argv)
 
 infoboxesSize = runCompleteInfoboxSizeDistribution()
 
-plotInfoboxesSizeDist4SelectedCategories(infoboxesSize);
+#plotInfoboxesSizeDist4SelectedCategories(infoboxesSize);
 
 print("FINISHED")
